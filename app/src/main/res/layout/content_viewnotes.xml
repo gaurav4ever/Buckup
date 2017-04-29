@@ -12,7 +12,7 @@
     android:clipChildren="false"
     android:clipToPadding="false"
     app:edPosition="1"
-    app:edMenuSize="260dp"
+    app:edMenuSize="240dp"
     app:edMenuBackground="#fff"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.keepy.gauravpc.noteit.viewnotes"
@@ -51,13 +51,13 @@
                     android:textColor="#fff"
                     android:text="My Notes"
                     android:textSize="20sp"/>
-                <ImageView
-                    android:layout_width="55dp"
-                    android:layout_height="55dp"
-                    android:padding="15dp"
-                    android:layout_alignParentEnd="true"
-                    android:src="@drawable/search"
-                    android:id="@+id/search_icon"/>
+                <!--<ImageView-->
+                    <!--android:layout_width="55dp"-->
+                    <!--android:layout_height="55dp"-->
+                    <!--android:padding="15dp"-->
+                    <!--android:layout_alignParentEnd="true"-->
+                    <!--android:src="@drawable/search"-->
+                    <!--android:id="@+id/search_icon"/>-->
             </RelativeLayout>
         </android.support.v7.widget.CardView>
 
@@ -204,7 +204,7 @@
 
     <com.mxn.soul.flowingdrawer_core.FlowingMenuLayout
         android:id="@+id/menulayout"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         >

@@ -98,12 +98,17 @@ public class Settings extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if(someThingChanged==0)
-            super.onBackPressed();
-        else{
-            Intent intent=new Intent(Settings.this,viewnotes.class);
-            startActivity(intent);
-            finish();
+        if(openSourceLibLayout.getVisibility() == View.VISIBLE){
+            settingsLayout.setVisibility(View.VISIBLE);
+            openSourceLibLayout.setVisibility(View.GONE);
+        }else{
+            if(someThingChanged==0)
+                super.onBackPressed();
+            else{
+                Intent intent=new Intent(Settings.this,viewnotes.class);
+                startActivity(intent);
+                finish();
+            }
         }
 
     }

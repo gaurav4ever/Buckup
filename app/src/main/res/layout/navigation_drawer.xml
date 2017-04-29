@@ -10,34 +10,26 @@
         android:background="#fff">
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="140dp"
+            android:layout_height="wrap_content"
             android:id="@+id/l1"
+            android:padding="20dp"
             >
             <ImageView
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="15dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:id="@+id/img"
                 android:src="@drawable/avatar"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Gaurav Sharma"
-                android:layout_below="@+id/img"
+                android:text="Keepy"
+                android:layout_toRightOf="@+id/img"
                 android:textColor="#000"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="5dp"
-                android:id="@+id/username"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="gauravsharma.mvp@gmail.com"
-                android:layout_below="@+id/username"
-                android:textColor="#000"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="5dp"
-                android:id="@+id/email"/>
+                android:layout_centerVertical="true"
+                android:textSize="18sp"
+                />
         </RelativeLayout>
         <View
             android:layout_width="wrap_content"
@@ -59,7 +51,7 @@
                 android:paddingBottom="10dp">
                 <ImageView
                     android:layout_width="0dp"
-                    android:layout_height="40dp"
+                    android:layout_height="35dp"
                     android:layout_weight="0.15"
                     android:padding="7dp"
                     android:paddingBottom="10dp"
@@ -83,7 +75,7 @@
                 android:paddingBottom="10dp">
                 <ImageView
                     android:layout_width="0dp"
-                    android:layout_height="40dp"
+                    android:layout_height="35dp"
                     android:layout_weight="0.15"
                     android:padding="7dp"
                     android:paddingBottom="10dp"
@@ -107,7 +99,7 @@
                 android:paddingBottom="10dp">
                 <ImageView
                     android:layout_width="0dp"
-                    android:layout_height="40dp"
+                    android:layout_height="35dp"
                     android:layout_weight="0.15"
                     android:padding="7dp"
                     android:paddingBottom="10dp"
@@ -131,7 +123,7 @@
                 android:paddingBottom="10dp">
                 <ImageView
                     android:layout_width="0dp"
-                    android:layout_height="40dp"
+                    android:layout_height="35dp"
                     android:layout_weight="0.15"
                     android:padding="7dp"
                     android:paddingBottom="10dp"
@@ -162,7 +154,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Keepy"
+                android:text="Keepy | 2017"
                 android:id="@+id/footerText"
                 android:textColor="#000"
                 android:textSize="16sp"
