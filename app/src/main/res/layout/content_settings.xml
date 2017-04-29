@@ -15,27 +15,36 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/settingsLayout">
-            <RelativeLayout
+            <android.support.v7.widget.CardView
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"
-                android:id="@+id/l1">
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/goback6"
-                    android:id="@+id/goback1"
-                    android:padding="15dp"/>
-                <TextView
-                    android:layout_width="wrap_content"
+                card_view:cardCornerRadius="0dp"
+                card_view:cardElevation="3dp"
+                android:id="@+id/l1"
+                >
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Settings"
-                    android:layout_centerVertical="true"
-                    android:textSize="18sp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_toRightOf="@+id/goback1"
-                    android:textColor="#fff"/>
-            </RelativeLayout>
+                    android:background="@color/colorPrimary">
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/goback6"
+                        android:id="@+id/goback1"
+                        android:padding="15dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Settings"
+                        android:layout_centerVertical="true"
+                        android:textSize="18sp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_toRightOf="@+id/goback1"
+                        android:textColor="#fff"/>
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
 
             <android.support.v4.widget.NestedScrollView
                 android:layout_width="match_parent"
@@ -160,27 +169,37 @@
             android:layout_height="wrap_content"
             android:id="@+id/openSourceLibLayout"
             android:background="#dcdcdc">
-            <RelativeLayout
+            <android.support.v7.widget.CardView
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"
-                android:id="@+id/l3">
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/goback6"
-                    android:id="@+id/goback2"
-                    android:padding="15dp"/>
-                <TextView
-                    android:layout_width="wrap_content"
+                card_view:cardCornerRadius="0dp"
+                card_view:cardElevation="3dp"
+                android:id="@+id/l3"
+                >
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Open Source Libraries"
-                    android:layout_centerVertical="true"
-                    android:textSize="18sp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_toRightOf="@+id/goback2"
-                    android:textColor="#fff"/>
-            </RelativeLayout>
+                    android:background="@color/colorPrimary"
+                    >
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/goback6"
+                        android:id="@+id/goback2"
+                        android:padding="15dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Open Source Libraries"
+                        android:layout_centerVertical="true"
+                        android:textSize="18sp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_toRightOf="@+id/goback2"
+                        android:textColor="#fff"/>
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
             <android.support.v4.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
