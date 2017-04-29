@@ -63,7 +63,7 @@ public class Settings extends AppCompatActivity {
                 someThingChanged=1;
             }
         });
-        autoBackupSwitch=(Switch)findViewById(R.id.autoBackup);
+//        autoBackupSwitch=(Switch)findViewById(R.id.autoBackup);
 
         settingsLayout=(RelativeLayout)findViewById(R.id.settingsLayout);
         openSourceLibLayout=(RelativeLayout)findViewById(R.id.openSourceLibLayout);
