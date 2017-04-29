@@ -1,10 +1,12 @@
-package com.keepy.gauravpc.noteit;
+package com.bukup.gauravpc.noteit;
 
+import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -93,12 +95,30 @@ public class edit_note extends AppCompatActivity {
         deleteNoteLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final DatabaseHandler db = new DatabaseHandler(edit_note.this);
-                db.deletNote(Integer.parseInt(id_val));
-                db.close();
-                Intent intent1=new Intent(edit_note.this,viewnotes.class);
-                startActivity(intent1);
-                finish();
+
+                final Dialog dialog = new Dialog(edit_note.this);
+                dialog.setContentView(R.layout.layout_ask_before_delete);
+                CardView yes,no;
+                yes=(CardView)dialog.findViewById(R.id.yesLayout);
+                yes.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        final DatabaseHandler db = new DatabaseHandler(edit_note.this);
+                        db.deletNote(Integer.parseInt(id_val));
+                        db.close();
+                        Intent intent1 = new Intent(edit_note.this, viewnotes.class);
+                        startActivity(intent1);
+                        finish();
+                    }
+                });
+                no=(CardView)dialog.findViewById(R.id.noLayout);
+                no.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+                dialog.show();
             }
         });
     }

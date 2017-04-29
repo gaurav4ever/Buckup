@@ -7,7 +7,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#fff">
+        android:background="#57037b">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -22,9 +22,9 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="KEEP-O-NOTE"
+                android:text="Bukup"
                 android:layout_toRightOf="@+id/img"
-                android:textColor="#000"
+                android:textColor="#fff"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="5dp"
                 android:layout_centerVertical="true"
@@ -55,13 +55,13 @@
                     android:layout_weight="0.15"
                     android:padding="7dp"
                     android:paddingBottom="10dp"
-                    android:src="@drawable/notes"/>
+                    android:src="@drawable/notes1"/>
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.85"
                     android:text="Notes"
-                    android:textColor="#000"
+                    android:textColor="#fff"
                     android:paddingLeft="10dp"
                     android:gravity="center_vertical"
                     />
@@ -79,13 +79,13 @@
                     android:layout_weight="0.15"
                     android:padding="7dp"
                     android:paddingBottom="10dp"
-                    android:src="@drawable/list"/>
+                    android:src="@drawable/list1"/>
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.85"
                     android:text="Show List"
-                    android:textColor="#000"
+                    android:textColor="#fff"
                     android:paddingLeft="10dp"
                     android:gravity="center_vertical"
                     />
@@ -103,13 +103,13 @@
                     android:layout_weight="0.15"
                     android:padding="7dp"
                     android:paddingBottom="10dp"
-                    android:src="@drawable/grid"/>
+                    android:src="@drawable/grid1"/>
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.85"
                     android:text="Show Grid"
-                    android:textColor="#000"
+                    android:textColor="#fff"
                     android:paddingLeft="10dp"
                     android:gravity="center_vertical"
                     />
@@ -127,13 +127,13 @@
                     android:layout_weight="0.15"
                     android:padding="7dp"
                     android:paddingBottom="10dp"
-                    android:src="@drawable/like"/>
+                    android:src="@drawable/star1"/>
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.85"
                     android:text="Feedback"
-                    android:textColor="#000"
+                    android:textColor="#fff"
                     android:paddingLeft="10dp"
                     android:gravity="center_vertical"
                     />
@@ -154,9 +154,9 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="KEEP-O-NOTE | 2017"
+                android:text="Bukup | 2017"
                 android:id="@+id/footerText"
-                android:textColor="#000"
+                android:textColor="#fff"
                 android:textSize="16sp"
                 android:padding="10dp"/>
         </RelativeLayout>

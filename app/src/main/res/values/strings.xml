@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Keep-o-Note</string>
+    <string name="app_name">Bukup</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_addnote">addnote</string>
     <string name="title_activity_viewnotes">viewnotes</string>

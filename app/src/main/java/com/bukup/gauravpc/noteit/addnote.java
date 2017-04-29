@@ -1,8 +1,7 @@
-package com.keepy.gauravpc.noteit;
+package com.bukup.gauravpc.noteit;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.v7.app.AppCompatActivity;

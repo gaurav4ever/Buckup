@@ -1,4 +1,4 @@
-package com.keepy.gauravpc.noteit;
+package com.bukup.gauravpc.noteit;
 
 import android.content.Context;
 import android.content.Intent;

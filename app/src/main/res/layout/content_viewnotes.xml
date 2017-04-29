@@ -13,9 +13,9 @@
     android:clipToPadding="false"
     app:edPosition="1"
     app:edMenuSize="240dp"
-    app:edMenuBackground="#fff"
+    app:edMenuBackground="#57037b"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.keepy.gauravpc.noteit.viewnotes"
+    tools:context="com.bukup.gauravpc.noteit.viewnotes"
     tools:showIn="@layout/activity_viewnotes">
 
     <RelativeLayout
