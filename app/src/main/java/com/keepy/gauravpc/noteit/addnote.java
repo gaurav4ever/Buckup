@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-import jp.wasabeef.richeditor.RichEditor;
 
 public class addnote extends AppCompatActivity {
 

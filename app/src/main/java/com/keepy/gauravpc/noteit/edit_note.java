@@ -1,17 +1,22 @@
 package com.keepy.gauravpc.noteit;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 public class edit_note extends AppCompatActivity {
 
@@ -46,24 +51,41 @@ public class edit_note extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                noteText_title=(EditText)findViewById(R.id.title);
-                if(noteText_title.getText().toString().length()<1){
+                noteText_title = (EditText) findViewById(R.id.title);
+                if (noteText_title.getText().toString().length() < 1) {
                     noteText_title.setText("No Title");
                 }
-                noteText_data=(EditText)findViewById(R.id.body);
+                noteText_data = (EditText) findViewById(R.id.body);
 
                 String noteDate;
                 DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:ss a");
                 Date date = new Date();
-                noteDate=df.format(date);
+                noteDate = df.format(date);
 
                 final DatabaseHandler db = new DatabaseHandler(edit_note.this);
-                db.updateNote(id_val,noteDate,makeFirstUpper(noteText_title.getText().toString()),noteText_data.getText().toString());
+                db.updateNote(id_val, noteDate, makeFirstUpper(noteText_title.getText().toString()), noteText_data.getText().toString());
 
                 updatedAtTextView.setVisibility(View.VISIBLE);
                 updatedAtTextView.setText("Updated on " + noteDate);
 
                 db.close();
+            }
+        });
+
+        audioLayout=(RelativeLayout)findViewById(R.id.audio);
+        audioLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i=new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+                i.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+                i.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+                i.putExtra(RecognizerIntent.EXTRA_PROMPT, "Say Something");
+
+                try {
+                    startActivityForResult(i, 100);
+                }catch(ActivityNotFoundException a){
+                    Toast.makeText(getApplicationContext(), "Speech To Text not available", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -94,5 +116,23 @@ public class edit_note extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch(requestCode){
 
+            case 100: if(resultCode==RESULT_OK && data!=null){
+                noteText_data=(EditText)findViewById(R.id.body);
+                String text=noteText_data.getText().toString();
+                ArrayList<String> result=data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                if(text.length()<1){
+                    text+=""+result.get(0);
+                }
+                else
+                    text+="\n"+result.get(0);
+                noteText_data.setText(text);
+            }
+                break;
+        }
+    }
 }

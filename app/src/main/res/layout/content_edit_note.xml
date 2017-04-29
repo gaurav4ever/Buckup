@@ -78,7 +78,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/ll1"
-            android:weightSum="6">
+            android:weightSum="3">
             <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -91,8 +91,17 @@
                     android:layout_height="25dp"
                     android:src="@drawable/save"
                     android:id="@+id/saveImg"
-                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="15dp"
                     />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Save"
+                    android:textColor="#fff"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toRightOf="@+id/saveImg"
+                    android:layout_centerVertical="true"
+                    android:textSize="16sp"/>
             </RelativeLayout>
             <RelativeLayout
                 android:layout_width="0dp"
@@ -106,53 +115,17 @@
                     android:layout_height="25dp"
                     android:src="@drawable/microphone"
                     android:id="@+id/audio_img"
-                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="15dp"
                     />
-            </RelativeLayout>
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:paddingTop="15dp"
-                android:paddingBottom="15dp"
-                android:id="@+id/image">
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_centerHorizontal="true"
-                    android:src="@drawable/image"
-                    android:id="@+id/image_img"
-                    />
-            </RelativeLayout>
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:paddingTop="15dp"
-                android:paddingBottom="15dp"
-                android:id="@+id/upload">
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_centerHorizontal="true"
-                    android:src="@drawable/upload"
-                    android:id="@+id/upload_img"
-                    />
-            </RelativeLayout>
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:paddingTop="15dp"
-                android:paddingBottom="15dp"
-                android:id="@+id/details">
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:src="@drawable/info"
-                    android:layout_centerHorizontal="true"
-                    android:id="@+id/details_img"
-                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Audio"
+                    android:textColor="#fff"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toRightOf="@+id/audio_img"
+                    android:layout_centerVertical="true"
+                    android:textSize="16sp"/>
             </RelativeLayout>
             <RelativeLayout
                 android:layout_width="0dp"
@@ -165,10 +138,64 @@
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:src="@drawable/delete"
-                    android:layout_centerHorizontal="true"
                     android:id="@+id/delete_img"
+                    android:layout_marginLeft="15dp"
                     />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Delete"
+                    android:textColor="#fff"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toRightOf="@+id/delete_img"
+                    android:layout_centerVertical="true"
+                    android:textSize="16sp"/>
             </RelativeLayout>
+            <!--<RelativeLayout-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:paddingTop="15dp"-->
+            <!--android:paddingBottom="15dp"-->
+            <!--android:id="@+id/image">-->
+            <!--<ImageView-->
+            <!--android:layout_width="25dp"-->
+            <!--android:layout_height="25dp"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:src="@drawable/image"-->
+            <!--android:id="@+id/image_img"-->
+            <!--/>-->
+            <!--</RelativeLayout>-->
+            <!--<RelativeLayout-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:paddingTop="15dp"-->
+            <!--android:paddingBottom="15dp"-->
+            <!--android:id="@+id/upload">-->
+            <!--<ImageView-->
+            <!--android:layout_width="25dp"-->
+            <!--android:layout_height="25dp"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:src="@drawable/upload"-->
+            <!--android:id="@+id/upload_img"-->
+            <!--/>-->
+            <!--</RelativeLayout>-->
+            <!--<RelativeLayout-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:paddingTop="15dp"-->
+            <!--android:paddingBottom="15dp"-->
+            <!--android:id="@+id/details">-->
+            <!--<ImageView-->
+            <!--android:layout_width="25dp"-->
+            <!--android:layout_height="25dp"-->
+            <!--android:src="@drawable/info"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:id="@+id/details_img"-->
+            <!--/>-->
+            <!--</RelativeLayout>-->
         </LinearLayout>
     </RelativeLayout>
 

@@ -32,5 +32,4 @@ dependencies {
     compile 'com.github.clans:fab:1.6.4'
     compile 'com.mxn.soul:flowingdrawer-core:2.0.0'
     compile 'com.nineoldandroids:library:2.4.0'
-    compile 'jp.wasabeef:richeditor-android:1.2.2'
 }

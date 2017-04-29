@@ -27,7 +27,6 @@ import com.mxn.soul.flowingdrawer_core.FlowingDrawer;
 
 import java.util.List;
 
-import jp.wasabeef.richeditor.RichEditor;
 
 public class viewnotes extends AppCompatActivity {
 

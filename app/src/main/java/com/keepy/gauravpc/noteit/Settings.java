@@ -5,10 +5,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -17,6 +21,8 @@ public class Settings extends AppCompatActivity {
     TextView appVersion;
     Switch newNoteAtTopSwitch,autoBackupSwitch;
     int someThingChanged=0;
+
+    RelativeLayout settingsLayout,openSourceLibLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +64,36 @@ public class Settings extends AppCompatActivity {
             }
         });
         autoBackupSwitch=(Switch)findViewById(R.id.autoBackup);
+
+        settingsLayout=(RelativeLayout)findViewById(R.id.settingsLayout);
+        openSourceLibLayout=(RelativeLayout)findViewById(R.id.openSourceLibLayout);
+        openSourceLibLayout.setVisibility(View.GONE);
+
+        RelativeLayout seeosLayout=(RelativeLayout)findViewById(R.id.seeosl);
+        seeosLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                settingsLayout.setVisibility(View.GONE);
+                openSourceLibLayout.setVisibility(View.VISIBLE);
+            }
+        });
+
+        ImageView goback1,goback2;
+        goback1=(ImageView)findViewById(R.id.goback1);
+        goback1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+        goback2=(ImageView)findViewById(R.id.goback2);
+        goback2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                settingsLayout.setVisibility(View.VISIBLE);
+                openSourceLibLayout.setVisibility(View.GONE);
+            }
+        });
     }
 
     @Override
