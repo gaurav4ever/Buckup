@@ -160,6 +160,24 @@
                                 android:id="@+id/t7"
                                 android:text="Open Source Libraries"/>
                         </RelativeLayout>
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                                <ImageView
+                                    android:layout_width="200dp"
+                                    android:layout_height="200dp"
+                                    android:src="@drawable/cool"
+                                    android:layout_margin="10dp"
+                                    android:layout_centerHorizontal="true"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/comingSoonText"
+                                android:text="New Updates Coming Soon!"
+                                android:textSize="18sp"
+                                android:layout_centerHorizontal="true"
+                                android:layout_alignParentBottom="true"/>
+                        </RelativeLayout>
                     </LinearLayout>
                 </RelativeLayout>
             </android.support.v4.widget.NestedScrollView>
