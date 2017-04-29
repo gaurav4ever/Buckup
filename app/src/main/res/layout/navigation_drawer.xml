@@ -22,7 +22,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Bukup"
+                android:text="Buckup"
                 android:layout_toRightOf="@+id/img"
                 android:textColor="#fff"
                 android:layout_marginLeft="15dp"
@@ -154,7 +154,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Bukup | 2017"
+                android:text="Buckup | 2017"
                 android:id="@+id/footerText"
                 android:textColor="#fff"
                 android:textSize="16sp"
