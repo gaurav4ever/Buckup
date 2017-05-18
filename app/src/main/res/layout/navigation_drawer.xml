@@ -7,12 +7,13 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#57037b">
+        android:background="#fff">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/l1"
+            android:id="@+id/headerLayout"
             android:padding="20dp"
+            android:background="#db57037b"
             >
             <ImageView
                 android:layout_width="60dp"
@@ -35,13 +36,14 @@
             android:layout_width="wrap_content"
             android:layout_height="0.5dp"
             android:id="@+id/divider1"
-            android:layout_below="@+id/l1"
+            android:layout_below="@+id/headerLayout"
             android:background="@android:color/darker_gray"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/divider1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingLeft="10dp">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -53,16 +55,84 @@
                     android:layout_width="0dp"
                     android:layout_height="35dp"
                     android:layout_weight="0.15"
-                    android:padding="7dp"
-                    android:paddingBottom="10dp"
+                    android:paddingBottom="5dp"
                     android:src="@drawable/notes1"/>
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.85"
                     android:text="Notes"
-                    android:textColor="#fff"
-                    android:paddingLeft="10dp"
+                    android:textColor="#000"
+                    android:paddingLeft="15dp"
+                    android:gravity="center_vertical"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingTop="5dp"
+                android:id="@+id/dailyDiaryLayout"
+                android:paddingBottom="10dp">
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="35dp"
+                    android:layout_weight="0.15"
+                    android:paddingBottom="5dp"
+                    android:src="@drawable/diary"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.85"
+                    android:text="Daily Diary"
+                    android:textColor="#000"
+                    android:paddingLeft="15dp"
+                    android:gravity="center_vertical"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingTop="5dp"
+                android:id="@+id/bucketListLayout"
+                android:paddingBottom="10dp">
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="35dp"
+                    android:layout_weight="0.15"
+                    android:paddingBottom="5dp"
+                    android:src="@drawable/buket"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.85"
+                    android:text="Bucket List"
+                    android:textColor="#000"
+                    android:paddingLeft="15dp"
+                    android:gravity="center_vertical"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingTop="5dp"
+                android:id="@+id/slamBookLayout"
+                android:paddingBottom="10dp">
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="35dp"
+                    android:layout_weight="0.15"
+                    android:paddingBottom="5dp"
+                    android:src="@drawable/slam"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.85"
+                    android:text="Slam Book"
+                    android:textColor="#000"
+                    android:paddingLeft="15dp"
                     android:gravity="center_vertical"
                     />
             </LinearLayout>
@@ -77,16 +147,15 @@
                     android:layout_width="0dp"
                     android:layout_height="35dp"
                     android:layout_weight="0.15"
-                    android:padding="7dp"
-                    android:paddingBottom="10dp"
-                    android:src="@drawable/list1"/>
+                    android:paddingBottom="5dp"
+                    android:src="@drawable/list"/>
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.85"
                     android:text="Show List"
-                    android:textColor="#fff"
-                    android:paddingLeft="10dp"
+                    android:textColor="#000"
+                    android:paddingLeft="15dp"
                     android:gravity="center_vertical"
                     />
             </LinearLayout>
@@ -101,16 +170,15 @@
                     android:layout_width="0dp"
                     android:layout_height="35dp"
                     android:layout_weight="0.15"
-                    android:padding="7dp"
-                    android:paddingBottom="10dp"
-                    android:src="@drawable/grid1"/>
+                    android:paddingBottom="5dp"
+                    android:src="@drawable/grid"/>
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.85"
                     android:text="Show Grid"
-                    android:textColor="#fff"
-                    android:paddingLeft="10dp"
+                    android:textColor="#000"
+                    android:paddingLeft="15dp"
                     android:gravity="center_vertical"
                     />
             </LinearLayout>
@@ -125,16 +193,15 @@
                     android:layout_width="0dp"
                     android:layout_height="35dp"
                     android:layout_weight="0.15"
-                    android:padding="7dp"
-                    android:paddingBottom="10dp"
-                    android:src="@drawable/star1"/>
+                    android:paddingBottom="5dp"
+                    android:src="@drawable/like"/>
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.85"
                     android:text="Feedback"
-                    android:textColor="#fff"
-                    android:paddingLeft="10dp"
+                    android:textColor="#000"
+                    android:paddingLeft="15dp"
                     android:gravity="center_vertical"
                     />
             </LinearLayout>
@@ -143,12 +210,12 @@
             android:layout_width="wrap_content"
             android:layout_height="0.5dp"
             android:id="@+id/divider2"
-            android:layout_above="@+id/l2"
+            android:layout_above="@+id/footerLayout"
             android:background="@android:color/darker_gray"/>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:id="@+id/l2"
+            android:id="@+id/footerLayout"
             android:layout_alignParentBottom="true"
             >
             <TextView
@@ -156,7 +223,7 @@
                 android:layout_height="wrap_content"
                 android:text="Buckup | 2017"
                 android:id="@+id/footerText"
-                android:textColor="#fff"
+                android:textColor="#000"
                 android:textSize="16sp"
                 android:padding="10dp"/>
         </RelativeLayout>

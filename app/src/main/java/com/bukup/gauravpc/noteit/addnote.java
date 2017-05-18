@@ -2,6 +2,7 @@ package com.bukup.gauravpc.noteit;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +19,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+
+import jp.wasabeef.richeditor.RichEditor;
 
 
 public class addnote extends AppCompatActivity {

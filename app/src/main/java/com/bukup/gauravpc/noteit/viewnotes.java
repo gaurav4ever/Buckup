@@ -6,24 +6,47 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.Filter;
+import android.widget.Filterable;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bukup.gauravpc.noteit.dailyDiary.ViewDiary;
 import com.etsy.android.grid.StaggeredGridView;
 import com.github.clans.fab.FloatingActionMenu;
 import com.mxn.soul.flowingdrawer_core.ElasticDrawer;
 import com.mxn.soul.flowingdrawer_core.FlowingDrawer;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 
 public class viewnotes extends AppCompatActivity {
@@ -36,14 +59,16 @@ public class viewnotes extends AppCompatActivity {
     ListView listView;
     FloatingActionMenu menu;
     com.github.clans.fab.FloatingActionButton newNoteButton,settingsButton;
-    private FlowingDrawer mDrawer;
+    private DrawerLayout mDrawer;
     ImageView hamburgerIcon;
     int showList=0;
-    RelativeLayout emptyLayout;
+    RelativeLayout emptyLayout,mainHeadLayout,searchHeadLayout,MultiNoteLayout;
+    NotesAdapter notesAdapter;
 
+    String noteStyle;
 
     //Navigation Drawer Options
-    LinearLayout notesLayout,showListLayout,gridViewLayout,feedbackLayout;
+    LinearLayout notesLayout,dailyDiaryLayout,bucketListLayout,slamBookLayout,showListLayout,gridViewLayout,feedbackLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,42 +76,40 @@ public class viewnotes extends AppCompatActivity {
 
 
         SharedPreferences sharedPreferences=getSharedPreferences("details", Context.MODE_APPEND);
-        String noteStyle=sharedPreferences.getString("showIn", "");
+        noteStyle=sharedPreferences.getString("showIn", "");
         String newNoteAtTop=sharedPreferences.getString("newNoteAtTop", "");
 
         //Navigation Drawer Operations
-        mDrawer = (FlowingDrawer) findViewById(R.id.drawerlayout);
-        mDrawer.setTouchMode(ElasticDrawer.TOUCH_MODE_BEZEL);
-        mDrawer.setOnDrawerStateChangeListener(new ElasticDrawer.OnDrawerStateChangeListener() {
-            @Override
-            public void onDrawerStateChange(int oldState, int newState) {
-                if (newState == ElasticDrawer.STATE_CLOSED) {
-                }
-            }
-
-            @Override
-            public void onDrawerSlide(float openRatio, int offsetPixels) {
-            }
-        });
+        mDrawer = (DrawerLayout) findViewById(R.id.drawerlayout);
         hamburgerIcon=(ImageView)findViewById(R.id.hamburger_icon);
         hamburgerIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mDrawer.isMenuVisible()) {mDrawer.closeMenu();} else {mDrawer.openMenu();}}
+                if (mDrawer.isDrawerOpen(GravityCompat.START)) {mDrawer.closeDrawer(GravityCompat.START);} else {mDrawer.openDrawer(GravityCompat.START);}}
         });
 
         notesLayout=(LinearLayout)findViewById(R.id.notes);
+        dailyDiaryLayout=(LinearLayout)findViewById(R.id.dailyDiaryLayout);
+        bucketListLayout=(LinearLayout)findViewById(R.id.bucketListLayout);
+        slamBookLayout=(LinearLayout)findViewById(R.id.slamBookLayout);
         showListLayout=(LinearLayout)findViewById(R.id.showList);
         gridViewLayout=(LinearLayout)findViewById(R.id.showGrid);
         feedbackLayout=(LinearLayout)findViewById(R.id.feedback);
         notesLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mDrawer.isMenuVisible()) {
-                    mDrawer.closeMenu();
+                if (mDrawer.isDrawerOpen(GravityCompat.START)) {
+                    mDrawer.closeDrawer(GravityCompat.START);
                 } else {
-                    mDrawer.openMenu();
+                    mDrawer.openDrawer(GravityCompat.START);
                 }
+            }
+        });
+        dailyDiaryLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(viewnotes.this, ViewDiary.class);
+                startActivity(intent);
             }
         });
         feedbackLayout.setOnClickListener(new View.OnClickListener() {
@@ -105,6 +128,46 @@ public class viewnotes extends AppCompatActivity {
                 }
             }
         });
+        //Navigation Drawer End
+
+        //header Layouts
+        mainHeadLayout=(RelativeLayout)findViewById(R.id.mainHead);
+        searchHeadLayout=(RelativeLayout)findViewById(R.id.searchHead);
+        searchHeadLayout.setVisibility(View.GONE);
+        ImageView searchIconImage=(ImageView)findViewById(R.id.search_icon);
+
+        final SearchView editText=(SearchView)findViewById(R.id.search);
+        editText.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                notesAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+        searchIconImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mainHeadLayout.setVisibility(View.GONE);
+                searchHeadLayout.setVisibility(View.VISIBLE);
+                editText.setFocusable(true);
+            }
+        });
+        ImageView goBackImage=(ImageView)findViewById(R.id.goBackImg);
+        goBackImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(viewnotes.this, viewnotes.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+        //Header Layout End
+
 
         //Database operations
         DatabaseHandler db = new DatabaseHandler(this);
@@ -119,9 +182,9 @@ public class viewnotes extends AppCompatActivity {
         else{
             listView=(ListView)findViewById(R.id.list);
             gridView=(StaggeredGridView)findViewById(R.id.grid);
-            List<notesModel>notesModelList=db.ViewNotes(newNoteAtTop);
+            ArrayList<notesModel>notesModelList=db.ViewNotes(newNoteAtTop);
 
-            NotesAdapter notesAdapter=new NotesAdapter(getApplicationContext(),R.layout.gridview_note,notesModelList);
+            notesAdapter=new NotesAdapter(getApplicationContext(),R.layout.gridview_note,notesModelList);
 
             gridView.setAdapter(notesAdapter);
             listView.setAdapter(notesAdapter);
@@ -148,6 +211,7 @@ public class viewnotes extends AppCompatActivity {
                     SharedPreferences sharedPreferences=getSharedPreferences("details", Context.MODE_APPEND);
                     SharedPreferences.Editor editor=sharedPreferences.edit();
                     editor.putString("showIn", "gridView");
+                    noteStyle="gridView";
                     editor.commit();
                 }
             });
@@ -162,6 +226,7 @@ public class viewnotes extends AppCompatActivity {
                     SharedPreferences sharedPreferences=getSharedPreferences("details", Context.MODE_APPEND);
                     SharedPreferences.Editor editor=sharedPreferences.edit();
                     editor.putString("showIn", "listView");
+                    noteStyle="listView";
                     editor.commit();
                 }
             });
@@ -176,7 +241,7 @@ public class viewnotes extends AppCompatActivity {
         newNoteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(viewnotes.this,addnote.class);
+                Intent intent = new Intent(viewnotes.this, addnote.class);
                 startActivity(intent);
                 finish();
             }
@@ -184,7 +249,7 @@ public class viewnotes extends AppCompatActivity {
         settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(viewnotes.this,Settings.class);
+                Intent intent = new Intent(viewnotes.this, Settings.class);
                 startActivity(intent);
             }
         });
@@ -196,28 +261,73 @@ public class viewnotes extends AppCompatActivity {
             showListLayout.setVisibility(View.VISIBLE);
             gridViewLayout.setVisibility(View.GONE);
         }
+
+
+        //item click methods
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                String note_id=((TextView)view.findViewById(R.id.note_id)).getText().toString();
+//                String title=((TextView)view.findViewById(R.id.title)).getText().toString();
+//                String body=((TextView)view.findViewById(R.id.body)).getText().toString();
+//                Intent intent=new Intent(viewnotes.this,edit_note.class);
+//                intent.putExtra("id",note_id);
+//                intent.putExtra("title",title);
+//                intent.putExtra("body",body);
+//                startActivity(intent);
+//                finish();
+//            }
+//        });
+//        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                String note_id=((TextView)view.findViewById(R.id.note_id)).getText().toString();
+//                String title=((TextView)view.findViewById(R.id.title)).getText().toString();
+//                String body=((TextView)view.findViewById(R.id.body)).getText().toString();
+//                Intent intent=new Intent(viewnotes.this,edit_note.class);
+//                intent.putExtra("id",note_id);
+//                intent.putExtra("title",title);
+//                intent.putExtra("body",body);
+//                startActivity(intent);
+//                finish();
+//            }
+//        });
     }
     public void openOrCloseNavigationDrawer(){
-        if (mDrawer.isMenuVisible()) {
-            mDrawer.closeMenu();
+        if (mDrawer.isDrawerOpen(GravityCompat.START)) {
+            mDrawer.closeDrawer(GravityCompat.START);
         } else {
-            mDrawer.openMenu();
+            mDrawer.openDrawer(GravityCompat.START);
         }
     }
-    public class NotesAdapter extends ArrayAdapter{
+    public class NotesAdapter extends ArrayAdapter implements Filterable{
 
         private LayoutInflater inflater;
-        public List<notesModel>notesModelList;
+        public ArrayList<notesModel>notesModelList;
+        public ArrayList<notesModel>notesModelListFiltered;
         private int resource;
+        CustomFilter customFilter;
 
-        public NotesAdapter(Context context, int resource,List<notesModel> notesModelList) {
+        public NotesAdapter(Context context, int resource,ArrayList<notesModel> notesModelList) {
             super(context, resource, notesModelList);
             this.notesModelList = notesModelList;
+            this.notesModelListFiltered = notesModelList;
             this.resource = resource;
             inflater=(LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
         }
 
+        @Override
+        public int getCount() {
+            return notesModelList.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return notesModelList.get(position);
+        }
+
         class ViewHolder{
+            TextView noteText_id;
             TextView noteText_date;
             TextView noteText_title;
             TextView noteText_data;
@@ -232,15 +342,20 @@ public class viewnotes extends AppCompatActivity {
             if(convertView==null){
                 convertView=inflater.inflate(R.layout.gridview_note,null);
                 viewHolder=new ViewHolder();
+                viewHolder.noteText_id=(TextView)convertView.findViewById(R.id.note_id);
                 viewHolder.noteText_date=(TextView)convertView.findViewById(R.id.date);
                 viewHolder.noteText_title=(TextView)convertView.findViewById(R.id.title);
                 viewHolder.noteText_data=(TextView)convertView.findViewById(R.id.body);
                 viewHolder.noteCard=(CardView)convertView.findViewById(R.id.note);
                 convertView.setTag(viewHolder);
             }else{
-                viewHolder=(ViewHolder)convertView.getTag();
+                viewHolder = (ViewHolder) convertView.getTag();
             }
-
+//            viewHolder.noteText_date=(TextView)convertView.findViewById(R.id.date);
+//            viewHolder.noteText_title=(TextView)convertView.findViewById(R.id.title);
+//            viewHolder.noteText_data=(TextView)convertView.findViewById(R.id.body);
+//            viewHolder.noteCard=(CardView)convertView.findViewById(R.id.note);
+            viewHolder.noteText_id.setText(""+notesModelList.get(position).getId());viewHolder.noteText_id.setVisibility(View.GONE);
             viewHolder.noteText_date.setText(notesModelList.get(position).getDate());
             viewHolder.noteText_title.setText(notesModelList.get(position).getTitle());
             String data=notesModelList.get(position).getData();
@@ -249,9 +364,7 @@ public class viewnotes extends AppCompatActivity {
                 final_data=final_data.substring(0,140)+" ...";
             }
             viewHolder.noteText_data.setText(final_data);
-
             db = new DatabaseHandler(getContext());
-
             viewHolder.noteCard.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -266,10 +379,66 @@ public class viewnotes extends AppCompatActivity {
 
             return convertView;
         }
+
+        @Override
+        public Filter getFilter() {
+            if(customFilter==null){
+                customFilter=new CustomFilter();
+            }
+            return customFilter;
+        }
+        class CustomFilter extends Filter{
+
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+
+                FilterResults filterResults=new FilterResults();
+
+                if(constraint!=null && constraint.length()>0){
+                    ArrayList<notesModel> filters=new ArrayList<notesModel>();
+                    constraint=constraint.toString().toUpperCase();
+                    for(int i=0;i<notesModelListFiltered.size();i++){
+                        Log.e("found",constraint+" "+notesModelListFiltered.get(i).getData());
+                        if(notesModelListFiltered.get(i).getData().toUpperCase().contains(constraint) || notesModelListFiltered.get(i).getTitle().toUpperCase().contains(constraint)){
+                            notesModel notesModel=new notesModel(notesModelListFiltered.get(i).getDate(),notesModelListFiltered.get(i).getTitle(),notesModelListFiltered.get(i).getData());
+                            filters.add(notesModel);
+                        }
+                    }
+                    filterResults.count=filters.size();
+                    filterResults.values=filters;
+
+                }else{
+                    filterResults.count=notesModelListFiltered.size();
+                    filterResults.values=notesModelListFiltered;
+                }
+
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                if(results.count==0){
+                    Log.e("found","No");
+                    notifyDataSetInvalidated();
+                }else{
+                    Log.e("found","Yes");
+                    notesModelList= (ArrayList<notesModel>) results.values;
+                    notifyDataSetChanged();
+                    if(noteStyle.equals("gridView")){
+                        listView.setVisibility(View.GONE);
+                        gridView.setVisibility(View.VISIBLE);
+                    }
+                    else if(noteStyle.equals("listView")){
+                        listView.setVisibility(View.VISIBLE);
+                        gridView.setVisibility(View.GONE);
+                    }
+                }
+            }
+        }
     }
     public void onBackPressed() {
-        if (mDrawer.isMenuVisible()) {
-            mDrawer.closeMenu();
+        if (mDrawer.isDrawerOpen(GravityCompat.START)) {
+            mDrawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }

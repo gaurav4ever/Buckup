@@ -9,6 +9,12 @@
     tools:context="com.bukup.gauravpc.noteit.addnote"
     tools:showIn="@layout/activity_addnote">
 
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -177,4 +183,5 @@
         </LinearLayout>
     </RelativeLayout>
 
+</RelativeLayout>
 </RelativeLayout>
