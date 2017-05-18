@@ -83,7 +83,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         contentValues.put(note_title, diaryModel.getTitle());
         contentValues.put(note_data, diaryModel.getData());
 
-        Log.e("status", diaryModel.getData() + " " + diaryModel.getTitle());
         // Inserting Row
         int id= (int) db.insert(TABLE_DIARY, null, contentValues); //insert
         db.close();

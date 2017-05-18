@@ -33,6 +33,7 @@ import com.bukup.gauravpc.noteit.Settings;
 import com.bukup.gauravpc.noteit.addnote;
 import com.bukup.gauravpc.noteit.edit_note;
 import com.bukup.gauravpc.noteit.notesModel;
+import com.bukup.gauravpc.noteit.viewnotes;
 import com.etsy.android.grid.StaggeredGridView;
 import com.github.clans.fab.FloatingActionMenu;
 
@@ -58,7 +59,7 @@ public class ViewDiary extends AppCompatActivity {
     DiaryAdapter diaryAdapter;
 
     //Navigation Drawer Options
-    LinearLayout notesLayout,showListLayout,gridViewLayout,feedbackLayout;
+    LinearLayout notesLayout,dailyDiaryLayout,bucketListLayout,slamBookLayout,showListLayout,gridViewLayout,feedbackLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,15 +71,31 @@ public class ViewDiary extends AppCompatActivity {
         hamburgerIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mDrawer.isDrawerOpen(GravityCompat.START)) {mDrawer.closeDrawer(GravityCompat.START);} else {mDrawer.openDrawer(GravityCompat.START);}}
+                if (mDrawer.isDrawerOpen(GravityCompat.START)) {
+                    mDrawer.closeDrawer(GravityCompat.START);
+                } else {
+                    mDrawer.openDrawer(GravityCompat.START);
+                }
+            }
         });
 
         emptyLayout=(RelativeLayout)findViewById(R.id.emptyLayout);
         notesLayout=(LinearLayout)findViewById(R.id.notes);
+        dailyDiaryLayout=(LinearLayout)findViewById(R.id.dailyDiaryLayout);
+        bucketListLayout=(LinearLayout)findViewById(R.id.bucketListLayout);
+        slamBookLayout=(LinearLayout)findViewById(R.id.slamBookLayout);
         showListLayout=(LinearLayout)findViewById(R.id.showList);showListLayout.setVisibility(View.GONE);
         gridViewLayout=(LinearLayout)findViewById(R.id.showGrid);gridViewLayout.setVisibility(View.GONE);
         feedbackLayout=(LinearLayout)findViewById(R.id.feedback);
         notesLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(ViewDiary.this,viewnotes.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+        dailyDiaryLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mDrawer.isDrawerOpen(GravityCompat.START)) {
@@ -158,6 +175,7 @@ public class ViewDiary extends AppCompatActivity {
             TextView diaryPageText_data;
             CardView noteCard;
             RelativeLayout circle_dateLayout;
+            RelativeLayout editLayoutLayout;
         }
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
@@ -202,6 +220,7 @@ public class ViewDiary extends AppCompatActivity {
                     viewHolder.diaryPageText_data=(TextView)convertView.findViewById(R.id.body);
                     viewHolder.noteCard=(CardView)convertView.findViewById(R.id.note);
                     viewHolder.circle_dateLayout=(RelativeLayout)convertView.findViewById(R.id.circle_date);
+
                 }
                 convertView.setTag(viewHolder);
             }else{
@@ -247,8 +266,10 @@ public class ViewDiary extends AppCompatActivity {
                 viewHolder.diaryPageText_title.setText(diaryModelList.get(position).getTitle());
                 String data=diaryModelList.get(position).getData();
                 String final_data=data;
-                if(final_data.length()>=140){
-                    final_data=final_data.substring(0,140)+" ...";
+                if(final_data.length()>=150){
+                    final_data=final_data.substring(0,150)+" ...";
+                }else{
+
                 }
                 viewHolder.diaryPageText_data.setText(final_data);
                 db = new DatabaseHandler(getContext());
