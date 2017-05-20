@@ -1,5 +1,6 @@
 package com.bukup.gauravpc.noteit.dailyDiary;
 
+import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -20,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -47,16 +49,21 @@ import java.util.Date;
 
 public class ViewDiary extends AppCompatActivity {
 
-    int flag=0;
-
     DatabaseHandler db;
     ListView listView;
     FloatingActionMenu menu;
     com.github.clans.fab.FloatingActionButton newNoteButton,settingsButton;
     private DrawerLayout mDrawer;
-    ImageView hamburgerIcon;
+    ImageView hamburgerIcon,calendarIcon;
     RelativeLayout emptyLayout;
     DiaryAdapter diaryAdapter;
+    ArrayList<PageDateModel>pageDateModelArrayList;
+    PageDateModel pageDateModel;
+    GridView dateGridViewLayout;
+    PageDateAdapter pageDateAdapter;
+    
+    String pagesDate[]={};
+    String pagesId[]={};
 
     //Navigation Drawer Options
     LinearLayout notesLayout,dailyDiaryLayout,bucketListLayout,slamBookLayout,showListLayout,gridViewLayout,feedbackLayout;
@@ -76,6 +83,41 @@ public class ViewDiary extends AppCompatActivity {
                 } else {
                     mDrawer.openDrawer(GravityCompat.START);
                 }
+            }
+        });
+        //Calendar operations
+        calendarIcon=(ImageView)findViewById(R.id.calendar_icon);
+        calendarIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SimpleDateFormat month_date = new SimpleDateFormat("MMM");
+                SimpleDateFormat day_of_week = new SimpleDateFormat("EEEE");
+                DateFormat df = new SimpleDateFormat("dd/MM/yy");
+                pageDateModelArrayList=new ArrayList<PageDateModel>();
+                for(int i=0;i<pagesDate.length;i++) {
+                    pageDateModel=new PageDateModel();
+                    Date fetchedDate = null;
+                    try {
+                        fetchedDate = df.parse(pagesDate[i]);
+                        Calendar cal = Calendar.getInstance();
+                        cal.setTime(fetchedDate);
+                        pageDateModel.setId(pagesId[i]);
+                        pageDateModel.setDay(String.valueOf(cal.get(Calendar.DAY_OF_MONTH)));
+                        pageDateModel.setDay_ordinal(ordinal(cal.get(Calendar.DAY_OF_MONTH)));
+                        pageDateModel.setMonth(month_date.format(cal.getTime()) + ", ");
+                        pageDateModel.setYear(String.valueOf(cal.get(Calendar.YEAR)));
+                        pageDateModel.setWeek_of_month(day_of_week.format(cal.getTime()) + "");
+                        pageDateModelArrayList.add(pageDateModel);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
+                final Dialog dialog = new Dialog(ViewDiary.this);
+                dialog.setContentView(R.layout.layout_calendar);
+                dateGridViewLayout=(GridView)dialog.findViewById(R.id.dateGridView);
+                pageDateAdapter=new PageDateAdapter(getApplicationContext(),R.layout.row_grid_date_of_page,pageDateModelArrayList);
+                dateGridViewLayout.setAdapter(pageDateAdapter);
+                dialog.show();
             }
         });
 
@@ -126,6 +168,8 @@ public class ViewDiary extends AppCompatActivity {
         //Database operations
         DatabaseHandler db = new DatabaseHandler(this);
         int count=db.getCountOfDiary();
+        pagesDate=new String[count];
+        pagesId=new String[count];
         if(count==0){
             emptyLayout.setVisibility(View.VISIBLE);
             emptyLayout.setOnClickListener(new View.OnClickListener() {
@@ -178,38 +222,20 @@ public class ViewDiary extends AppCompatActivity {
             RelativeLayout editLayoutLayout;
         }
         @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
+        public View getView(int position, View convertView, ViewGroup parent) {
+            int flag=0;
+            ViewHolder viewHolder;
+            Log.e("pos",""+position);
+            pagesDate[position]=diaryModelList.get(position).getDate();
+            pagesId[position]= String.valueOf(diaryModelList.get(position).getId());
+            if(convertView==null && position==0){
 
-            ViewHolder viewHolder = null;
+                DateFormat df = new SimpleDateFormat("dd/MM/yy");
+                Date date = new Date();
+                String todayDate=df.format(date);
+                if(diaryModelList.get(position).getDate().equals(todayDate)) {
 
-            if(convertView==null){
-                if(position==0){
-                    DateFormat df = new SimpleDateFormat("dd/MM/yy");
-                    Date date = new Date();
-                    String todayDate=df.format(date);
-
-                    if(diaryModelList.get(position).getDate().equals(todayDate)){
-                        convertView=inflater.inflate(R.layout.layout_latest_page_of_diary,null);
-                        viewHolder=new ViewHolder();
-                        viewHolder.diaryPageText_id=(TextView)convertView.findViewById(R.id.note_id);
-                        viewHolder.diaryPageText_day=(TextView)convertView.findViewById(R.id.day);
-                        viewHolder.diaryPageText_day_ordinal=(TextView)convertView.findViewById(R.id.ordinal);
-                        viewHolder.diaryPageText_month=(TextView)convertView.findViewById(R.id.month);
-                        viewHolder.diaryPageText_year=(TextView)convertView.findViewById(R.id.year);
-                        viewHolder.diaryPageText_title=(TextView)convertView.findViewById(R.id.title);
-                        viewHolder.diaryPageText_data=(TextView)convertView.findViewById(R.id.body);
-                        viewHolder.noteCard=(CardView)convertView.findViewById(R.id.note);
-                        viewHolder.circle_dateLayout=(RelativeLayout)convertView.findViewById(R.id.circle_date);
-                        Log.e("yo","1");
-                    }else{
-                        convertView=inflater.inflate(R.layout.layout_new_page_diary,null);
-                        viewHolder=new ViewHolder();
-                        flag=1;
-                        Log.e("yo","2");
-                    }
-                }else{
-                    Log.e("yo","3");
-                    convertView=inflater.inflate(R.layout.row_daily_diary,null);
+                    convertView=inflater.inflate(R.layout.layout_latest_page_of_diary,null);
                     viewHolder=new ViewHolder();
                     viewHolder.diaryPageText_id=(TextView)convertView.findViewById(R.id.note_id);
                     viewHolder.diaryPageText_day=(TextView)convertView.findViewById(R.id.day);
@@ -221,23 +247,189 @@ public class ViewDiary extends AppCompatActivity {
                     viewHolder.noteCard=(CardView)convertView.findViewById(R.id.note);
                     viewHolder.circle_dateLayout=(RelativeLayout)convertView.findViewById(R.id.circle_date);
 
-                }
-                convertView.setTag(viewHolder);
-            }else{
-                viewHolder = (ViewHolder) convertView.getTag();
-            }
+                    viewHolder.diaryPageText_id.setText(""+diaryModelList.get(position).getId());viewHolder.diaryPageText_id.setVisibility(View.GONE);
+                    //date operations
+                    String day_now = null,day_now_ordinal= null,month_now= null,year_now= null;
+                    String date_=null;
+                    date_=""+diaryModelList.get(position).getDate();
+                    df = new SimpleDateFormat("dd/MM/yy");
+                    try {
 
-            if(flag==0){
+                        SimpleDateFormat month_date = new SimpleDateFormat("MMM");
+                        Date fetchedDate = df.parse(date_);
+                        Calendar cal = Calendar.getInstance();
+                        cal.setTime(fetchedDate);
+                        day_now= ""+cal.get(Calendar.DAY_OF_MONTH);
+                        day_now_ordinal=ordinal(cal.get(Calendar.DAY_OF_MONTH));
+                        month_now = month_date.format(cal.getTime())+", ";
+                        year_now= String.valueOf(cal.get(Calendar.YEAR));
+                        viewHolder.diaryPageText_day.setText(day_now);
+                        viewHolder.diaryPageText_day_ordinal.setText(day_now_ordinal);
+                        viewHolder.diaryPageText_month.setText(month_now);
+                        viewHolder.diaryPageText_year.setText(year_now);
+
+                        //set color of the date layout background
+                        if(position==0){
+                            viewHolder.circle_dateLayout.setBackgroundResource(R.drawable.circle2);
+                        }
+                        else if(Calendar.DAY_OF_MONTH %2==0){
+                            viewHolder.circle_dateLayout.setBackgroundResource(R.drawable.circle1);
+                        }else{
+                            viewHolder.circle_dateLayout.setBackgroundResource(R.drawable.circle);
+                        }
+
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+                    viewHolder.diaryPageText_title.setText(diaryModelList.get(position).getTitle());
+                    String data=diaryModelList.get(position).getData();
+                    String final_data=data;
+                    if(final_data.length()>=150){
+                        final_data=final_data.substring(0,150)+" ...";
+                    }
+                    viewHolder.diaryPageText_data.setText(final_data);
+                    db = new DatabaseHandler(getContext());
+
+                    final String finalDay_now = day_now;
+                    final String finalDay_now_ordinal = day_now_ordinal;
+                    final String finalMonth_now = month_now;
+                    final String finalYear_now = year_now;
+                    final int pos=position;
+                    viewHolder.noteCard.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent=new Intent(ViewDiary.this,EditPage_Diary.class);
+                            intent.putExtra("id",diaryModelList.get(pos).getId()+"");
+                            intent.putExtra("date",diaryModelList.get(pos).getDate());
+                            intent.putExtra("title",diaryModelList.get(pos).getTitle());
+                            intent.putExtra("body",diaryModelList.get(pos).getData());
+                            intent.putExtra("day", finalDay_now);
+                            intent.putExtra("day_ordinal", finalDay_now_ordinal);
+                            intent.putExtra("month", finalMonth_now);
+                            intent.putExtra("year", finalYear_now);
+                            startActivity(intent);
+                            finish();
+                        }
+                    });
+
+                }else{
+                    convertView=inflater.inflate(R.layout.layout_new_page_diary,null);
+                    viewHolder=new ViewHolder();
+                    RelativeLayout layout=(RelativeLayout)convertView.findViewById(R.id.layout);
+                    layout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent=new Intent(ViewDiary.this,NewPage_Diary.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    });
+
+                    viewHolder.diaryPageText_id=(TextView)convertView.findViewById(R.id.note_id);
+                    viewHolder.diaryPageText_day=(TextView)convertView.findViewById(R.id.day);
+                    viewHolder.diaryPageText_day_ordinal=(TextView)convertView.findViewById(R.id.ordinal);
+                    viewHolder.diaryPageText_month=(TextView)convertView.findViewById(R.id.month);
+                    viewHolder.diaryPageText_year=(TextView)convertView.findViewById(R.id.year);
+                    viewHolder.diaryPageText_title=(TextView)convertView.findViewById(R.id.title);
+                    viewHolder.diaryPageText_data=(TextView)convertView.findViewById(R.id.body);
+                    viewHolder.noteCard=(CardView)convertView.findViewById(R.id.note);
+                    viewHolder.circle_dateLayout=(RelativeLayout)convertView.findViewById(R.id.circle_date);
+                    viewHolder.diaryPageText_id.setText(""+diaryModelList.get(position).getId());viewHolder.diaryPageText_id.setVisibility(View.GONE);
+                    //date operations
+                    String day_now = null,day_now_ordinal= null,month_now= null,year_now= null;
+                    String date_=null;
+                    date_=""+diaryModelList.get(position).getDate();
+                    df = new SimpleDateFormat("dd/MM/yy");
+                    try {
+
+                        SimpleDateFormat month_date = new SimpleDateFormat("MMM");
+                        Date fetchedDate = df.parse(date_);
+                        Calendar cal = Calendar.getInstance();
+                        cal.setTime(fetchedDate);
+                        day_now= ""+cal.get(Calendar.DAY_OF_MONTH);
+                        day_now_ordinal=ordinal(cal.get(Calendar.DAY_OF_MONTH));
+                        month_now = month_date.format(cal.getTime())+", ";
+                        year_now= String.valueOf(cal.get(Calendar.YEAR));
+                        viewHolder.diaryPageText_day.setText(day_now);
+                        viewHolder.diaryPageText_day_ordinal.setText(day_now_ordinal);
+                        viewHolder.diaryPageText_month.setText(month_now);
+                        viewHolder.diaryPageText_year.setText(year_now);
+
+                        //set color of the date layout background
+                        if(Calendar.DAY_OF_MONTH %2==0){
+                            viewHolder.circle_dateLayout.setBackgroundResource(R.drawable.circle1);
+                        }else{
+                            viewHolder.circle_dateLayout.setBackgroundResource(R.drawable.circle);
+                        }
+
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+                    viewHolder.diaryPageText_title.setText(diaryModelList.get(position).getTitle());
+                    String data=diaryModelList.get(position).getData();
+                    String final_data=data;
+                    if(final_data.length()>=150){
+                        final_data=final_data.substring(0,150)+" ...";
+                    }
+                    viewHolder.diaryPageText_data.setText(final_data);
+                    db = new DatabaseHandler(getContext());
+
+                    final String finalDay_now = day_now;
+                    final String finalDay_now_ordinal = day_now_ordinal;
+                    final String finalMonth_now = month_now;
+                    final String finalYear_now = year_now;
+                    final int pos=position;
+                    viewHolder.noteCard.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent=new Intent(ViewDiary.this,EditPage_Diary.class);
+                            intent.putExtra("id",diaryModelList.get(pos).getId()+"");
+                            intent.putExtra("date",diaryModelList.get(pos).getDate());
+                            intent.putExtra("title",diaryModelList.get(pos).getTitle());
+                            intent.putExtra("body",diaryModelList.get(pos).getData());
+                            intent.putExtra("day", finalDay_now);
+                            intent.putExtra("day_ordinal", finalDay_now_ordinal);
+                            intent.putExtra("month", finalMonth_now);
+                            intent.putExtra("year", finalYear_now);
+                            startActivity(intent);
+                            finish();
+                        }
+                    });
+
+                }
+
+                convertView.setTag(viewHolder);
+
+            }else if(convertView==null && position!=0){
+
+                DateFormat df = new SimpleDateFormat("dd/MM/yy");
+                Date date = new Date();
+                String todayDate=df.format(date);
+
+                convertView=inflater.inflate(R.layout.row_daily_diary,null);
+                viewHolder=new ViewHolder();
+                viewHolder.diaryPageText_id=(TextView)convertView.findViewById(R.id.note_id);
+                viewHolder.diaryPageText_day=(TextView)convertView.findViewById(R.id.day);
+                viewHolder.diaryPageText_day_ordinal=(TextView)convertView.findViewById(R.id.ordinal);
+                viewHolder.diaryPageText_month=(TextView)convertView.findViewById(R.id.month);
+                viewHolder.diaryPageText_year=(TextView)convertView.findViewById(R.id.year);
+                viewHolder.diaryPageText_title=(TextView)convertView.findViewById(R.id.title);
+                viewHolder.diaryPageText_data=(TextView)convertView.findViewById(R.id.body);
+                viewHolder.noteCard=(CardView)convertView.findViewById(R.id.note);
+                viewHolder.circle_dateLayout=(RelativeLayout)convertView.findViewById(R.id.circle_date);
+
                 viewHolder.diaryPageText_id.setText(""+diaryModelList.get(position).getId());viewHolder.diaryPageText_id.setVisibility(View.GONE);
                 //date operations
                 String day_now = null,day_now_ordinal= null,month_now= null,year_now= null;
-
-                String date=""+diaryModelList.get(position).getDate();
-                DateFormat df = new SimpleDateFormat("dd/MM/yy");
+                String date_=null;
+                date_=""+diaryModelList.get(position).getDate();
+                df = new SimpleDateFormat("dd/MM/yy");
                 try {
 
                     SimpleDateFormat month_date = new SimpleDateFormat("MMM");
-                    Date fetchedDate = df.parse(date);
+                    Date fetchedDate = df.parse(date_);
                     Calendar cal = Calendar.getInstance();
                     cal.setTime(fetchedDate);
                     day_now= ""+cal.get(Calendar.DAY_OF_MONTH);
@@ -253,7 +445,7 @@ public class ViewDiary extends AppCompatActivity {
                     if(position==0){
                         viewHolder.circle_dateLayout.setBackgroundResource(R.drawable.circle2);
                     }
-                    else if(Calendar.DAY_OF_MONTH %2==0){
+                    else if(cal.get(Calendar.DAY_OF_MONTH)%2==0){
                         viewHolder.circle_dateLayout.setBackgroundResource(R.drawable.circle1);
                     }else{
                         viewHolder.circle_dateLayout.setBackgroundResource(R.drawable.circle);
@@ -268,8 +460,6 @@ public class ViewDiary extends AppCompatActivity {
                 String final_data=data;
                 if(final_data.length()>=150){
                     final_data=final_data.substring(0,150)+" ...";
-                }else{
-
                 }
                 viewHolder.diaryPageText_data.setText(final_data);
                 db = new DatabaseHandler(getContext());
@@ -278,15 +468,15 @@ public class ViewDiary extends AppCompatActivity {
                 final String finalDay_now_ordinal = day_now_ordinal;
                 final String finalMonth_now = month_now;
                 final String finalYear_now = year_now;
-
+                final int pos=position;
                 viewHolder.noteCard.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent intent=new Intent(ViewDiary.this,EditPage_Diary.class);
-                        intent.putExtra("id",diaryModelList.get(position).getId()+"");
-                        intent.putExtra("date",diaryModelList.get(position).getDate());
-                        intent.putExtra("title",diaryModelList.get(position).getTitle());
-                        intent.putExtra("body",diaryModelList.get(position).getData());
+                        intent.putExtra("id",diaryModelList.get(pos).getId()+"");
+                        intent.putExtra("date",diaryModelList.get(pos).getDate());
+                        intent.putExtra("title",diaryModelList.get(pos).getTitle());
+                        intent.putExtra("body",diaryModelList.get(pos).getData());
                         intent.putExtra("day", finalDay_now);
                         intent.putExtra("day_ordinal", finalDay_now_ordinal);
                         intent.putExtra("month", finalMonth_now);
@@ -295,21 +485,72 @@ public class ViewDiary extends AppCompatActivity {
                         finish();
                     }
                 });
-
-            }else{
-                RelativeLayout layout=(RelativeLayout)convertView.findViewById(R.id.layout);
-                layout.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent=new Intent(ViewDiary.this,NewPage_Diary.class);
-                        startActivity(intent);
-                        finish();
-                    }
-                });
+                convertView.setTag(viewHolder);
+            }
+            else{
+                Log.e("val","not null");
+                viewHolder = (ViewHolder) convertView.getTag();
             }
             return convertView;
         }
     }
+
+    //Page Date adapter for searching pages in the diary
+    public class PageDateAdapter extends ArrayAdapter{
+
+        private LayoutInflater inflater;
+        public ArrayList<PageDateModel>pageDateModelArrayList;
+        private int resource;
+
+        public PageDateAdapter(Context context, int resource,ArrayList<PageDateModel> pageDateModelsList) {
+            super(context, resource, pageDateModelsList);
+            this.pageDateModelArrayList = pageDateModelsList;
+            this.resource = resource;
+            inflater=(LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
+        }
+        @Override
+        public int getCount() {
+            return pageDateModelArrayList.size();
+        }
+        @Override
+        public Object getItem(int position) {
+            return pageDateModelArrayList.get(position);
+        }
+        class ViewHolder{
+            TextView pageDateText_day;
+            TextView pageDateText_day_ordinal;
+            TextView pageDateText_month;
+            TextView pageDateText_year;
+            TextView pageDateText_weekOfMonth;
+        }
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder viewHolder;
+            if(convertView==null){
+                convertView=inflater.inflate(R.layout.row_grid_date_of_page,null);
+                viewHolder=new ViewHolder();
+                viewHolder.pageDateText_day=(TextView)convertView.findViewById(R.id.day);
+                viewHolder.pageDateText_day_ordinal=(TextView)convertView.findViewById(R.id.ordinal);
+                viewHolder.pageDateText_month=(TextView)convertView.findViewById(R.id.month);
+                viewHolder.pageDateText_year=(TextView)convertView.findViewById(R.id.year);
+                viewHolder.pageDateText_weekOfMonth=(TextView)convertView.findViewById(R.id.weekOfMonth);
+                convertView.setTag(viewHolder);
+            } else{
+                viewHolder = (ViewHolder) convertView.getTag();
+            }
+//            Log.e("pages day", pageDateModelArrayList.get(position).getDay()+" "+position);
+            viewHolder.pageDateText_day.setText(pageDateModelArrayList.get(position).getDay());
+            viewHolder.pageDateText_day_ordinal.setText(pageDateModelArrayList.get(position).getDay_ordinal());
+            viewHolder.pageDateText_month.setText(pageDateModelArrayList.get(position).getMonth());
+            viewHolder.pageDateText_year.setText(pageDateModelArrayList.get(position).getYear());
+            viewHolder.pageDateText_weekOfMonth.setText(pageDateModelArrayList.get(position).getWeek_of_month());
+
+            return convertView;
+        }
+    }
+
+
+
     public void onBackPressed() {
         if (mDrawer.isDrawerOpen(GravityCompat.START)) {
             mDrawer.closeDrawer(GravityCompat.START);

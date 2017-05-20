@@ -338,8 +338,8 @@ public class viewnotes extends AppCompatActivity {
         public View getView(final int position, View convertView, ViewGroup parent) {
 
             ViewHolder viewHolder;
-
             if(convertView==null){
+                Log.e("pos null",""+position);
                 convertView=inflater.inflate(R.layout.gridview_note,null);
                 viewHolder=new ViewHolder();
                 viewHolder.noteText_id=(TextView)convertView.findViewById(R.id.note_id);
@@ -349,6 +349,7 @@ public class viewnotes extends AppCompatActivity {
                 viewHolder.noteCard=(CardView)convertView.findViewById(R.id.note);
                 convertView.setTag(viewHolder);
             }else{
+                Log.e("pos",""+position);
                 viewHolder = (ViewHolder) convertView.getTag();
             }
 //            viewHolder.noteText_date=(TextView)convertView.findViewById(R.id.date);

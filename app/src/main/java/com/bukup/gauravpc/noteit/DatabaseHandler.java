@@ -118,7 +118,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public ArrayList<DiaryModel> ViewDiary(){
         ArrayList<DiaryModel> diaryModelArrayList=new ArrayList<DiaryModel>();
         String selectQuery="";
-        selectQuery = "SELECT  * FROM " + TABLE_DIARY +" ORDER BY "+ KEY_ID +" ASC" ;
+        selectQuery = "SELECT  * FROM " + TABLE_DIARY +" ORDER BY "+ KEY_ID +" DESC" ;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
         if(cursor.moveToFirst()){
@@ -129,6 +129,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 diaryModel.setTitle(cursor.getString(2));
                 diaryModel.setData(cursor.getString(3));
                 diaryModelArrayList.add(diaryModel);
+
+                Log.d("values",""+cursor.getString(0)+" "+cursor.getString(1));
             }while(cursor.moveToNext());
         }
         db.close();
@@ -157,6 +159,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.delete(TABLE_DIARY, KEY_ID + "=" + Integer.parseInt(id_val), null);
 
         ContentValues contentValues=new ContentValues();
+        contentValues.put(KEY_ID,Integer.parseInt(id_val));
         contentValues.put(note_date,date);
         contentValues.put(note_title,title);
         contentValues.put(note_data,body);
