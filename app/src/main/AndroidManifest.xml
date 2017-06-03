@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.bukup.gauravpc.noteit">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/logo"
@@ -19,20 +22,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".addnote"
+            android:name=".Notes.addnote"
             android:label="@string/title_activity_addnote"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".viewnotes"
-            android:label="@string/title_activity_viewnotes"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".edit_note"
+            android:name=".Notes.edit_note"
             android:label="@string/title_activity_edit_note"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".Settings"
-            android:label="@string/title_activity_settings"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".dailyDiary.ViewDiary"
@@ -45,6 +40,22 @@
         <activity
             android:name=".dailyDiary.EditPage_Diary"
             android:label="@string/title_activity_edit_page__diary"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".BucketList.BucketListMain"
+            android:label="@string/title_activity_bucket_list_main"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".BucketList.BucketList_addItem"
+            android:label="@string/title_activity_bucket_list_add_item"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".BucketList.BucketList_editItem"
+            android:label="@string/title_activity_bucket_list_edit_item"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Authentication.Login"
+            android:label="@string/title_activity_login"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

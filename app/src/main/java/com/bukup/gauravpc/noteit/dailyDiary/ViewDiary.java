@@ -1,45 +1,31 @@
 package com.bukup.gauravpc.noteit.dailyDiary;
 
+import android.app.Activity;
 import android.app.Dialog;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.net.Uri;
+import android.database.Cursor;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bukup.gauravpc.noteit.DatabaseHandler;
-import com.bukup.gauravpc.noteit.DiaryModel;
+import com.bukup.gauravpc.noteit.Models.DiaryModel;
+import com.bukup.gauravpc.noteit.Models.notesModel;
 import com.bukup.gauravpc.noteit.R;
-import com.bukup.gauravpc.noteit.Settings;
-import com.bukup.gauravpc.noteit.addnote;
-import com.bukup.gauravpc.noteit.edit_note;
-import com.bukup.gauravpc.noteit.notesModel;
-import com.bukup.gauravpc.noteit.viewnotes;
-import com.etsy.android.grid.StaggeredGridView;
-import com.github.clans.fab.FloatingActionMenu;
 
-import java.io.IOError;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -51,19 +37,16 @@ public class ViewDiary extends AppCompatActivity {
 
     DatabaseHandler db;
     ListView listView;
-    FloatingActionMenu menu;
-    com.github.clans.fab.FloatingActionButton newNoteButton,settingsButton;
-    private DrawerLayout mDrawer;
-    ImageView hamburgerIcon,calendarIcon;
+    ImageView goBackImage,calendarIcon;
     RelativeLayout emptyLayout;
     DiaryAdapter diaryAdapter;
     ArrayList<PageDateModel>pageDateModelArrayList;
     PageDateModel pageDateModel;
     GridView dateGridViewLayout;
     PageDateAdapter pageDateAdapter;
-    
-    String pagesDate[]={};
-    String pagesId[]={};
+    Dialog dialog;
+
+    int images[]={R.drawable.circle0,R.drawable.circle1,R.drawable.circle2,R.drawable.circle3,R.drawable.circle4,R.drawable.circle5,R.drawable.circle6,R.drawable.circle7,R.drawable.circle8,R.drawable.circle9,R.drawable.circle10};
 
     //Navigation Drawer Options
     LinearLayout notesLayout,dailyDiaryLayout,bucketListLayout,slamBookLayout,showListLayout,gridViewLayout,feedbackLayout;
@@ -72,122 +55,60 @@ public class ViewDiary extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_diary);
 
-        //Navigation Drawer Operations
-        mDrawer = (DrawerLayout) findViewById(R.id.drawerlayout);
-        hamburgerIcon=(ImageView)findViewById(R.id.hamburger_icon);
-        hamburgerIcon.setOnClickListener(new View.OnClickListener() {
+        goBackImage=(ImageView)findViewById(R.id.goBackImg);
+        goBackImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mDrawer.isDrawerOpen(GravityCompat.START)) {
-                    mDrawer.closeDrawer(GravityCompat.START);
-                } else {
-                    mDrawer.openDrawer(GravityCompat.START);
-                }
+                onBackPressed();
             }
         });
-        //Calendar operations
-        calendarIcon=(ImageView)findViewById(R.id.calendar_icon);
-        calendarIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SimpleDateFormat month_date = new SimpleDateFormat("MMM");
-                SimpleDateFormat day_of_week = new SimpleDateFormat("EEEE");
-                DateFormat df = new SimpleDateFormat("dd/MM/yy");
-                pageDateModelArrayList=new ArrayList<PageDateModel>();
-                for(int i=0;i<pagesDate.length;i++) {
-                    pageDateModel=new PageDateModel();
-                    Date fetchedDate = null;
-                    try {
-                        fetchedDate = df.parse(pagesDate[i]);
-                        Calendar cal = Calendar.getInstance();
-                        cal.setTime(fetchedDate);
-                        pageDateModel.setId(pagesId[i]);
-                        pageDateModel.setDay(String.valueOf(cal.get(Calendar.DAY_OF_MONTH)));
-                        pageDateModel.setDay_ordinal(ordinal(cal.get(Calendar.DAY_OF_MONTH)));
-                        pageDateModel.setMonth(month_date.format(cal.getTime()) + ", ");
-                        pageDateModel.setYear(String.valueOf(cal.get(Calendar.YEAR)));
-                        pageDateModel.setWeek_of_month(day_of_week.format(cal.getTime()) + "");
-                        pageDateModelArrayList.add(pageDateModel);
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                }
-                final Dialog dialog = new Dialog(ViewDiary.this);
-                dialog.setContentView(R.layout.layout_calendar);
-                dateGridViewLayout=(GridView)dialog.findViewById(R.id.dateGridView);
-                pageDateAdapter=new PageDateAdapter(getApplicationContext(),R.layout.row_grid_date_of_page,pageDateModelArrayList);
-                dateGridViewLayout.setAdapter(pageDateAdapter);
-                dialog.show();
-            }
-        });
-
         emptyLayout=(RelativeLayout)findViewById(R.id.emptyLayout);
-        notesLayout=(LinearLayout)findViewById(R.id.notes);
-        dailyDiaryLayout=(LinearLayout)findViewById(R.id.dailyDiaryLayout);
-        bucketListLayout=(LinearLayout)findViewById(R.id.bucketListLayout);
-        slamBookLayout=(LinearLayout)findViewById(R.id.slamBookLayout);
-        showListLayout=(LinearLayout)findViewById(R.id.showList);showListLayout.setVisibility(View.GONE);
-        gridViewLayout=(LinearLayout)findViewById(R.id.showGrid);gridViewLayout.setVisibility(View.GONE);
-        feedbackLayout=(LinearLayout)findViewById(R.id.feedback);
-        notesLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(ViewDiary.this,viewnotes.class);
-                startActivity(intent);
-                finish();
-            }
-        });
-        dailyDiaryLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mDrawer.isDrawerOpen(GravityCompat.START)) {
-                    mDrawer.closeDrawer(GravityCompat.START);
-                } else {
-                    mDrawer.openDrawer(GravityCompat.START);
-                }
-            }
-        });
-        feedbackLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Uri uri = Uri.parse("market://details?id=" + getApplicationContext().getPackageName());
-                Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
-                goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
-                        Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
-                        Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-                try {
-                    startActivity(goToMarket);
-                } catch (ActivityNotFoundException e) {
-                    startActivity(new Intent(Intent.ACTION_VIEW,
-                            Uri.parse("http://play.google.com/store/apps/details?id=" + getApplicationContext().getPackageName())));
-                }
-            }
-        });
-        //Navigation Drawer End
+        listView=(ListView)findViewById(R.id.list);
 
         //Database operations
-        DatabaseHandler db = new DatabaseHandler(this);
+        db = new DatabaseHandler(this);
         int count=db.getCountOfDiary();
-        pagesDate=new String[count];
-        pagesId=new String[count];
         if(count==0){
+            listView.setVisibility(View.GONE);
             emptyLayout.setVisibility(View.VISIBLE);
             emptyLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent=new Intent(ViewDiary.this,NewPage_Diary.class);
-                    startActivity(intent);
-                    finish();
+                    startActivityForResult(intent, 2);
                 }
             });
         }
         else{
-            listView=(ListView)findViewById(R.id.list);
-            ArrayList<DiaryModel> diaryModelArrayList=db.ViewDiary();
+            ArrayList<DiaryModel> diaryModelArrayList=db.ViewDiary(); //get diary content form database
             diaryAdapter=new DiaryAdapter(getApplicationContext(),R.layout.row_daily_diary,diaryModelArrayList);
             listView.setAdapter(diaryAdapter);
             emptyLayout.setVisibility(View.GONE);
         }
+        calendarIcon=(ImageView)findViewById(R.id.calendar_icon);
+        dialog = new Dialog(ViewDiary.this);
+        dialog.setContentView(R.layout.layout_calendar);
+        calendarIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                dateGridViewLayout = (GridView) dialog.findViewById(R.id.dateGridView);
+
+                DatabaseHandler db = new DatabaseHandler(getApplication());
+                pageDateModelArrayList=db.ViewDiaryDates(); //array list for searching of pages in diary
+                pageDateAdapter = new PageDateAdapter(getApplicationContext(), R.layout.row_grid_date_of_page, pageDateModelArrayList);
+                dateGridViewLayout.setAdapter(pageDateAdapter);
+
+                ImageView crossImageView = (ImageView) dialog.findViewById(R.id.cross);
+                crossImageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+                dialog.show();
+            }
+        });
     }
     public class DiaryAdapter extends ArrayAdapter{
 
@@ -209,6 +130,19 @@ public class ViewDiary extends AppCompatActivity {
         public Object getItem(int position) {
             return diaryModelList.get(position);
         }
+        @Override
+        public int getViewTypeCount() {
+            if(diaryModelList.size()==0){
+                return 1;
+            }
+            return diaryModelList.size();
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+            return position;
+        }
+
         class ViewHolder{
             TextView diaryPageText_id;
             TextView diaryPageText_day;
@@ -225,12 +159,11 @@ public class ViewDiary extends AppCompatActivity {
         public View getView(int position, View convertView, ViewGroup parent) {
             int flag=0;
             ViewHolder viewHolder;
-            Log.e("pos",""+position);
-            pagesDate[position]=diaryModelList.get(position).getDate();
-            pagesId[position]= String.valueOf(diaryModelList.get(position).getId());
+//            Log.e("pos",""+position);
             if(convertView==null && position==0){
 
-                DateFormat df = new SimpleDateFormat("dd/MM/yy");
+//                DateFormat df = new SimpleDateFormat("dd/MM/yy");
+                DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
                 Date date = new Date();
                 String todayDate=df.format(date);
                 if(diaryModelList.get(position).getDate().equals(todayDate)) {
@@ -252,7 +185,7 @@ public class ViewDiary extends AppCompatActivity {
                     String day_now = null,day_now_ordinal= null,month_now= null,year_now= null;
                     String date_=null;
                     date_=""+diaryModelList.get(position).getDate();
-                    df = new SimpleDateFormat("dd/MM/yy");
+                    df = new SimpleDateFormat("yyyy-MM-dd");
                     try {
 
                         SimpleDateFormat month_date = new SimpleDateFormat("MMM");
@@ -308,8 +241,8 @@ public class ViewDiary extends AppCompatActivity {
                             intent.putExtra("day_ordinal", finalDay_now_ordinal);
                             intent.putExtra("month", finalMonth_now);
                             intent.putExtra("year", finalYear_now);
-                            startActivity(intent);
-                            finish();
+                            intent.putExtra("from", "fromDiaryView");
+                            startActivityForResult(intent, 1);
                         }
                     });
 
@@ -321,8 +254,7 @@ public class ViewDiary extends AppCompatActivity {
                         @Override
                         public void onClick(View v) {
                             Intent intent=new Intent(ViewDiary.this,NewPage_Diary.class);
-                            startActivity(intent);
-                            finish();
+                            startActivityForResult(intent, 2);
                         }
                     });
 
@@ -340,7 +272,7 @@ public class ViewDiary extends AppCompatActivity {
                     String day_now = null,day_now_ordinal= null,month_now= null,year_now= null;
                     String date_=null;
                     date_=""+diaryModelList.get(position).getDate();
-                    df = new SimpleDateFormat("dd/MM/yy");
+                    df = new SimpleDateFormat("yyyy-MM-dd");
                     try {
 
                         SimpleDateFormat month_date = new SimpleDateFormat("MMM");
@@ -393,8 +325,8 @@ public class ViewDiary extends AppCompatActivity {
                             intent.putExtra("day_ordinal", finalDay_now_ordinal);
                             intent.putExtra("month", finalMonth_now);
                             intent.putExtra("year", finalYear_now);
-                            startActivity(intent);
-                            finish();
+                            intent.putExtra("from", "fromDiaryView");
+                            startActivityForResult(intent, 1);
                         }
                     });
 
@@ -404,7 +336,7 @@ public class ViewDiary extends AppCompatActivity {
 
             }else if(convertView==null && position!=0){
 
-                DateFormat df = new SimpleDateFormat("dd/MM/yy");
+                DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
                 Date date = new Date();
                 String todayDate=df.format(date);
 
@@ -425,7 +357,7 @@ public class ViewDiary extends AppCompatActivity {
                 String day_now = null,day_now_ordinal= null,month_now= null,year_now= null;
                 String date_=null;
                 date_=""+diaryModelList.get(position).getDate();
-                df = new SimpleDateFormat("dd/MM/yy");
+                df = new SimpleDateFormat("yyyy-MM-dd");
                 try {
 
                     SimpleDateFormat month_date = new SimpleDateFormat("MMM");
@@ -481,14 +413,14 @@ public class ViewDiary extends AppCompatActivity {
                         intent.putExtra("day_ordinal", finalDay_now_ordinal);
                         intent.putExtra("month", finalMonth_now);
                         intent.putExtra("year", finalYear_now);
-                        startActivity(intent);
-                        finish();
+                        intent.putExtra("from", "fromDiaryView");
+                        startActivityForResult(intent, 1);
                     }
                 });
                 convertView.setTag(viewHolder);
             }
             else{
-                Log.e("val","not null");
+//                Log.e("val","not null");
                 viewHolder = (ViewHolder) convertView.getTag();
             }
             return convertView;
@@ -522,9 +454,10 @@ public class ViewDiary extends AppCompatActivity {
             TextView pageDateText_month;
             TextView pageDateText_year;
             TextView pageDateText_weekOfMonth;
+            RelativeLayout circleLayout;
         }
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             ViewHolder viewHolder;
             if(convertView==null){
                 convertView=inflater.inflate(R.layout.row_grid_date_of_page,null);
@@ -534,6 +467,7 @@ public class ViewDiary extends AppCompatActivity {
                 viewHolder.pageDateText_month=(TextView)convertView.findViewById(R.id.month);
                 viewHolder.pageDateText_year=(TextView)convertView.findViewById(R.id.year);
                 viewHolder.pageDateText_weekOfMonth=(TextView)convertView.findViewById(R.id.weekOfMonth);
+                viewHolder.circleLayout=(RelativeLayout)convertView.findViewById(R.id.circle);
                 convertView.setTag(viewHolder);
             } else{
                 viewHolder = (ViewHolder) convertView.getTag();
@@ -545,29 +479,149 @@ public class ViewDiary extends AppCompatActivity {
             viewHolder.pageDateText_year.setText(pageDateModelArrayList.get(position).getYear());
             viewHolder.pageDateText_weekOfMonth.setText(pageDateModelArrayList.get(position).getWeek_of_month());
 
+            viewHolder.circleLayout.setBackgroundResource(images[position % 10]);
+
+            viewHolder.circleLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String date_val = null,title_val = null,body_val= null;
+                    DatabaseHandler db = new DatabaseHandler(ViewDiary.this);
+//                    String val=db.viewDiaryPage(pageDateModelArrayList.get(position).getId());
+                    Cursor cursor=db.viewDiaryPage(pageDateModelArrayList.get(position).getId());
+                    if(cursor.moveToFirst()){
+                        date_val=cursor.getString(1);
+                        title_val=cursor.getString(2);
+                        body_val=cursor.getString(3);
+                    }
+
+                    DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                    SimpleDateFormat month_date = new SimpleDateFormat("MMM");
+                    Date fetchedDate = null;
+                    try {
+                        fetchedDate = df.parse(date_val);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    Calendar cal = Calendar.getInstance();
+                    cal.setTime(fetchedDate);
+                    String day_now= ""+cal.get(Calendar.DAY_OF_MONTH);
+                    String day_now_ordinal=ordinal(cal.get(Calendar.DAY_OF_MONTH));
+                    String month_now = month_date.format(cal.getTime())+", ";
+                    String year_now= String.valueOf(cal.get(Calendar.YEAR));
+
+                    Intent intent=new Intent(ViewDiary.this,EditPage_Diary.class);
+                    intent.putExtra("id",pageDateModelArrayList.get(position).getId()+"");
+                    intent.putExtra("date",date_val);
+                    intent.putExtra("title",title_val);
+                    intent.putExtra("body",body_val);
+                    intent.putExtra("day", day_now);
+                    intent.putExtra("day_ordinal", day_now_ordinal);
+                    intent.putExtra("month", month_now);
+                    intent.putExtra("year", year_now);
+                    intent.putExtra("from","searchPageOfDiary");
+                    startActivityForResult(intent, 1);
+                }
+            });
+
             return convertView;
         }
     }
 
 
-
+    @Override
     public void onBackPressed() {
-        if (mDrawer.isDrawerOpen(GravityCompat.START)) {
-            mDrawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
+        super.onBackPressed();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if(resultCode == Activity.RESULT_OK) {
+                String status = data.getStringExtra("status");
+                if(status.equals("ok")){
+                    ArrayList<DiaryModel> diaryModelArrayList=db.ViewDiary(); //get diary content form database
+                    diaryAdapter=new DiaryAdapter(getApplicationContext(),R.layout.row_daily_diary,diaryModelArrayList);
+                    listView.setAdapter(diaryAdapter);
+
+                    dateGridViewLayout = (GridView) dialog.findViewById(R.id.dateGridView);
+                    ArrayList<PageDateModel>pageDateModelArrayList=db.ViewDiaryDates(); //array list for searching of pages in diary
+                    pageDateAdapter = new PageDateAdapter(getApplicationContext(), R.layout.row_grid_date_of_page, pageDateModelArrayList);
+                    dateGridViewLayout.setAdapter(pageDateAdapter);
+
+                }else if(status.equals("deleted")){
+                    ArrayList<DiaryModel> diaryModelArrayList=db.ViewDiary(); //get diary content form database
+                    diaryAdapter=new DiaryAdapter(getApplicationContext(),R.layout.row_daily_diary,diaryModelArrayList);
+                    listView.setAdapter(diaryAdapter);
+
+                    dateGridViewLayout = (GridView) dialog.findViewById(R.id.dateGridView);
+                    ArrayList<PageDateModel>pageDateModelArrayList=db.ViewDiaryDates(); //array list for searching of pages in diary
+                    pageDateAdapter = new PageDateAdapter(getApplicationContext(), R.layout.row_grid_date_of_page, pageDateModelArrayList);
+                    dateGridViewLayout.setAdapter(pageDateAdapter);
+
+                    int count=db.getCountOfDiary();
+                    if(count==0){
+                        listView.setVisibility(View.GONE);
+                        emptyLayout.setVisibility(View.VISIBLE);
+                        emptyLayout.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(ViewDiary.this, NewPage_Diary.class);
+                                startActivityForResult(intent, 2);
+                            }
+                        });
+                    }else{
+                        emptyLayout.setVisibility(View.GONE);
+                    }
+
+                    Toast.makeText(getApplicationContext(),"Page Deleted",Toast.LENGTH_SHORT).show();
+                }else if(status.equals("discarded")){
+                    Toast.makeText(getApplicationContext(),"Page Discarded",Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+        else if (requestCode == 2) {
+            if(resultCode == Activity.RESULT_OK) {
+                String status = data.getStringExtra("status");
+                if(status.equals("added")){
+                    db = new DatabaseHandler(getApplicationContext());
+                    int count=db.getCountOfDiary();
+                    if(count==0){
+                        listView.setVisibility(View.GONE);
+                        emptyLayout.setVisibility(View.VISIBLE);
+                        emptyLayout.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent=new Intent(ViewDiary.this,NewPage_Diary.class);
+                                startActivityForResult(intent, 2);
+                            }
+                        });
+                    }
+                    else{
+                        ArrayList<DiaryModel> diaryModelArrayList=db.ViewDiary(); //get diary content form database
+                        diaryAdapter=new DiaryAdapter(getApplicationContext(),R.layout.row_daily_diary,diaryModelArrayList);
+                        listView.setAdapter(diaryAdapter);
+                        listView.setVisibility(View.VISIBLE);
+                        emptyLayout.setVisibility(View.GONE);
+                    }
+                }else if(status.equals("discarded")){
+                    Toast.makeText(getApplicationContext(),"Page Discarded",Toast.LENGTH_SHORT).show();
+                }
+            }
         }
     }
+
     public static String ordinal(int i) {
-        String[] sufixes = new String[] { "th", "st", "nd", "rd", "th", "th", "th", "th", "th", "th" };
+        String[] suffixes = new String[] { "th", "st", "nd", "rd", "th", "th", "th", "th", "th", "th" };
         switch (i % 100) {
             case 11:
             case 12:
             case 13:
                 return "th";
             default:
-                return sufixes[i % 10];
+                return suffixes[i % 10];
 
         }
     }
+
 }

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <CalendarView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/calendarView"
+        android:layout_gravity="center_horizontal" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.45"
+            android:gravity="center"
+            android:padding="15dp"
+            android:id="@+id/select"
+            android:background="@color/colorPrimary"
+            android:textColor="#fff"
+            android:text="SELECT"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.01"
+            android:padding="15dp"
+            />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.45"
+            android:gravity="center"
+            android:padding="15dp"
+            android:id="@+id/close"
+            android:background="@color/colorPrimary"
+            android:textColor="#fff"
+            android:text="CLOSE"/>
+    </LinearLayout>
+</LinearLayout>

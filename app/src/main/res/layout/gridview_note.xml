@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#dcdcdc">
+    android:layout_height="match_parent">
 
     <android.support.v7.widget.CardView
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -11,7 +10,7 @@
         android:layout_height="wrap_content"
         card_view:cardCornerRadius="2dp"
         card_view:cardElevation="2dp"
-        android:layout_marginTop="7dp"
+        android:layout_marginTop="5dp"
         android:layout_marginBottom="2dp"
         android:layout_marginLeft="3dp"
         android:layout_marginRight="4dp"
@@ -21,7 +20,7 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dp"
+            android:padding="8dp"
             android:id="@+id/relativeLayout"
             >
             <TextView
@@ -40,7 +39,7 @@
                 android:text="Note Body"
                 android:layout_marginTop="2dp"
                 android:layout_below="@+id/title"
-                android:textSize="16sp" >
+                android:textSize="14sp" >
             </TextView>
 
             <TextView
@@ -49,7 +48,7 @@
                 android:text="Date"
                 android:id="@+id/date"
                 android:textSize="8sp"
-                android:textColor="#000"
+                android:textColor="@color/colorPrimary"
                 android:layout_below="@+id/body"
                 android:layout_marginTop="5dp"/>
             <TextView
@@ -58,7 +57,7 @@
                 android:text="Note Id"
                 android:id="@+id/note_id"
                 android:textSize="8sp"
-                android:textColor="#000"
+                android:textColor="@color/colorPrimary"
                 android:layout_below="@+id/body"
                 android:layout_toRightOf="@+id/date"
                 android:layout_marginTop="5dp"/>

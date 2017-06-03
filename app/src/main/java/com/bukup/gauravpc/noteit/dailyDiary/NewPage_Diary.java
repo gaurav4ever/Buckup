@@ -1,13 +1,11 @@
 package com.bukup.gauravpc.noteit.dailyDiary;
 
+import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -17,10 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bukup.gauravpc.noteit.DatabaseHandler;
-import com.bukup.gauravpc.noteit.DiaryModel;
+import com.bukup.gauravpc.noteit.Models.DiaryModel;
 import com.bukup.gauravpc.noteit.R;
-import com.bukup.gauravpc.noteit.notesModel;
-import com.bukup.gauravpc.noteit.viewnotes;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -37,14 +33,17 @@ public class NewPage_Diary extends AppCompatActivity {
     ImageView saveImg;
     int savedOnce=0;
     String id = null;
+    int flag=0;
+
+    String title_val="",body_val="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_page__diary);
 
-        final TextView saveAtTextView=(TextView)findViewById(R.id.savedAtText);
-        saveAtTextView.setVisibility(View.GONE);
+        title=(EditText)findViewById(R.id.title);
+        data=(EditText)findViewById(R.id.body);
 
         day=(TextView)findViewById(R.id.day);
         day_ordinal=(TextView)findViewById(R.id.ordinal);
@@ -70,56 +69,7 @@ public class NewPage_Diary extends AppCompatActivity {
         saveLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(savedOnce==0){
-                    savedOnce=1;
-                    final DatabaseHandler db = new DatabaseHandler(NewPage_Diary.this);
-                    String noteDate, noteTitle, noteData;
-
-                    DateFormat df = new SimpleDateFormat("dd/MM/yy");
-                    Date date = new Date();
-                    noteDate=df.format(date);
-                    Log.e("date", noteDate);
-
-                    title=(EditText)findViewById(R.id.title);
-                    if(title.getText().toString().length()<1){
-                        title.setText("No Title");
-                    }
-                    noteTitle=makeFirstUpper(title.getText().toString());
-
-                    data=(EditText)findViewById(R.id.body);
-                    noteData = data.getText().toString();
-
-                    id=db.addPage_diary(new DiaryModel(noteDate, noteTitle, noteData));
-                    Log.d("id",id);
-
-                    db.close();
-                    saveAtTextView.setVisibility(View.VISIBLE);
-                    saveAtTextView.setText("Diary page saved");
-                }
-                else if(savedOnce==1){
-                    final DatabaseHandler db = new DatabaseHandler(NewPage_Diary.this);
-                    String noteDate, noteTitle, noteData;
-
-                    DateFormat df = new SimpleDateFormat("dd/MM/yy");
-                    Date date = new Date();
-                    noteDate=df.format(date);
-                    Log.e("date", noteDate);
-
-                    title=(EditText)findViewById(R.id.title);
-                    if(title.getText().toString().length()<1){
-                        title.setText("No Title");
-                    }
-                    noteTitle=makeFirstUpper(title.getText().toString());
-
-                    data=(EditText)findViewById(R.id.body);
-                    noteData = data.getText().toString();
-
-                    db.updatePage_diary(id, noteDate, noteTitle, noteData);
-
-                    db.close();
-                    saveAtTextView.setVisibility(View.VISIBLE);
-                    saveAtTextView.setText("Diary page updated");
-                }
+                savePage();
             }
         });
 
@@ -141,11 +91,92 @@ public class NewPage_Diary extends AppCompatActivity {
         });
     }
 
+    public void savePage(){
+        if(savedOnce==0){
+            savedOnce=1;
+            final DatabaseHandler db = new DatabaseHandler(NewPage_Diary.this);
+            String noteDate, noteTitle, noteData;
+
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = new Date();
+            noteDate=df.format(date);
+            Log.e("date", noteDate);
+
+            if(title.getText().toString().length()<1){
+                title.setText("No Title");
+            }
+            noteTitle = makeFirstUpper(title.getText().toString());
+
+            body_val = data.getText().toString();
+            if(body_val.length()<1){
+                Toast.makeText(getApplicationContext(),"Cannot save empty page",Toast.LENGTH_SHORT).show();
+            }else{
+                id=db.addPage_diary(new DiaryModel(noteDate, noteTitle, body_val));
+                db.close();
+
+                Intent intent = new Intent();
+                intent.putExtra("status", "added");
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+        }
+        else if(savedOnce==1){
+            final DatabaseHandler db = new DatabaseHandler(NewPage_Diary.this);
+            String noteDate, noteTitle, noteData;
+
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = new Date();
+            noteDate=df.format(date);
+            Log.e("date", noteDate);
+
+            title_val=title.getText().toString();
+            if(title_val.length()<1){
+                title.setText("No Title");
+            }
+            noteTitle = makeFirstUpper(title_val);
+
+            body_val = data.getText().toString();
+            if(body_val.length()<1){
+                Toast.makeText(getApplicationContext(),"Cannot save empty page",Toast.LENGTH_SHORT).show();
+            }else{
+                db.updatePage_diary(id, noteDate, noteTitle, body_val);
+                db.close();
+                Intent intent = new Intent();
+                intent.putExtra("status", "added");
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+        }
+    }
+
     @Override
     public void onBackPressed() {
-        Intent intent=new Intent(NewPage_Diary.this,ViewDiary.class);
-        startActivity(intent);
-        finish();
+        body_val=data.getText().toString();
+        if(body_val.length()<1 || flag==1){
+            super.onBackPressed();
+        }else{
+            //alert user to save changes or not
+            final Dialog d = new Dialog(NewPage_Diary.this);
+            d.setContentView(R.layout.layout_discard_changes);
+            TextView discardTextView=(TextView)d.findViewById(R.id.discard);
+            TextView saveTextView=(TextView)d.findViewById(R.id.save);
+            discardTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.putExtra("status", "discarded");
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }
+            });
+            saveTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    savePage();
+                }
+            });
+            d.show();
+        }
     }
 
     public String makeFirstUpper(String val){

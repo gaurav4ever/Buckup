@@ -5,15 +5,16 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="90dp"
+        android:layout_height="75dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="5dp"
         android:id="@+id/circle_date"
         >
         <RelativeLayout
-            android:layout_width="75dp"
-            android:layout_height="75dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:background="@drawable/circle"
+            android:id="@+id/circle"
             android:layout_centerHorizontal="true">
             <TextView
                 android:id="@+id/day"
@@ -22,8 +23,8 @@
                 android:text="27"
                 android:gravity="center"
                 android:textColor="#fff"
-                android:textSize="18sp"
-                android:layout_marginTop="20dp"
+                android:textSize="17sp"
+                android:layout_marginTop="18dp"
                 android:layout_centerHorizontal="true"
                 />
             <TextView
@@ -33,8 +34,8 @@
                 android:text="th"
                 android:gravity="center"
                 android:textColor="#fff"
-                android:textSize="8sp"
-                android:layout_marginTop="20dp"
+                android:textSize="7sp"
+                android:layout_marginTop="18dp"
                 android:layout_toRightOf="@+id/day">
             </TextView>
             <RelativeLayout
@@ -50,7 +51,7 @@
                     android:layout_height="wrap_content"
                     android:text="August, "
                     android:textColor="#fff"
-                    android:textSize="8sp" >
+                    android:textSize="7sp" >
                 </TextView>
                 <TextView
                     android:id="@+id/year"
@@ -60,7 +61,7 @@
                     android:layout_marginBottom="8dp"
                     android:text="1996"
                     android:textColor="#fff"
-                    android:textSize="8sp" >
+                    android:textSize="7sp" >
                 </TextView>
             </RelativeLayout>
         </RelativeLayout>

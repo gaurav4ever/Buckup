@@ -11,4 +11,9 @@
     <string name="title_activity_view_diary">ViewDiary</string>
     <string name="title_activity_new_page__diary">NewPage_Diary</string>
     <string name="title_activity_edit_page__diary">EditPage_Diary</string>
+    <string name="title_activity_bucket_list_main">BucketListMain</string>
+    <string name="title_activity_bucket_list_add_item">BucketList_addItem</string>
+    <string name="title_activity_bucket_list_edit_item">BucketList_editItem</string>
+    <string name="title_activity_register">Register</string>
+    <string name="title_activity_login">Login</string>
 </resources>

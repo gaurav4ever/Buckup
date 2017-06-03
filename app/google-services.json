@@ -1,0 +1,56 @@
+{
+  "project_info": {
+    "project_number": "728328794498",
+    "project_id": "buckup-169416"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:728328794498:android:ff9a287912e8bda3",
+        "android_client_info": {
+          "package_name": "com.bukup.gauravpc.noteit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "728328794498-l5viocdtafrhlqt1hd83hjaahnkse92i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bukup.gauravpc.noteit",
+            "certificate_hash": "aae19a2dbacd5a6603097a6feea5dfd36d384799"
+          }
+        },
+        {
+          "client_id": "728328794498-pttpisjpbah7dtj2tlkeejb81f36riff.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bukup.gauravpc.noteit",
+            "certificate_hash": "aae19a2dbacd5a6603097a6feea5dfd36d384799"
+          }
+        },
+        {
+          "client_id": "728328794498-a9ipsr5oobkt35vlm67joqjp120ql41m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqMtlqwzDeaBPPkttGOA1QNa1usNJ_sKw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

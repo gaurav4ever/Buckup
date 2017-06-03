@@ -3,13 +3,42 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <GridView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="350dp"
-        android:numColumns="3"
-        android:scrollbars="none"
-        android:padding="10dp"
-        android:id="@+id/dateGridView"
-    >
-    </GridView>
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/header">
+            <ImageView
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:src="@drawable/cross2"
+                android:id="@+id/cross"
+                android:padding="18dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="Search Diary Page"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="5dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"/>
+        </RelativeLayout>
+        <GridView
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:numColumns="3"
+            android:scrollbars="none"
+            android:padding="5dp"
+            android:layout_below="@+id/header"
+            android:id="@+id/dateGridView"
+            android:layout_marginBottom="10dp"
+            >
+        </GridView>
+    </RelativeLayout>
 </LinearLayout>

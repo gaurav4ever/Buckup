@@ -8,13 +8,24 @@ android {
         applicationId "com.bukup.gauravpc.noteit"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 5
-        versionName "1.22"
+        versionCode 6
+        versionName "2.0"
+    }
+    signingConfigs {
+        release {
+            storeFile file("C:\\Users\\Gaurav Sharma\\Desktop\\Buckup\\bukup_keystore.jks")
+            storePassword "bukupapp"
+            keyAlias "Bukup App"
+            keyPassword "bukupapp"
+        }
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            signingConfig signingConfigs.release
         }
     }
 }
@@ -30,7 +41,11 @@ dependencies {
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.etsy.android.grid:library:1.0.5'
     compile 'com.github.clans:fab:1.6.4'
-    compile 'com.mxn.soul:flowingdrawer-core:2.0.0'
     compile 'com.nineoldandroids:library:2.4.0'
-    compile 'jp.wasabeef:richeditor-android:1.2.2'
+    compile 'com.android.volley:volley:1.0.0'
+    compile 'com.google.android.gms:play-services-auth:9.8.0'
+    compile 'com.github.bumptech.glide:glide:4.0.0-RC0'
+    compile 'de.hdodenhof:circleimageview:2.1.0'
 }
+
+apply plugin: 'com.google.gms.google-services'

@@ -13,7 +13,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/headerLayout"
             android:padding="20dp"
-            android:background="#db57037b"
+            android:background="@drawable/navigation_back"
             >
             <ImageView
                 android:layout_width="60dp"

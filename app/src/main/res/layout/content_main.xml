@@ -4,9 +4,88 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#4A148C"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.bukup.gauravpc.noteit.MainActivity"
     tools:showIn="@layout/activity_main">
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/pinLayout">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Enter PIN"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="25sp"
+                android:gravity="center"
+                android:padding="20dp"
+                android:textStyle="bold"
+                android:id="@+id/t1"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter pin"
+                android:inputType="numberPassword"
+                android:layout_margin="25dp"
+                android:layout_below="@+id/t1"
+                android:id="@+id/pin"
+                android:padding="20dp"/>
+            <TextView
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/pin"
+                android:layout_centerHorizontal="true"
+                android:text="PROCEED"
+                android:gravity="center"
+                android:padding="20dp"
+                android:id="@+id/check"
+                android:layout_margin="30dp"
+                android:background="@color/colorPrimary"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="#fff"
+                android:layout_gravity="center"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/mainLayout">
+            <android.support.v7.widget.CardView
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                card_view:cardCornerRadius="0dp"
+                card_view:cardElevation="5dp"
+                card_view:cardBackgroundColor="#fff"
+                android:id="@+id/header"
+                >
+                <android.support.design.widget.TabLayout
+                    android:id="@+id/tabs"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    app:tabMode="scrollable"
+                    android:background="@color/colorPrimary"
+                    app:tabTextColor="#dcdcdc"
+                    app:tabMaxWidth="0dp"
+                    card_view:tabSelectedTextColor="#fff"
+                    app:tabIndicatorColor="@android:color/white"
+                    app:tabGravity="center"/>
+            </android.support.v7.widget.CardView>
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/header">
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/viewpager"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"  />
+            </RelativeLayout>
+        </RelativeLayout>
+    </LinearLayout>
 </RelativeLayout>
