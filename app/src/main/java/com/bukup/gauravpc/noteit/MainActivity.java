@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -26,7 +27,7 @@ import com.bukup.gauravpc.noteit.Notes.Fragment2;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
     Button newNoteButton,viewNoteButton;
     ImageView img1,img2;
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     EditText pinEditText;
     TextView proceedTextView;
     String isLogin,isPinSet;
-
+    private android.os.Handler handler;
     View view;
 
     @Override
@@ -110,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         DatabaseHandler db=new DatabaseHandler(this);
+//        db.extra();
 //        db.createTables();
 //        db.alterTables();
 //        db.createBLTable();
@@ -152,6 +154,23 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
+                if (tab.getPosition()==0){
+                    handler=new Handler();
+                    Runnable runnable=new Runnable() {
+                        @Override
+                        public void run() {
+                            TextView countNotes,countDiary,countBL;
+                            DatabaseHandler db=new DatabaseHandler(MainActivity.this);
+                            int count1=db.getCount();
+                            int count2=db.getCountOfDiary();
+                            int count3=db.getCountOfBucketList();
+                            countNotes=(TextView)findViewById(R.id.count_notes);countNotes.setText(""+count1);
+                            countDiary=(TextView)findViewById(R.id.count_diary);countDiary.setText(""+count2);
+                            countBL=(TextView)findViewById(R.id.count_bucket_list);countBL.setText(""+count3);
+                        }
+                    };
+                    handler.post(runnable);
+                }
             }
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {

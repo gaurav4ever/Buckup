@@ -219,7 +219,7 @@ public class ViewDiary extends AppCompatActivity {
                     String data=diaryModelList.get(position).getData();
                     String final_data=data;
                     if(final_data.length()>=150){
-                        final_data=final_data.substring(0,150)+" ...";
+                        final_data=final_data.substring(0,150)+"\n...";
                     }
                     viewHolder.diaryPageText_data.setText(final_data);
                     db = new DatabaseHandler(getContext());
@@ -303,7 +303,7 @@ public class ViewDiary extends AppCompatActivity {
                     String data=diaryModelList.get(position).getData();
                     String final_data=data;
                     if(final_data.length()>=150){
-                        final_data=final_data.substring(0,150)+" ...";
+                        final_data=final_data.substring(0,150)+"\n...";
                     }
                     viewHolder.diaryPageText_data.setText(final_data);
                     db = new DatabaseHandler(getContext());
@@ -391,7 +391,7 @@ public class ViewDiary extends AppCompatActivity {
                 String data=diaryModelList.get(position).getData();
                 String final_data=data;
                 if(final_data.length()>=150){
-                    final_data=final_data.substring(0,150)+" ...";
+                    final_data=final_data.substring(0,150)+"\n...";
                 }
                 viewHolder.diaryPageText_data.setText(final_data);
                 db = new DatabaseHandler(getContext());
@@ -530,7 +530,10 @@ public class ViewDiary extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        Intent intent = new Intent();
+        intent.putExtra("status", "update");
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
     @Override

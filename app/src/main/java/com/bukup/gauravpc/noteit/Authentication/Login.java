@@ -87,11 +87,18 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
 
     public void handlerResult(GoogleSignInResult result){
 
+        String avatar_val = null;
         if(result.isSuccess()){
             GoogleSignInAccount account=result.getSignInAccount();
             String username_val=account.getDisplayName();
             String email_val=account.getEmail();
-            String avatar_val=account.getPhotoUrl().toString();
+            if(account.getPhotoUrl()==null){
+                Log.d("url","no");
+                avatar_val="null";
+            }else{
+                avatar_val=account.getPhotoUrl().toString();
+            }
+
 
             SharedPreferences.Editor editor=sharedPreferences.edit();
             editor.putString("isLogin","1");

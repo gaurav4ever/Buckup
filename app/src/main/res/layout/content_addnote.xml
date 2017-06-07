@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="#0f4a148c"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".Notes.addnote"
     tools:showIn="@layout/activity_addnote">
@@ -15,9 +15,17 @@
         android:layout_height="wrap_content"
         >
 
+        <ImageView
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:src="@drawable/cross2"
+            android:id="@+id/cross"
+            android:padding="18dp"/>
+
         <EditText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="55dp"
+            android:layout_toRightOf="@+id/cross"
             android:layout_alignParentTop="true"
             android:hint="Add Title"
             android:paddingTop="20dp"
@@ -30,17 +38,23 @@
             android:inputType="textMultiLine"
             android:ems="10"
             android:textStyle="bold"
-            android:background="#efefef"
             android:id="@+id/title"
             android:layout_centerHorizontal="true"
             android:nestedScrollingEnabled="true"
+            android:backgroundTint="#00ffffff"
             />
-
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:id="@+id/divider1"
+            android:layout_marginBottom="5dp"
+            android:layout_below="@+id/title"
+            android:background="@color/colorPrimaryDark"/>
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/title"
+            android:layout_below="@+id/divider1"
             android:hint="Note"
             android:paddingTop="20dp"
             android:paddingBottom="20dp"
@@ -49,10 +63,8 @@
             android:lines="25"
             android:textSize="16sp"
             android:gravity="top|left"
-            android:layout_marginTop="2dp"
             android:inputType="textMultiLine"
             android:ems="10"
-            android:background="#efefef"
             android:id="@+id/body"
             android:layout_centerHorizontal="true"
             android:nestedScrollingEnabled="true"

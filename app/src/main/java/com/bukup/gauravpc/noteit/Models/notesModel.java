@@ -9,6 +9,15 @@ public class notesModel {
     String date;
     String title;
     String data;
+    String tag;
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
 
     public int getId() {
         return id;
@@ -30,10 +39,11 @@ public class notesModel {
     public notesModel() {
     }
 
-    public notesModel(String date, String title, String data) {
+    public notesModel(String date, String title, String data,String tag) {
         this.date = date;
         this.title = title;
         this.data = data;
+        this.tag=tag;
     }
 
     public String getData() {

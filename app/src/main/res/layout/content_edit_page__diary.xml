@@ -176,78 +176,102 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/ll1"
-            android:weightSum="3">
+            android:weightSum="4">
             <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:paddingTop="15dp"
-                android:paddingBottom="15dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="5dp"
                 android:id="@+id/save">
                 <ImageView
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:src="@drawable/save"
                     android:id="@+id/saveImg"
-                    android:layout_marginLeft="15dp"
+                    android:layout_centerHorizontal="true"
                     />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Save"
                     android:textColor="#fff"
-                    android:layout_marginLeft="20dp"
-                    android:layout_toRightOf="@+id/saveImg"
-                    android:layout_centerVertical="true"
-                    android:textSize="16sp"/>
+                    android:layout_marginTop="5dp"
+                    android:layout_below="@+id/saveImg"
+                    android:layout_centerHorizontal="true"
+                    android:textSize="14sp"/>
             </RelativeLayout>
             <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:paddingTop="15dp"
-                android:paddingBottom="15dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="5dp"
                 android:id="@+id/audio">
                 <ImageView
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:src="@drawable/microphone"
                     android:id="@+id/audio_img"
-                    android:layout_marginLeft="15dp"
+                    android:layout_centerHorizontal="true"
                     />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Audio"
                     android:textColor="#fff"
-                    android:layout_marginLeft="20dp"
-                    android:layout_toRightOf="@+id/audio_img"
-                    android:layout_centerVertical="true"
-                    android:textSize="16sp"/>
+                    android:layout_marginTop="5dp"
+                    android:layout_below="@+id/audio_img"
+                    android:layout_centerHorizontal="true"
+                    android:textSize="14sp"/>
             </RelativeLayout>
             <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:paddingTop="15dp"
-                android:paddingBottom="15dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="5dp"
+                android:id="@+id/share">
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/share2"
+                    android:id="@+id/share_img"
+                    android:layout_centerHorizontal="true"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Share"
+                    android:textColor="#fff"
+                    android:layout_marginTop="5dp"
+                    android:layout_below="@+id/share_img"
+                    android:layout_centerHorizontal="true"
+                    android:textSize="14sp"/>
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingTop="10dp"
+                android:paddingBottom="5dp"
                 android:id="@+id/delete">
                 <ImageView
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:src="@drawable/delete2"
                     android:id="@+id/delete_img"
-                    android:layout_marginLeft="15dp"
+                    android:layout_centerHorizontal="true"
                     />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Delete"
                     android:textColor="#fff"
-                    android:layout_marginLeft="20dp"
-                    android:layout_toRightOf="@+id/delete_img"
-                    android:layout_centerVertical="true"
-                    android:textSize="16sp"/>
+                    android:layout_marginTop="5dp"
+                    android:layout_below="@+id/delete_img"
+                    android:layout_centerHorizontal="true"
+                    android:textSize="14sp"/>
             </RelativeLayout>
             <!--<RelativeLayout-->
             <!--android:layout_width="0dp"-->

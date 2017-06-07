@@ -56,6 +56,14 @@
         <activity
             android:name=".Authentication.Login"
             android:label="@string/title_activity_login"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".About.AboutUs"
+            android:label="@string/title_activity_about_us"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".About.OSL"
+            android:label="@string/title_activity_osl"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

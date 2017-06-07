@@ -29,10 +29,10 @@
                 android:gravity="center"
                 android:padding="10dp"
                 android:textStyle="bold"
-                android:id="@+id/cat_name"/>
+                android:id="@+id/t1"/>
         </RelativeLayout>
         <EditText
-            android:layout_width="match_parent"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:hint="Enter pin"
             android:inputType="numberPassword"
@@ -41,7 +41,7 @@
             android:id="@+id/pin1"
             android:padding="20dp"/>
         <EditText
-            android:layout_width="match_parent"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:hint="Enter pin again"
             android:layout_gravity="center"

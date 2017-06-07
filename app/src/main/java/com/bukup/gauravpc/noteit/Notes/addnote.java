@@ -32,7 +32,7 @@ public class addnote extends AppCompatActivity {
 
     EditText new_note;
     EditText noteText_title,noteText_data,noteText_date;
-    ImageView saveImg;
+    ImageView saveImg,crossImageView;
     int savedOnce=0;
     String id = null;
     int flag=0;
@@ -70,6 +70,13 @@ public class addnote extends AppCompatActivity {
                 }
             }
         });
+        crossImageView=(ImageView)findViewById(R.id.cross);
+        crossImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     //function to save Note
@@ -79,7 +86,7 @@ public class addnote extends AppCompatActivity {
             final DatabaseHandler db = new DatabaseHandler(addnote.this);
             String noteDate, noteTitle, noteData;
 
-            DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:ss a");
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date date = new Date();
             noteDate=df.format(date);
             Log.e("date", noteDate);
@@ -95,8 +102,10 @@ public class addnote extends AppCompatActivity {
             if(body.length()<1){
                 Toast.makeText(getApplicationContext(),"Can not save an empty note",Toast.LENGTH_SHORT).show();
             }else{
-                id=db.addNote(new notesModel(noteDate, noteTitle, noteData));
+                id=db.addNote(new notesModel(noteDate, noteTitle, noteData,"0"));
                 db.close();
+
+
                 Intent intent = new Intent();
                 intent.putExtra("status", "added");
                 setResult(RESULT_OK, intent);
@@ -107,7 +116,7 @@ public class addnote extends AppCompatActivity {
             final DatabaseHandler db = new DatabaseHandler(addnote.this);
             String noteDate, noteTitle, noteData;
 
-            DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:ss a");
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date date = new Date();
             noteDate=df.format(date);
             Log.e("date", noteDate);

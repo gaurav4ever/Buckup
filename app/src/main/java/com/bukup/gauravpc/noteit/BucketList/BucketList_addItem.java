@@ -1,5 +1,6 @@
 package com.bukup.gauravpc.noteit.BucketList;
 
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CalendarView;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -29,6 +31,7 @@ import com.bukup.gauravpc.noteit.R;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -82,32 +85,8 @@ public class BucketList_addItem extends AppCompatActivity {
         targetDateTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Dialog dialog = new Dialog(BucketList_addItem.this);
-                dialog.setContentView(R.layout.layout_date_bucket_list);
-                TextView close=(TextView)dialog.findViewById(R.id.close);
-                close.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
-                CalendarView calendarView=(CalendarView)dialog.findViewById(R.id.calendarView);
-                calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-                    @Override
-                    public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
-//                        Toast.makeText(getApplicationContext(), dayOfMonth + "/" + month + "/" + year, Toast.LENGTH_SHORT).show();
-                        targetDate = dayOfMonth + "/" + month + "/" + year;
-                    }
-                });
-                TextView selectDate=(TextView)dialog.findViewById(R.id.select);
-                selectDate.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        targetDateTextView.setText(targetDate);
-                        dialog.dismiss();
-                    }
-                });
-                dialog.show();
+                Calendar calendar=Calendar.getInstance();
+                new DatePickerDialog(BucketList_addItem.this,myDateListener,calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DATE)).show();
             }
         });
 
@@ -163,6 +142,20 @@ public class BucketList_addItem extends AppCompatActivity {
             }
         });
     }
+    DatePickerDialog.OnDateSetListener myDateListener = new
+            DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker arg0,
+                                      int arg1, int arg2, int arg3) {
+                    // TODO Auto-generated method stub
+                    // arg1 = year
+                    // arg2 = month
+                    // arg3 = day
+                    targetDate = arg3 + "/" + arg2 + "/" + arg1;
+                    targetDateTextView.setText(targetDate);
+//                                showDate(arg1, arg2+1, arg3);
+                }
+            };
     public class CatAdapter extends ArrayAdapter{
         private LayoutInflater inflater;
         public ArrayList<CategoryItemModel>categoryItemModelArrayList;

@@ -36,6 +36,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String note_date = "date";
     private static final String note_title = "title";
     private static final String note_data = "data";
+    private static final String note_tag = "tag";
 
     private static final String TABLE_DIARY = "diary";  // daily diary table
     private static final String DIARY_KEY_ID = "id";
@@ -63,6 +64,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                +note_date + " TEXT,"
                 +note_title + " TEXT,"
                 + note_data + " TEXT,"
+                + note_tag + " TEXT DEFAULT '0',"
                 +SYNCED + " TEXT DEFAULT '1'"+")";
         db.execSQL(CREATE_CONTACTS_TABLE);
 
@@ -85,7 +87,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 +SYNCED + " TEXT DEFAULT '1'"+")";
         db.execSQL(CREATE_BUCKET_LIST_TABLE);
 
-        Log.e("tables","created");
+        Log.e("tables", "created");
     }
     public void createTables(){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -140,6 +142,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.close();
         return id+"";
     }
+    public void setNoteTag(String id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("UPDATE notes SET tag='1',isSynced='0' WHERE id=" + id);
+    }
+    public void removeNoteTag(String id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("UPDATE notes SET tag='0',isSynced='0' WHERE id="+id);
+    }
     //Insert into daily diary table
     public String addPage_diary(DiaryModel diaryModel){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -176,7 +186,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public ArrayList<notesModel> ViewNotes(){
         ArrayList<notesModel> notesModelList=new ArrayList<notesModel>();
         String selectQuery="";
-        selectQuery = "SELECT  * FROM " + TABLE_NOTES +" ORDER BY "+ KEY_ID +" DESC" ;
+        selectQuery = "SELECT  * FROM " + TABLE_NOTES +" ORDER BY date("+ note_date +") DESC, id DESC" ;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
         if(cursor.moveToFirst()){
@@ -186,6 +196,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 nm.setDate(cursor.getString(1));
                 nm.setTitle(cursor.getString(2));
                 nm.setData(cursor.getString(3));
+                nm.setTag(cursor.getString(4));
                 notesModelList.add(nm);
             }while(cursor.moveToNext());
         }
@@ -509,5 +520,19 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.delete(TABLE_NOTES, null, null);
         db.delete(TABLE_DIARY, null, null);
         db.delete(TABLE_BUCKET_LIST, null, null);
+    }
+
+
+    /*
+*****************************************************************************************************************
+*****************************************************************************************************************
+    Restore Operation @@@@@@@@@@@ FROM ANDROID DEVICE DATABASE TO ONLINE DATABASE
+*****************************************************************************************************************
+*****************************************************************************************************************
+    */
+
+    public void extra(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("ALTER TABLE notes ADD COLUMN tag TEXT DEFAULT '0'");
     }
 }

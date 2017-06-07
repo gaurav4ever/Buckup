@@ -43,7 +43,7 @@ import java.util.Map;
 
 public class edit_note extends AppCompatActivity {
 
-    String user_id,id_val;
+    String user_id,id_val,tag;
     EditText new_note;
     EditText noteText_title,noteText_data,noteText_date;
     ImageView saveImg;
@@ -51,7 +51,10 @@ public class edit_note extends AppCompatActivity {
     String titleBeforeChange="",titleAfterChange="",bodyBeforeAnyChange="",bodyAfterAnyChange="";
     private android.os.Handler handler;
     String title_val,body_val;
+    RelativeLayout saveLayout,audioLayout,imageLayout,backupLayout,infoLayout,shareLayout;
+    ImageView deleteImageView,tagImageView;
     SharedPreferences sharedPreferences;
+    int isTagSet=0,tagChanged=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,11 +69,11 @@ public class edit_note extends AppCompatActivity {
         id_val=intent.getStringExtra("id");
         titleBeforeChange=title_val=intent.getStringExtra("title");
         bodyBeforeAnyChange=body_val=intent.getStringExtra("body");
+        tag=intent.getStringExtra("tag");
 
         noteText_title=(EditText)findViewById(R.id.title);noteText_title.setText(title_val);
         noteText_data=(EditText)findViewById(R.id.body);noteText_data.setText(body_val);
 
-        RelativeLayout saveLayout,audioLayout,imageLayout,backupLayout,infoLayout,deleteNoteLayout;
         saveLayout=(RelativeLayout)findViewById(R.id.save);
         saveLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,8 +99,47 @@ public class edit_note extends AppCompatActivity {
             }
         });
 
-        deleteNoteLayout=(RelativeLayout)findViewById(R.id.delete);
-        deleteNoteLayout.setOnClickListener(new View.OnClickListener() {
+        shareLayout=(RelativeLayout)findViewById(R.id.share);
+        shareLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                title=noteText_title.getText().toString();
+                body=noteText_data.getText().toString();
+
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, title+"\n\n"+body);
+                sendIntent.setType("text/plain");
+                startActivity(sendIntent);
+            }
+        });
+
+        tagImageView=(ImageView)findViewById(R.id.tag_img);
+        if(tag.equals("1")){
+            tagImageView.setImageResource(R.drawable.tag2);
+            isTagSet=1;
+        }else{
+            tagImageView.setImageResource(R.drawable.tag);
+            isTagSet=0;
+        }
+        tagImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tagChanged=1;
+                DatabaseHandler db=new DatabaseHandler(edit_note.this);
+                if(isTagSet==0){
+                    isTagSet=1;
+                    tagImageView.setImageResource(R.drawable.tag2);
+                    db.setNoteTag(id_val);
+                }else if (isTagSet==1){
+                    isTagSet=0;
+                    tagImageView.setImageResource(R.drawable.tag);
+                    db.removeNoteTag(id_val);
+                }
+            }
+        });
+        deleteImageView=(ImageView)findViewById(R.id.delete_img);
+        deleteImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -185,7 +227,7 @@ public class edit_note extends AppCompatActivity {
         }
 
         String noteDate;
-        DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:ss a");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
         noteDate = df.format(date);
 
@@ -209,12 +251,20 @@ public class edit_note extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        if(title.length()<1 && body.length()<1){
+        if((title.length()<1 && body.length()<1) || tagChanged==1){
+            Log.d("called","haas");
             titleAfterChange=noteText_title.getText().toString();
             bodyAfterAnyChange=noteText_data.getText().toString();
 
-            if(titleAfterChange.equals(titleBeforeChange) && bodyAfterAnyChange.equals(bodyBeforeAnyChange)){
-                super.onBackPressed();
+            if((titleAfterChange.equals(titleBeforeChange) && bodyAfterAnyChange.equals(bodyBeforeAnyChange))){
+                if(tagChanged==1){
+                    Intent intent = new Intent();
+                    intent.putExtra("status", "ok");
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }else {
+                    super.onBackPressed();
+                }
             }else{
                 final Dialog d = new Dialog(edit_note.this);
                 d.setContentView(R.layout.layout_discard_changes);
@@ -237,6 +287,8 @@ public class edit_note extends AppCompatActivity {
                 });
                 d.show();
             }
+        }else{
+            super.onBackPressed();
         }
     }
     @Override

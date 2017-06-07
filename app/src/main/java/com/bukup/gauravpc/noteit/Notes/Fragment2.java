@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,18 +55,22 @@ public class Fragment2 extends Fragment{
     private DrawerLayout mDrawer;
     ImageView hamburgerIcon,goBackImage;
     int showList=0;
-    RelativeLayout emptyLayout,mainHeadLayout,searchHeadLayout,MultiNoteLayout;
+    RelativeLayout emptyLayout,mainHeadLayout,MultiNoteLayout;
     NotesAdapter notesAdapter;
     SearchView searchView;
+    String isTagSet;
+    CardView headerCardView,searchCardView;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v=inflater.inflate(R.layout.fragment2,null);
 
+        headerCardView=(CardView)getActivity().findViewById(R.id.header);
 
-        searchHeadLayout=(RelativeLayout)v.findViewById(R.id.searchHead);
-        searchHeadLayout.setVisibility(View.GONE);
+        searchCardView=(CardView)v.findViewById(R.id.searchHead);
+        searchCardView.setVisibility(View.GONE);
+
         final SearchView editText=(SearchView)v.findViewById(R.id.search);
         editText.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -115,9 +120,10 @@ public class Fragment2 extends Fragment{
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                headerCardView.setVisibility(View.GONE);
                 menu.close(true);
                 menu.setVisibility(View.GONE);
-                searchHeadLayout.setVisibility(View.VISIBLE);
+                searchCardView.setVisibility(View.VISIBLE);
                 editText.setFocusable(true);
             }
         });
@@ -126,7 +132,8 @@ public class Fragment2 extends Fragment{
         searchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
-                searchHeadLayout.setVisibility(View.GONE);
+                headerCardView.setVisibility(View.VISIBLE);
+                searchCardView.setVisibility(View.GONE);
                 return false;
             }
         });
@@ -137,8 +144,9 @@ public class Fragment2 extends Fragment{
                 DatabaseHandler db = new DatabaseHandler(getActivity());
                 ArrayList<notesModel> notesModelList=db.ViewNotes();
                 notesAdapter=new NotesAdapter(getActivity(),R.layout.gridview_note,notesModelList);
+                headerCardView.setVisibility(View.VISIBLE);
                 gridView.setAdapter(notesAdapter);
-                searchHeadLayout.setVisibility(View.GONE);
+                searchCardView.setVisibility(View.GONE);
                 menu.setVisibility(View.VISIBLE);
             }
         });
@@ -177,6 +185,7 @@ public class Fragment2 extends Fragment{
             TextView noteText_title;
             TextView noteText_data;
             CardView noteCard;
+            ImageView tagImage;
         }
 
         @Override
@@ -184,7 +193,6 @@ public class Fragment2 extends Fragment{
 
             ViewHolder viewHolder;
             if(convertView==null){
-//                Log.e("pos null", "" + position);
                 convertView=inflater.inflate(R.layout.gridview_note,null);
                 viewHolder=new ViewHolder();
                 viewHolder.noteText_id=(TextView)convertView.findViewById(R.id.note_id);
@@ -192,25 +200,28 @@ public class Fragment2 extends Fragment{
                 viewHolder.noteText_title=(TextView)convertView.findViewById(R.id.title);
                 viewHolder.noteText_data=(TextView)convertView.findViewById(R.id.body);
                 viewHolder.noteCard=(CardView)convertView.findViewById(R.id.note);
+                viewHolder.tagImage=(ImageView)convertView.findViewById(R.id.tag);
                 convertView.setTag(viewHolder);
             }else{
-//                Log.e("pos",""+position);
                 viewHolder = (ViewHolder) convertView.getTag();
             }
-//            viewHolder.noteText_date=(TextView)convertView.findViewById(R.id.date);
-//            viewHolder.noteText_title=(TextView)convertView.findViewById(R.id.title);
-//            viewHolder.noteText_data=(TextView)convertView.findViewById(R.id.body);
-//            viewHolder.noteCard=(CardView)convertView.findViewById(R.id.note);
             viewHolder.noteText_id.setText(""+notesModelList.get(position).getId());viewHolder.noteText_id.setVisibility(View.GONE);
             viewHolder.noteText_date.setText("Edited On:   "+parseDate(notesModelList.get(position).getDate()));
             viewHolder.noteText_title.setText(notesModelList.get(position).getTitle());
             String data=notesModelList.get(position).getData();
             String final_data=data;
             if(final_data.length()>=140){
-                final_data=final_data.substring(0,140)+" ...";
+                final_data=final_data.substring(0,140)+"\n...";
             }
             viewHolder.noteText_data.setText(final_data);
-            db = new DatabaseHandler(getContext());
+            isTagSet=notesModelList.get(position).getTag();
+            if(isTagSet.equals("1")){
+                viewHolder.tagImage.setVisibility(View.VISIBLE);
+                viewHolder.tagImage.setImageResource(R.drawable.tag2);
+            }else{
+                viewHolder.tagImage.setVisibility(View.GONE);
+            }
+
             viewHolder.noteCard.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -218,6 +229,7 @@ public class Fragment2 extends Fragment{
                     intent.putExtra("id",notesModelList.get(position).getId()+"");
                     intent.putExtra("title",notesModelList.get(position).getTitle());
                     intent.putExtra("body", notesModelList.get(position).getData());
+                    intent.putExtra("tag", isTagSet);
                     startActivityForResult(intent, 1);
                 }
             });
@@ -243,9 +255,8 @@ public class Fragment2 extends Fragment{
                     ArrayList<notesModel> filters=new ArrayList<notesModel>();
                     constraint=constraint.toString().toUpperCase();
                     for(int i=0;i<notesModelListFiltered.size();i++){
-//                        Log.e("found",constraint+" "+notesModelListFiltered.get(i).getData());
                         if(notesModelListFiltered.get(i).getData().toUpperCase().contains(constraint) || notesModelListFiltered.get(i).getTitle().toUpperCase().contains(constraint)){
-                            notesModel notesModel=new notesModel(notesModelListFiltered.get(i).getDate(),notesModelListFiltered.get(i).getTitle(),notesModelListFiltered.get(i).getData());
+                            notesModel notesModel=new notesModel(notesModelListFiltered.get(i).getDate(),notesModelListFiltered.get(i).getTitle(),notesModelListFiltered.get(i).getData(),notesModelListFiltered.get(i).getTag());
                             filters.add(notesModel);
                         }
                     }
@@ -263,10 +274,8 @@ public class Fragment2 extends Fragment{
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
                 if(results.count==0){
-//                    Log.e("found","No");
                     notifyDataSetInvalidated();
                 }else{
-//                    Log.e("found","Yes");
                     notesModelList= (ArrayList<notesModel>) results.values;
                     notifyDataSetChanged();
                 }
@@ -325,7 +334,7 @@ public class Fragment2 extends Fragment{
         }
     }
     public String parseDate(String date){
-        DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:ss a");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         SimpleDateFormat month_date = new SimpleDateFormat("MMM");
         Date fetchedDate = null;
         try {

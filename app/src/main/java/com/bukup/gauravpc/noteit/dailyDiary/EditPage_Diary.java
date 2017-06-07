@@ -46,7 +46,7 @@ public class EditPage_Diary extends AppCompatActivity {
     String ifComeFromSearchPageOfDiary="";
     String title1="",body1="";
     String titleBeforeChange="",titleAfterChange="",bodyBeforeAnyChange="",bodyAfterAnyChange="";
-
+    RelativeLayout saveLayout,audioLayout,imageLayout,backupLayout,infoLayout,deleteNoteLayout,shareLayout;
     SharedPreferences sharedPreferences;
 
     @Override
@@ -78,7 +78,6 @@ public class EditPage_Diary extends AppCompatActivity {
         dairyPageText_month=(TextView) findViewById(R.id.month);dairyPageText_month.setText(month_val);
         dairyPageText_year=(TextView) findViewById(R.id.year);dairyPageText_year.setText(year_val);
 
-        RelativeLayout saveLayout,audioLayout,imageLayout,backupLayout,infoLayout,deleteNoteLayout;
         saveLayout=(RelativeLayout)findViewById(R.id.save);
         saveLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,6 +100,21 @@ public class EditPage_Diary extends AppCompatActivity {
                 }catch(ActivityNotFoundException a){
                     Toast.makeText(getApplicationContext(), "Speech To Text not available", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        shareLayout=(RelativeLayout)findViewById(R.id.share);
+        shareLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                title1=title.getText().toString();
+                body1=body.getText().toString();
+
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, title1+"\n\n"+body1);
+                sendIntent.setType("text/plain");
+                startActivity(sendIntent);
             }
         });
 
@@ -234,6 +248,8 @@ public class EditPage_Diary extends AppCompatActivity {
                 });
                 d.show();
             }
+        }else{
+            super.onBackPressed();
         }
     }
     @Override
