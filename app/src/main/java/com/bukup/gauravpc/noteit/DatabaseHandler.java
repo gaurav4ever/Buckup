@@ -1,5 +1,6 @@
 package com.bukup.gauravpc.noteit;
 
+import android.app.IntentService;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -149,6 +150,19 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void removeNoteTag(String id){
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("UPDATE notes SET tag='0',isSynced='0' WHERE id="+id);
+    }
+    public boolean hasTag(String tag){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String selectQuery="SELECT * FROM notes WHERE id="+Integer.parseInt(tag);
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        if(cursor.moveToFirst()){
+            int check= Integer.parseInt(cursor.getString(4));
+            if(check==1){
+                return true;
+            }
+        }
+        db.close();
+        return false;
     }
     //Insert into daily diary table
     public String addPage_diary(DiaryModel diaryModel){
@@ -304,7 +318,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     //update notes table
-    public void updateNote(String id_val,String date,String title,String body) {
+    public void updateNote(String id_val,String date,String title,String body,String tag) {
 //        Log.e("id", id_val);
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_NOTES, KEY_ID + "=" + Integer.parseInt(id_val), null);
@@ -314,6 +328,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         contentValues.put(note_date,date);
         contentValues.put(note_title,title);
         contentValues.put(note_data,body);
+        contentValues.put(note_tag,tag);
         contentValues.put(SYNCED, "0");
 
         // Inserting Row

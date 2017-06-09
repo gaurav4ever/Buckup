@@ -44,14 +44,12 @@ import java.util.Map;
 public class edit_note extends AppCompatActivity {
 
     String user_id,id_val,tag;
-    EditText new_note;
-    EditText noteText_title,noteText_data,noteText_date;
-    ImageView saveImg;
+    EditText noteText_title,noteText_data;
     String title="",body="";
     String titleBeforeChange="",titleAfterChange="",bodyBeforeAnyChange="",bodyAfterAnyChange="";
     private android.os.Handler handler;
     String title_val,body_val;
-    RelativeLayout saveLayout,audioLayout,imageLayout,backupLayout,infoLayout,shareLayout;
+    RelativeLayout saveLayout,audioLayout,shareLayout;
     ImageView deleteImageView,tagImageView;
     SharedPreferences sharedPreferences;
     int isTagSet=0,tagChanged=0;
@@ -115,13 +113,16 @@ public class edit_note extends AppCompatActivity {
         });
 
         tagImageView=(ImageView)findViewById(R.id.tag_img);
-        if(tag.equals("1")){
+        DatabaseHandler db=new DatabaseHandler(edit_note.this);
+        boolean isTagSetBoolean=db.hasTag(id_val);
+        if(isTagSetBoolean){
             tagImageView.setImageResource(R.drawable.tag2);
             isTagSet=1;
         }else{
             tagImageView.setImageResource(R.drawable.tag);
             isTagSet=0;
         }
+
         tagImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -232,7 +233,7 @@ public class edit_note extends AppCompatActivity {
         noteDate = df.format(date);
 
         final DatabaseHandler db = new DatabaseHandler(edit_note.this);
-        db.updateNote(id_val, noteDate, makeFirstUpper(title),body);
+        db.updateNote(id_val, noteDate, makeFirstUpper(title),body,tag);
 
         db.close();
 

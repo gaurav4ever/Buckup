@@ -132,7 +132,7 @@ public class addnote extends AppCompatActivity {
             if(noteData.length()<1){
                 Toast.makeText(getApplicationContext(),"Can not save an empty note",Toast.LENGTH_SHORT).show();
             }else{
-                db.updateNote(id,noteDate,noteTitle,noteData);
+                db.updateNote(id,noteDate,noteTitle,noteData,"0");
                 db.close();
                 Intent intent = new Intent();
                 intent.putExtra("status", "added");
