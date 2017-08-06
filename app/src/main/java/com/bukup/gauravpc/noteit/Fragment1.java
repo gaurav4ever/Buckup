@@ -404,10 +404,19 @@ public class Fragment1 extends Fragment implements GoogleApiClient.OnConnectionF
             @Override
             public void onClick(View v) {
 //                Toast.makeText(getActivity(),"Slam Book coming Soon!",Toast.LENGTH_SHORT).show();
+//                Calendar cal = Calendar.getInstance();
+//                Intent intent = new Intent(Intent.ACTION_EDIT);
+//                intent.setType("vnd.android.cursor.item/event");
+//                intent.putExtra("beginTime", cal.getTimeInMillis());
+//                intent.putExtra("allDay", true);
+//                intent.putExtra("rrule", "FREQ=DAILY");
+//                intent.putExtra("endTime", cal.getTimeInMillis()+60*60*1000);
+//                intent.putExtra("title", "From Buckup");
+//                intent.putExtra("description", "hello From Buckup");
+//                startActivity(intent);
 
                 Intent i=new Intent(getActivity(),reminders.class);
                 startActivity(i);
-
             }
         });
 
