@@ -64,11 +64,11 @@
             android:name=".About.AboutUs"
             android:label="@string/title_activity_about_us"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
-            android:name=".About.OSL"
-            android:label="@string/title_activity_osl"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".reminders"></activity>
+            android:name=".reminders"
+            android:label="@string/title_activity_reminders"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
