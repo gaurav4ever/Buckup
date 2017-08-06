@@ -230,7 +230,7 @@ public class edit_note extends AppCompatActivity {
                             }
                             if (off == 0) {
                                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(edit_note.this);
-                                alertDialogBuilder.setMessage("We are unable to find any Dytila Kitchen near you because GPS is OFF... would you like to enable it ?");
+                                alertDialogBuilder.setMessage("We are unable to find your location because GPS is OFF... would you like to enable it ?");
                                 alertDialogBuilder.setPositiveButton("Yes",
                                         new DialogInterface.OnClickListener() {
                                             @Override

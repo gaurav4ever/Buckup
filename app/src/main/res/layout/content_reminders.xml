@@ -21,7 +21,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="15dp"
+            android:padding="20dp"
             android:background="@color/colorPrimary">
             <TextView
                 android:layout_width="wrap_content"
@@ -37,63 +37,14 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#0C4A148C"
         android:layout_below="@+id/header"
-        android:layout_above="@+id/setReminderButton"
-        android:background="#0C4A148C">
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
-            <android.support.v7.widget.CardView
-                xmlns:card_view="http://schemas.android.com/apk/res-auto"
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                card_view:cardElevation="1dp"
-                card_view:cardCornerRadius="5dp"
-                android:id="@+id/info1"
-                >
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/colorPrimaryDark"
-                        android:id="@+id/titleLayout1"
-                        android:padding="8dp">
-                        <ImageView
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
-                            android:src="@drawable/title"
-                            android:id="@+id/img1"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="#fff"
-                            android:layout_toRightOf="@+id/img1"
-                            android:layout_marginLeft="10dp"
-                            android:textStyle="bold"
-                            android:text="Title"/>
-                    </RelativeLayout>
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/titleLayout1"
-                        android:id="@+id/titleLayout2"
-                        android:padding="8dp">
-                        <EditText
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="Title Goes here...."
-                            android:padding="15dp"
-                            android:id="@+id/title"
-                            android:textSize="14sp"/>
-                    </RelativeLayout>
-                </RelativeLayout>
-            </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
                 xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -115,8 +66,8 @@
                         android:id="@+id/descLayout1"
                         android:padding="8dp">
                         <ImageView
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:src="@drawable/desc"
                             android:id="@+id/img2"/>
                         <TextView
@@ -126,7 +77,7 @@
                             android:layout_toRightOf="@+id/img2"
                             android:layout_marginLeft="10dp"
                             android:textStyle="bold"
-                            android:text="Description"/>
+                            android:text="Reminder About..."/>
                     </RelativeLayout>
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -136,11 +87,8 @@
                         android:padding="8dp">
                         <EditText
                             android:layout_width="match_parent"
-                            android:layout_height="80dp"
-                            android:padding="15dp"
-                            android:gravity="top|left"
-                            android:inputType="textMultiLine"
-                            android:ems="10"
+                            android:layout_height="wrap_content"
+                            android:padding="20dp"
                             android:id="@+id/desc"
                             android:hint="Description Goes here...."
                             android:textSize="14sp"
@@ -172,8 +120,8 @@
                         android:id="@+id/timeLayout1"
                         android:padding="8dp">
                         <ImageView
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:src="@drawable/alarm1"
                             android:id="@+id/img3"/>
                         <TextView
@@ -197,6 +145,60 @@
                             android:textColor="#000"
                             android:padding="8dp"
                             android:id="@+id/timeText"
+                            android:textStyle="bold"
+                            android:textSize="18sp"
+                            android:layout_margin="10dp"
+                            android:layout_centerHorizontal="true"
+                            />
+                    </RelativeLayout>
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                card_view:cardElevation="1dp"
+                card_view:cardCornerRadius="5dp"
+                android:id="@+id/info4"
+                >
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorPrimaryDark"
+                        android:id="@+id/locationLayout1"
+                        android:padding="8dp">
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/location"
+                            android:id="@+id/img4"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#fff"
+                            android:layout_toRightOf="@+id/img4"
+                            android:layout_marginLeft="10dp"
+                            android:textStyle="bold"
+                            android:text="Location"/>
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/locationLayout1"
+                        android:id="@+id/locationLayout2">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Choose Location"
+                            android:textColor="#000"
+                            android:padding="8dp"
+                            android:id="@+id/locationText"
                             android:textStyle="bold"
                             android:textSize="18sp"
                             android:layout_margin="10dp"
