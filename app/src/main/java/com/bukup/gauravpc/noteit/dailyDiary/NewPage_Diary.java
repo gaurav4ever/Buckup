@@ -139,7 +139,7 @@ public class NewPage_Diary extends AppCompatActivity {
             if(body_val.length()<1){
                 Toast.makeText(getApplicationContext(),"Cannot save empty page",Toast.LENGTH_SHORT).show();
             }else{
-                db.updatePage_diary(id, noteDate, noteTitle, body_val);
+                db.updatePage_diary(id, noteTitle, body_val);
                 db.close();
                 Intent intent = new Intent();
                 intent.putExtra("status", "added");

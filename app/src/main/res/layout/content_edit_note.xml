@@ -17,7 +17,9 @@
             card_view:cardElevation="5dp"
             android:id="@+id/headerLayout"
             card_view:cardBackgroundColor="@color/colorPrimary"
-            >
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -29,19 +31,35 @@
                     android:src="@drawable/goback6"
                     android:id="@+id/goBackImg"/>
                 <ImageView
-                    android:layout_width="55dp"
+                    android:layout_width="45dp"
                     android:layout_height="55dp"
                     android:src="@drawable/tag"
-                    android:padding="15dp"
+                    android:padding="12dp"
                     android:id="@+id/tag_img"
+                    android:layout_toLeftOf="@+id/location_img"
+                    />
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="55dp"
+                    android:src="@drawable/location"
+                    android:padding="12dp"
+                    android:id="@+id/location_img"
                     android:layout_toLeftOf="@+id/delete_img"
                     />
                 <ImageView
-                    android:layout_width="55dp"
+                    android:layout_width="45dp"
                     android:layout_height="55dp"
                     android:src="@drawable/delete2"
-                    android:padding="15dp"
+                    android:padding="12dp"
                     android:id="@+id/delete_img"
+                    android:layout_toLeftOf="@+id/info_img"
+                    />
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="55dp"
+                    android:src="@drawable/info4"
+                    android:padding="11dp"
+                    android:id="@+id/info_img"
                     android:layout_alignParentEnd="true"
                     />
             </RelativeLayout>
@@ -53,9 +71,10 @@
         android:layout_below="@+id/headerLayout"
         android:layout_above="@+id/optionsLayout"
         android:background="#0f4a148c">
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -71,10 +90,31 @@
                 android:backgroundTint="#004a148c"
                 android:layout_centerHorizontal="true"
                 android:nestedScrollingEnabled="true"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/locationLayout"
+                android:layout_margin="5dp">
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:id="@+id/img"
+                    android:src="@drawable/location3"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/img"
+                    android:layout_marginLeft="10dp"
+                    android:text="Location Here"
+                    android:id="@+id/location"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="12sp"
+                    />
+            </RelativeLayout>
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@+id/title"
                 android:hint="Note"
                 android:padding="10dp"
                 android:textSize="16sp"
@@ -87,7 +127,7 @@
                 android:nestedScrollingEnabled="true"
                 android:backgroundTint="#004a148c"
                 />
-        </RelativeLayout>
+        </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 
     <RelativeLayout

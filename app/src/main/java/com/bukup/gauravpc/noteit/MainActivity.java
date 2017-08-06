@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity{
             editor.putString("pin","noPin");
             isPinSet="noPin";
         }
+        Log.e("pin",isPinSet);
         editor.apply();
 
         if(isLogin.equals("0")){

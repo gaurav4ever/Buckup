@@ -34,10 +34,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     private static final String TABLE_NOTES = "notes";  // notes table
     private static final String KEY_ID = "id";
-    private static final String note_date = "date";
+    private static final String note_created_on = "created_on";
+    private static final String note_updated_on = "updated_on";
     private static final String note_title = "title";
     private static final String note_data = "data";
     private static final String note_tag = "tag";
+    private static final String note_location = "location";
 
     private static final String TABLE_DIARY = "diary";  // daily diary table
     private static final String DIARY_KEY_ID = "id";
@@ -62,10 +64,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_NOTES + "("
                 +KEY_ID+" INTEGER PRIMARY KEY,"
-               +note_date + " TEXT,"
+               +note_created_on + " TEXT,"
+                +note_updated_on + " TEXT,"
                 +note_title + " TEXT,"
                 + note_data + " TEXT,"
                 + note_tag + " TEXT DEFAULT '0',"
+                + note_location + " TEXT DEFAULT 'null',"
                 +SYNCED + " TEXT DEFAULT '1'"+")";
         db.execSQL(CREATE_CONTACTS_TABLE);
 
@@ -87,8 +91,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + BL_CAT_ID + " INTEGER,"
                 +SYNCED + " TEXT DEFAULT '1'"+")";
         db.execSQL(CREATE_BUCKET_LIST_TABLE);
-
-        Log.e("tables", "created");
     }
     public void createTables(){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -133,9 +135,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public String addNote(notesModel notesModel){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues=new ContentValues();
-        contentValues.put(note_date,notesModel.getDate());
+        contentValues.put(note_created_on,notesModel.getCreated_on());
+        contentValues.put(note_updated_on,notesModel.getUpdated_on());
         contentValues.put(note_title, notesModel.getTitle());
         contentValues.put(note_data, notesModel.getData());
+        contentValues.put(note_location, notesModel.getLocation());
         contentValues.put(SYNCED, "0");
 
         // Inserting Row
@@ -156,7 +160,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         String selectQuery="SELECT * FROM notes WHERE id="+Integer.parseInt(tag);
         Cursor cursor = db.rawQuery(selectQuery, null);
         if(cursor.moveToFirst()){
-            int check= Integer.parseInt(cursor.getString(4));
+            int check= Integer.parseInt(cursor.getString(5));
             if(check==1){
                 return true;
             }
@@ -168,9 +172,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public String addPage_diary(DiaryModel diaryModel){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues=new ContentValues();
-        contentValues.put(note_date,diaryModel.getDate());
-        contentValues.put(note_title, diaryModel.getTitle());
-        contentValues.put(note_data, diaryModel.getData());
+        contentValues.put(DIARY_note_date,diaryModel.getDate());
+        contentValues.put(DIARY_note_title, diaryModel.getTitle());
+        contentValues.put(DIARY_note_data, diaryModel.getData());
         contentValues.put(SYNCED, "0");
 
         // Inserting Row
@@ -200,17 +204,19 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public ArrayList<notesModel> ViewNotes(){
         ArrayList<notesModel> notesModelList=new ArrayList<notesModel>();
         String selectQuery="";
-        selectQuery = "SELECT  * FROM " + TABLE_NOTES +" ORDER BY date("+ note_date +") DESC, id DESC" ;
+        selectQuery = "SELECT  * FROM " + TABLE_NOTES +" ORDER BY date("+ note_updated_on +") DESC, id DESC" ;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
         if(cursor.moveToFirst()){
             do{
                 notesModel nm=new notesModel();
                 nm.setId(Integer.parseInt(cursor.getString(0)));
-                nm.setDate(cursor.getString(1));
-                nm.setTitle(cursor.getString(2));
-                nm.setData(cursor.getString(3));
-                nm.setTag(cursor.getString(4));
+                nm.setCreated_on(cursor.getString(1));
+                nm.setUpdated_on(cursor.getString(2));
+                nm.setTitle(cursor.getString(3));
+                nm.setData(cursor.getString(4));
+                nm.setTag(cursor.getString(5));
+                nm.setLocation(cursor.getString(6));
                 notesModelList.add(nm);
             }while(cursor.moveToNext());
         }
@@ -232,8 +238,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 diaryModel.setTitle(cursor.getString(2));
                 diaryModel.setData(cursor.getString(3));
                 diaryModelArrayList.add(diaryModel);
-
-//                Log.d("values", "" + cursor.getString(0) + " " + cursor.getString(1));
             }while(cursor.moveToNext());
         }
         db.close();
@@ -268,7 +272,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                     e.printStackTrace();
                 }
                 pageDateModelArrayList.add(pageDateModel);
-//                Log.d("values", "" + cursor.getString(0) + " " + cursor.getString(1));
             }while(cursor.moveToNext());
         }
         db.close();
@@ -318,40 +321,17 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     //update notes table
-    public void updateNote(String id_val,String date,String title,String body,String tag) {
-//        Log.e("id", id_val);
+    public void updateNote(String id_val,String date,String title,String body,String location) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_NOTES, KEY_ID + "=" + Integer.parseInt(id_val), null);
-
-        ContentValues contentValues=new ContentValues();
-        contentValues.put(KEY_ID,Integer.parseInt(id_val));
-        contentValues.put(note_date,date);
-        contentValues.put(note_title,title);
-        contentValues.put(note_data,body);
-        contentValues.put(note_tag,tag);
-        contentValues.put(SYNCED, "0");
-
-        // Inserting Row
-        db.insert(TABLE_NOTES, null, contentValues);
-        Log.e("status", "Updated");
+        String sql="UPDATE notes SET updated_on = '"+date+"', title = '"+title+"', data='"+body+"', location='"+location+"', isSynced='0' WHERE id="+id_val;
+        db.execSQL(sql);
         db.close();
     }
     //update daily diary table
-    public void updatePage_diary(String id_val,String date,String title,String body) {
-//        Log.e("id", id_val);
+    public void updatePage_diary(String id_val,String title,String body) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_DIARY, KEY_ID + "=" + Integer.parseInt(id_val), null);
-
-        ContentValues contentValues=new ContentValues();
-        contentValues.put(KEY_ID,Integer.parseInt(id_val));
-        contentValues.put(note_date,date);
-        contentValues.put(note_title,title);
-        contentValues.put(note_data,body);
-        contentValues.put(SYNCED, "0");
-
-        // Inserting Row
-        db.insert(TABLE_DIARY, null, contentValues);
-        Log.e("status", "Updated");
+        String sql="UPDATE diary SET title = '"+title+"', data='"+body+"', isSynced='0' WHERE id="+id_val;
+        db.execSQL(sql);
         db.close();
     }
 
@@ -378,21 +358,18 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void deleteNote(int id_val){
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_NOTES, KEY_ID + "=" + id_val, null);
-        Log.e("status", "Note deleted");
         db.close();
     }
     //delete row from Daily diary table
     public void deletePage_diary(int id_val){
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_DIARY, KEY_ID + "=" + id_val, null);
-        Log.e("status", "Diary Page deleted");
         db.close();
     }
     //delete row from bucket list table
     public void deleteItemFromBucketList(int id_val){
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_BUCKET_LIST, KEY_ID + "=" + id_val, null);
-        Log.e("status", "Bucket List Item deleted");
         db.close();
     }
 

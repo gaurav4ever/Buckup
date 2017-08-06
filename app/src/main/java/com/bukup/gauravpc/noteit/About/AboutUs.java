@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,7 +21,8 @@ import com.bukup.gauravpc.noteit.R;
 
 public class AboutUs extends AppCompatActivity {
 
-    TextView t1,t2,t3,versionTextView;
+    TextView versionTextView;
+    RelativeLayout relativeLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,29 +32,11 @@ public class AboutUs extends AppCompatActivity {
         versionTextView=(TextView)findViewById(R.id.version);
         String versionName = BuildConfig.VERSION_NAME;
         versionTextView.setText(versionName);
-        t1=(TextView)findViewById(R.id.t1);
-        t2=(TextView)findViewById(R.id.t2);
-        t3=(TextView)findViewById(R.id.t3);
 
-        t1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Dialog dialog = new Dialog(AboutUs.this);
-                dialog.setContentView(R.layout.layout_about_us);
-                ImageView close=(ImageView)dialog.findViewById(R.id.cross);
-                close.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
-                TextView textView=(TextView)dialog.findViewById(R.id.text);
-                textView.setText("Our goal is provide a simple and elegant app which lets you capture and organize all your stuffs and memories in a nutshell.");
-                dialog.show();
-            }
-        });
+        relativeLayout=(RelativeLayout)findViewById(R.id.contactLayout);
 
-        t2.setOnClickListener(new View.OnClickListener() {
+
+        relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String[] TO = {"gauravsharma.mvp@gmail.com"};
@@ -73,15 +57,6 @@ public class AboutUs extends AppCompatActivity {
                 }
             }
         });
-
-        t3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(AboutUs.this, OSL.class);
-                startActivity(intent);
-            }
-        });
-
 
     }
 

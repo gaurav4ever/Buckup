@@ -40,53 +40,32 @@
             android:layout_marginTop="5dp"
             android:textSize="18sp"/>
     </LinearLayout>
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:orientation="vertical">
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:id="@+id/divider1"
-            android:background="#f0f0f0"/>
+        android:id="@+id/contactLayout"
+        >
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="About Us"
-            android:gravity="start"
+            android:text="Developed By"
             android:textColor="#fff"
+            android:layout_centerHorizontal="true"
+            android:textSize="14sp"
             android:id="@+id/t1"
-            android:padding="15dp"
-            android:textSize="18sp"/>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:id="@+id/divider2"
-            android:background="#f0f0f0"/>
+            android:padding="5dp"/>
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Contact Us"
-            android:gravity="start"
-            android:id="@+id/t2"
+            android:text="Gaurav Sharma\n\ngauravsharma.mvp@gmail.com"
             android:textColor="#fff"
-            android:padding="15dp"
-            android:textSize="18sp"/>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:id="@+id/divider3"
-            android:background="#f0f0f0"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Open Source Licenses"
-            android:gravity="start"
-            android:id="@+id/t3"
-            android:textColor="#fff"
-            android:padding="15dp"
-            android:textSize="18sp"/>
-    </LinearLayout>
+            android:gravity="center"
+            android:id="@+id/mailDeveloper"
+            android:layout_below="@+id/t1"
+            android:layout_centerHorizontal="true"
+            android:textSize="20sp"
+            android:padding="20dp"/>
+    </RelativeLayout>
 
 </RelativeLayout>

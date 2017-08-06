@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:padding="15dp"
+            android:src="@drawable/cross2"
+            android:id="@+id/goBackImg"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add location"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:padding="10dp"
+            android:textStyle="bold"
+            android:id="@+id/cat_name"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:hint="Add Location Manually"
+            android:padding="15dp"
+            android:textSize="14sp"
+            android:textColorHint="#000"
+            android:id="@+id/locationText"
+            android:backgroundTint="@color/colorPrimaryDark"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="OR"
+            android:id="@+id/t1"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/locationText"
+            android:layout_margin="10dp"
+            android:textSize="18sp"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/t1"
+            android:id="@+id/rl1"
+            android:padding="10dp">
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/location2"
+                android:layout_centerVertical="true"
+                android:id="@+id/img"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Find Location Automatically"
+                android:id="@+id/findLocation"
+                android:layout_toRightOf="@+id/img"
+                android:layout_alignParentEnd="true"
+                android:gravity="center"
+                android:layout_margin="10dp"
+                android:background="@color/colorPrimary"
+                android:textColor="#fff"
+                android:padding="15dp"
+                android:textSize="16sp"
+                android:textStyle="bold"/>
+        </RelativeLayout>
+    </RelativeLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ADD LOCATION"
+        android:layout_below="@+id/rl1"
+        android:gravity="center"
+        android:id="@+id/save"
+        android:background="@color/colorPrimary"
+        android:textColor="#fff"
+        android:padding="20dp"
+        android:layout_marginTop="20dp"
+        android:textSize="16sp"
+        android:textStyle="bold"/>
+</LinearLayout>

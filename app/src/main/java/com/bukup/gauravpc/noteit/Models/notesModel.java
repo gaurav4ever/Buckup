@@ -6,10 +6,20 @@ package com.bukup.gauravpc.noteit.Models;
 public class notesModel {
 
     int id;
-    String date;
+    String created_on;
+    String updated_on;
     String title;
     String data;
     String tag;
+    String location;
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
 
     public String getTag() {
         return tag;
@@ -39,11 +49,13 @@ public class notesModel {
     public notesModel() {
     }
 
-    public notesModel(String date, String title, String data,String tag) {
-        this.date = date;
+    public notesModel(String created_on,String updated_on, String title, String data,String tag,String location) {
+        this.created_on=created_on;
+        this.updated_on=updated_on;
         this.title = title;
         this.data = data;
         this.tag=tag;
+        this.location=location;
     }
 
     public String getData() {
@@ -54,11 +66,19 @@ public class notesModel {
         this.data = data;
     }
 
-    public String getDate() {
-        return date;
+    public String getCreated_on() {
+        return created_on;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setCreated_on(String created_on) {
+        this.created_on = created_on;
+    }
+
+    public String getUpdated_on() {
+        return updated_on;
+    }
+
+    public void setUpdated_on(String updated_on) {
+        this.updated_on = updated_on;
     }
 }

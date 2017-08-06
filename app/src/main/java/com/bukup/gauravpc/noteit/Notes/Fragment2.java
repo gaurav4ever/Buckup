@@ -206,7 +206,7 @@ public class Fragment2 extends Fragment{
                 viewHolder = (ViewHolder) convertView.getTag();
             }
             viewHolder.noteText_id.setText(""+notesModelList.get(position).getId());viewHolder.noteText_id.setVisibility(View.GONE);
-            viewHolder.noteText_date.setText("Edited On:   "+parseDate(notesModelList.get(position).getDate()));
+            viewHolder.noteText_date.setText("Edited On:   "+parseDate(notesModelList.get(position).getUpdated_on()));
             viewHolder.noteText_title.setText(notesModelList.get(position).getTitle());
             String data=notesModelList.get(position).getData();
             String final_data=data;
@@ -229,7 +229,8 @@ public class Fragment2 extends Fragment{
                     intent.putExtra("id",notesModelList.get(position).getId()+"");
                     intent.putExtra("title",notesModelList.get(position).getTitle());
                     intent.putExtra("body", notesModelList.get(position).getData());
-                    intent.putExtra("tag", isTagSet);
+                    intent.putExtra("tag", notesModelList.get(position).getTag());
+                    intent.putExtra("location", notesModelList.get(position).getLocation());
                     startActivityForResult(intent, 1);
                 }
             });
@@ -256,7 +257,7 @@ public class Fragment2 extends Fragment{
                     constraint=constraint.toString().toUpperCase();
                     for(int i=0;i<notesModelListFiltered.size();i++){
                         if(notesModelListFiltered.get(i).getData().toUpperCase().contains(constraint) || notesModelListFiltered.get(i).getTitle().toUpperCase().contains(constraint)){
-                            notesModel notesModel=new notesModel(notesModelListFiltered.get(i).getDate(),notesModelListFiltered.get(i).getTitle(),notesModelListFiltered.get(i).getData(),notesModelListFiltered.get(i).getTag());
+                            notesModel notesModel=new notesModel(notesModelListFiltered.get(i).getCreated_on(),notesModelListFiltered.get(i).getUpdated_on(),notesModelListFiltered.get(i).getTitle(),notesModelListFiltered.get(i).getData(),notesModelListFiltered.get(i).getTag(),notesModelListFiltered.get(i).getLocation());
                             filters.add(notesModel);
                         }
                     }

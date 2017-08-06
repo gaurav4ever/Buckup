@@ -17,10 +17,9 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Environment;
+import android.provider.CalendarContract;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
@@ -29,7 +28,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -49,14 +47,12 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bukup.gauravpc.noteit.About.AboutUs;
-import com.bukup.gauravpc.noteit.Authentication.Login;
 import com.bukup.gauravpc.noteit.BucketList.BucketListMain;
 import com.bukup.gauravpc.noteit.dailyDiary.ViewDiary;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
@@ -65,12 +61,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -78,41 +68,37 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.LogRecord;
 
 /**
  * Created by Gaurav Sharma on 28-05-2017.
  */
 public class Fragment1 extends Fragment implements GoogleApiClient.OnConnectionFailedListener{
 
-    ImageView avatarImageView;
-    TextView usernameTextView,emailTextView,countNotes,countDiary,countBL;
-    String username_val,email_val,avatar_val,user_id;
-    CardView logoutCard;
+    private ImageView avatarImageView;
+    private TextView usernameTextView,emailTextView;
+    private String username_val,email_val,avatar_val,user_id;
+    private CardView logoutCard;
 
     private ViewPager viewPager;
-    RelativeLayout Layout1,Layout2,Layout3,Layout4;
-    String data1,data2,data3;
+    private RelativeLayout Layout1,Layout2,Layout3,Layout4;
+    private String data1,data2,data3;
     private android.os.Handler handler;
-    Cursor cursor1,cursor2,cursor3;
-    ProgressBar progressBar;
-    Switch syncSwitch,pinSwitch;
-    RelativeLayout backupAndSyncRelativeLayout,shareRelativeLayout,rateRelativeLayout,feedbackRelativeLayout,aboutUsRelativeLayout;
-    TextView syncStatusTextView,syncDateTextView,restoreTextView;
-    String syncAllowed,lastSyncDate;
-    ImageView backupAndSyncInfoImageView;
-    private CoordinatorLayout coordinatorLayout;
-    String isPinSet;
+    private Cursor cursor1,cursor2,cursor3;
+    private ProgressBar progressBar;
+    private Switch syncSwitch,pinSwitch;
+    private RelativeLayout backupAndSyncRelativeLayout,shareRelativeLayout,rateRelativeLayout,feedbackRelativeLayout,aboutUsRelativeLayout;
+    private TextView syncStatusTextView,syncDateTextView,restoreTextView;
+    private String syncAllowed,lastSyncDate;
+    private ImageView backupAndSyncInfoImageView;
+    private String isPinSet;
 
-    SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferences;
 
-    GoogleApiClient googleApiClient;
-    SignInButton signInButton;
-    private static final int REQ_CODE=9001;
+    private GoogleApiClient googleApiClient;
 
-    int restore=0;
-    ProgressDialog progressDialog;
-    AlertDialog.Builder builder;
+    private int restore=0;
+    private ProgressDialog progressDialog;
+    private AlertDialog.Builder builder;
 
     @Nullable
     @Override
@@ -180,11 +166,10 @@ public class Fragment1 extends Fragment implements GoogleApiClient.OnConnectionF
         }else{
             pinSwitch.setChecked(true);
         }
-
-        pinSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        pinSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
+            public void onClick(View v) {
+                if(pinSwitch.isChecked()){
                     final Dialog dialog = new Dialog(getActivity());
                     dialog.setContentView(R.layout.layout_pin);
 
@@ -205,26 +190,42 @@ public class Fragment1 extends Fragment implements GoogleApiClient.OnConnectionF
                     setTextView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            if (pin1EditText.getText().toString().equals(pin2EditText.getText().toString())) {
-                                SharedPreferences.Editor editor = sharedPreferences.edit();
-                                editor.putString("pin", pin1EditText.getText().toString());
-                                editor.commit();
-                                Toast.makeText(getActivity(), "Pin is set. You will be asked on every startup.", Toast.LENGTH_SHORT).show();
-//                                pinSwitch.setChecked(true);
-                                dialog.dismiss();
-                            } else {
-                                Toast.makeText(getActivity(), "Pin does not matched!", Toast.LENGTH_SHORT).show();
-                                SharedPreferences.Editor editor = sharedPreferences.edit();
-                                editor.putString("pin", "noPin");
-                                editor.commit();
+                            if(pin1EditText.getText().toString().length()<1){
+                                Toast.makeText(getActivity(), "Please enter PIN", Toast.LENGTH_SHORT).show();
+                            }else{
+                                if(pin2EditText.getText().toString().length()<1){
+                                    Toast.makeText(getActivity(), "Please enter PIN again", Toast.LENGTH_SHORT).show();
+                                }else{
+                                    if(pin1EditText.getText().toString().length()==4){
+                                        isPinSet=pin1EditText.getText().toString();
+                                        if (pin1EditText.getText().toString().equals(pin2EditText.getText().toString())) {
+                                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                                            editor.putString("pin", pin1EditText.getText().toString());
+                                            editor.apply();
+                                            Toast.makeText(getActivity(), "Pin is set. You will be asked on every startup.", Toast.LENGTH_SHORT).show();
+                                            pinSwitch.setChecked(true);
+                                            dialog.dismiss();
+                                        } else {
+                                            Toast.makeText(getActivity(), "Pin does not matched!", Toast.LENGTH_SHORT).show();
+                                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                                            editor.putString("pin", "noPin");
+                                            editor.apply();
+                                        }
+                                    }else{
+                                        Toast.makeText(getActivity(), "Pin must be of 4 digits!", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
                             }
                         }
                     });
 
-//                    if(isPinSet.equals("noPin")){
-//                        pinSwitch.setChecked(false);
-//                    }
+                    if(isPinSet.equals("noPin")){
+                        pinSwitch.setChecked(false);
+                    }
                 }else{
+                    Log.e("here","heeh");
+
+
                     final Dialog dialog = new Dialog(getActivity());
                     dialog.setContentView(R.layout.layout_pin);
                     TextView t1=(TextView)dialog.findViewById(R.id.t1);
@@ -248,7 +249,7 @@ public class Fragment1 extends Fragment implements GoogleApiClient.OnConnectionF
                             if (pin1EditText.getText().toString().equals(isPinSet)) {
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.putString("pin", "noPin");
-                                editor.commit();
+                                editor.apply();
                                 Toast.makeText(getActivity(), "Pin Removed", Toast.LENGTH_SHORT).show();
                                 dialog.dismiss();
                             } else {
@@ -260,6 +261,92 @@ public class Fragment1 extends Fragment implements GoogleApiClient.OnConnectionF
                 }
             }
         });
+//        pinSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if(isChecked){
+//                    final Dialog dialog = new Dialog(getActivity());
+//                    dialog.setContentView(R.layout.layout_pin);
+//
+//                    ImageView close=(ImageView)dialog.findViewById(R.id.cross);
+//                    close.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            dialog.dismiss();
+//                        }
+//                    });
+//                    dialog.show();
+//
+//                    final EditText pin1EditText,pin2EditText;
+//                    pin1EditText=(EditText)dialog.findViewById(R.id.pin1);
+//                    pin2EditText=(EditText)dialog.findViewById(R.id.pin2);
+//
+//                    TextView setTextView=(TextView)dialog.findViewById(R.id.set);
+//                    setTextView.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            if(pin1EditText.getText().toString().length()<1){
+//                                Toast.makeText(getActivity(), "Please enter PIN", Toast.LENGTH_SHORT).show();
+//                            }else{
+//                                if(pin2EditText.getText().toString().length()<1){
+//                                    Toast.makeText(getActivity(), "Please enter PIN again", Toast.LENGTH_SHORT).show();
+//                                }else{
+//                                    isPinSet=pin1EditText.getText().toString();
+//                                    if (pin1EditText.getText().toString().equals(pin2EditText.getText().toString())) {
+//                                        SharedPreferences.Editor editor = sharedPreferences.edit();
+//                                        editor.putString("pin", pin1EditText.getText().toString());
+//                                        editor.apply();
+//                                        Toast.makeText(getActivity(), "Pin is set. You will be asked on every startup.", Toast.LENGTH_SHORT).show();
+//                                        pinSwitch.setChecked(true);
+//                                        dialog.dismiss();
+//                                    } else {
+//                                        Toast.makeText(getActivity(), "Pin does not matched!", Toast.LENGTH_SHORT).show();
+//                                        SharedPreferences.Editor editor = sharedPreferences.edit();
+//                                        editor.putString("pin", "noPin");
+//                                        editor.apply();
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    });
+//                    if(isPinSet.equals("noPin")){
+//                        pinSwitch.setChecked(false);
+//                    }
+//                }else{
+//                    final Dialog dialog = new Dialog(getActivity());
+//                    dialog.setContentView(R.layout.layout_pin);
+//                    TextView t1=(TextView)dialog.findViewById(R.id.t1);
+//                    t1.setText("Remove PIN");
+//                    ImageView close=(ImageView)dialog.findViewById(R.id.cross);
+//                    close.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            dialog.dismiss();
+//                        }
+//                    });
+//                    final EditText pin1EditText,pin2EditText;
+//                    pin1EditText=(EditText)dialog.findViewById(R.id.pin1);
+//                    pin2EditText=(EditText)dialog.findViewById(R.id.pin2);pin2EditText.setVisibility(View.GONE);
+//
+//                    TextView setTextView=(TextView)dialog.findViewById(R.id.set);
+//                    setTextView.setText("Remove PIN");
+//                    setTextView.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            if (pin1EditText.getText().toString().equals(isPinSet)) {
+//                                SharedPreferences.Editor editor = sharedPreferences.edit();
+//                                editor.putString("pin", "noPin");
+//                                editor.apply();
+//                                Toast.makeText(getActivity(), "Pin Removed", Toast.LENGTH_SHORT).show();
+//                                dialog.dismiss();
+//                            } else {
+//                                Toast.makeText(getActivity(), "Wrong PIN", Toast.LENGTH_SHORT).show();
+//                            }
+//                        }
+//                    });
+//                }
+//            }
+//        });
 
         syncSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -269,7 +356,7 @@ public class Fragment1 extends Fragment implements GoogleApiClient.OnConnectionF
                     //update shared preference
                     SharedPreferences.Editor editor=sharedPreferences.edit();
                     editor.putString("syncAllowed","yes");
-                    editor.commit();
+                    editor.apply();
 
                     runnableTask(); //sync to the server
                     backupAndSyncRelativeLayout.setVisibility(View.VISIBLE);
@@ -277,7 +364,7 @@ public class Fragment1 extends Fragment implements GoogleApiClient.OnConnectionF
                     //update shared preference
                     SharedPreferences.Editor editor=sharedPreferences.edit();
                     editor.putString("syncAllowed", "no");
-                    editor.commit();
+                    editor.apply();
 
                     backupAndSyncRelativeLayout.setVisibility(View.GONE);
                 }
@@ -316,7 +403,11 @@ public class Fragment1 extends Fragment implements GoogleApiClient.OnConnectionF
         Layout4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(),"Slam Book coming Soon!",Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity(),"Slam Book coming Soon!",Toast.LENGTH_SHORT).show();
+
+                Intent i=new Intent(getActivity(),reminders.class);
+                startActivity(i);
+
             }
         });
 
@@ -392,10 +483,10 @@ public class Fragment1 extends Fragment implements GoogleApiClient.OnConnectionF
                             public void onClick(DialogInterface dialog, int which) {
                                 Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(new ResultCallback<Status>() {
                                     @Override
-                                    public void onResult(Status status) {
+                                    public void onResult(@NonNull Status status) {
 
                                         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("details", Context.MODE_APPEND);
-                                        sharedPreferences.edit().clear().commit();
+                                        sharedPreferences.edit().clear().apply();
 
                                         Intent intent = new Intent(getActivity(), MainActivity.class);
                                         startActivity(intent);
@@ -453,7 +544,7 @@ public class Fragment1 extends Fragment implements GoogleApiClient.OnConnectionF
                 String status = data.getStringExtra("status");
                 if (status.equals("update")) {
                     runnableTask();
-                    TextView countNotes = null,countDiary = null,countBL = null;
+                    TextView countNotes,countDiary,countBL;
                     DatabaseHandler db=new DatabaseHandler(getActivity());
                     FragmentActivity v=getActivity();
                     int count1=db.getCount();
@@ -496,11 +587,11 @@ public class Fragment1 extends Fragment implements GoogleApiClient.OnConnectionF
     }
 
     @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
 
-    public class JSONTask extends AsyncTask<String, String, Void> {
+    private class JSONTask extends AsyncTask<String, String, Void> {
 
         @Override
         protected void onPreExecute() {
@@ -533,10 +624,12 @@ public class Fragment1 extends Fragment implements GoogleApiClient.OnConnectionF
                     try {
 
                         jsonObject1.put("id",cursor1.getString(0));
-                        jsonObject1.put("title",cursor1.getString(2));
-                        jsonObject1.put("body",cursor1.getString(3));
-                        jsonObject1.put("date",cursor1.getString(1));
-                        jsonObject1.put("tag",cursor1.getString(4));
+                        jsonObject1.put("title",cursor1.getString(3));
+                        jsonObject1.put("body",cursor1.getString(4));
+                        jsonObject1.put("created_on",cursor1.getString(1));
+                        jsonObject1.put("updated_on",cursor1.getString(2));
+                        jsonObject1.put("tag",cursor1.getString(5));
+                        jsonObject1.put("location",cursor1.getString(6));
                         jsonArray1.put(jsonObject1);
 
                     } catch (JSONException e) {
@@ -664,7 +757,7 @@ public class Fragment1 extends Fragment implements GoogleApiClient.OnConnectionF
 
                         SharedPreferences.Editor editor=sharedPreferences.edit();
                         editor.putString("lastSyncDate","Last Synced on: " + noteDate + " @" + time);
-                        editor.commit();
+                        editor.apply();
 
                         Log.d("sync status","successful");
 
@@ -686,7 +779,7 @@ public class Fragment1 extends Fragment implements GoogleApiClient.OnConnectionF
         }){
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String,String> params=new HashMap<String,String>();
+                Map<String,String> params= new HashMap<>();
                 params.put("user_id",user_id);
                 params.put("notesData",data1);
                 params.put("diaryData",data2);
@@ -730,10 +823,12 @@ public class Fragment1 extends Fragment implements GoogleApiClient.OnConnectionF
                                 JSONObject o = notesArray.getJSONObject(i);
                                 ContentValues contentValues=new ContentValues();
                                 contentValues.put("id",Integer.parseInt(o.getString("id")));
-                                contentValues.put("date",o.getString("date"));
+                                contentValues.put("created_on",o.getString("created_on"));
+                                contentValues.put("updated_on",o.getString("updated_on"));
                                 contentValues.put("title",o.getString("title"));
                                 contentValues.put("data",o.getString("body"));
                                 contentValues.put("tag",o.getString("tag"));
+                                contentValues.put("location",o.getString("location"));
                                 contentValues.put("isSynced", "1");
                                 // Inserting Row
                                 sql_db.insert("notes", null, contentValues);
@@ -786,7 +881,7 @@ public class Fragment1 extends Fragment implements GoogleApiClient.OnConnectionF
         }){
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String,String> params=new HashMap<String,String>();
+                Map<String,String> params= new HashMap<>();
                 params.put("user_id",user_id);
                 return params;
             }
@@ -800,7 +895,6 @@ public class Fragment1 extends Fragment implements GoogleApiClient.OnConnectionF
     public String parseDate(String date){
         DateFormat df = new SimpleDateFormat("dd/MM/yy hh:mm:ss a");
         SimpleDateFormat month_date = new SimpleDateFormat("MMM");
-        SimpleDateFormat time = new SimpleDateFormat("hh:mm:ss a");
         Date fetchedDate = null;
         try {
             fetchedDate = df.parse(date);

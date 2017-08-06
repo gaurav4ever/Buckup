@@ -203,7 +203,7 @@ public class EditPage_Diary extends AppCompatActivity {
         }
 
         final DatabaseHandler db = new DatabaseHandler(EditPage_Diary.this);
-        db.updatePage_diary(id_val, date_val, makeFirstUpper(title.getText().toString()), body.getText().toString());
+        db.updatePage_diary(id_val, makeFirstUpper(title.getText().toString()), body.getText().toString());
         db.close();
 
         Intent intent = new Intent();
