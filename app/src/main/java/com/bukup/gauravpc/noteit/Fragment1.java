@@ -137,6 +137,12 @@ public class Fragment1 extends Fragment implements GoogleApiClient.OnConnectionF
         avatarImageView=(ImageView)v.findViewById(R.id.img);
         if(avatar_val.equals("null")){
             avatarImageView.setImageResource(R.drawable.avatar);
+            avatarImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(getActivity(),"Oops! Your Google profile is private",Toast.LENGTH_SHORT).show();
+                }
+            });
         }else {
             Glide.with(this).load(avatar_val).into(avatarImageView); //glide to put google profile pic into imageView
         }

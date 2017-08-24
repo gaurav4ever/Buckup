@@ -159,13 +159,13 @@ public class edit_note extends AppCompatActivity {
             }
         });
 
-        tickImageView=(ImageView)findViewById(R.id.tick_img);
-        tickImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+//        tickImageView=(ImageView)findViewById(R.id.tick_img);
+//        tickImageView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
 
         tagImageView=(ImageView)findViewById(R.id.tag_img);
         DatabaseHandler db=new DatabaseHandler(edit_note.this);
