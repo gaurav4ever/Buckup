@@ -22,7 +22,7 @@
             android:layout_below="@+id/blImage"
             android:gravity="center"
             android:id="@+id/cat_name"
-            android:textSize="10sp"/>
+            android:textSize="10dp"/>
     </RelativeLayout>
 
 </LinearLayout>

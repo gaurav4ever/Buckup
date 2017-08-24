@@ -19,7 +19,7 @@
             android:layout_centerVertical="true"
             android:text="Select Your Category"
             android:gravity="center"
-            android:textSize="18sp"
+            android:textSize="18dp"
             android:layout_marginTop="15dp"
             android:textColor="@color/colorPrimaryDark"
             android:textStyle="bold"/>

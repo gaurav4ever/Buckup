@@ -33,7 +33,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:lines="1"
-            android:textSize="16sp"
+            android:textSize="16dp"
             android:gravity="top|left"
             android:inputType="textMultiLine"
             android:ems="10"
@@ -125,7 +125,7 @@
                     android:layout_marginLeft="20dp"
                     android:layout_toRightOf="@+id/saveImg"
                     android:layout_centerVertical="true"
-                    android:textSize="16sp"/>
+                    android:textSize="16dp"/>
             </RelativeLayout>
             <RelativeLayout
                 android:layout_width="0dp"
@@ -149,7 +149,7 @@
                     android:layout_marginLeft="20dp"
                     android:layout_toRightOf="@+id/audio_img"
                     android:layout_centerVertical="true"
-                    android:textSize="16sp"/>
+                    android:textSize="16dp"/>
             </RelativeLayout>
             <!--<RelativeLayout-->
                 <!--android:layout_width="0dp"-->

@@ -266,7 +266,7 @@
                         android:layout_height="wrap_content"
                         android:text="Update Buckt List"
                         android:layout_centerVertical="true"
-                        android:textSize="18sp"
+                        android:textSize="18dp"
                         android:id="@+id/t1"
                         android:gravity="end"
                         android:textStyle="bold"
