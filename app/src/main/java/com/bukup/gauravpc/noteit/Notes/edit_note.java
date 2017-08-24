@@ -83,7 +83,7 @@ public class edit_note extends AppCompatActivity {
     private android.os.Handler handler;
     String title_val,body_val;
     RelativeLayout saveLayout,audioLayout,shareLayout;
-    ImageView locationImageView,deleteImageView,tagImageView,infoImageView;
+    ImageView tickImageView,locationImageView,deleteImageView,tagImageView,infoImageView;
     SharedPreferences sharedPreferences;
     int isTagSet=0,tagChanged=0;
     String target,address_val;
@@ -156,6 +156,14 @@ public class edit_note extends AppCompatActivity {
                 sendIntent.putExtra(Intent.EXTRA_TEXT, title+"\n\n"+body);
                 sendIntent.setType("text/plain");
                 startActivity(sendIntent);
+            }
+        });
+
+        tickImageView=(ImageView)findViewById(R.id.tick_img);
+        tickImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
 
