@@ -267,92 +267,6 @@ public class Fragment1 extends Fragment implements GoogleApiClient.OnConnectionF
                 }
             }
         });
-//        pinSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                if(isChecked){
-//                    final Dialog dialog = new Dialog(getActivity());
-//                    dialog.setContentView(R.layout.layout_pin);
-//
-//                    ImageView close=(ImageView)dialog.findViewById(R.id.cross);
-//                    close.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            dialog.dismiss();
-//                        }
-//                    });
-//                    dialog.show();
-//
-//                    final EditText pin1EditText,pin2EditText;
-//                    pin1EditText=(EditText)dialog.findViewById(R.id.pin1);
-//                    pin2EditText=(EditText)dialog.findViewById(R.id.pin2);
-//
-//                    TextView setTextView=(TextView)dialog.findViewById(R.id.set);
-//                    setTextView.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            if(pin1EditText.getText().toString().length()<1){
-//                                Toast.makeText(getActivity(), "Please enter PIN", Toast.LENGTH_SHORT).show();
-//                            }else{
-//                                if(pin2EditText.getText().toString().length()<1){
-//                                    Toast.makeText(getActivity(), "Please enter PIN again", Toast.LENGTH_SHORT).show();
-//                                }else{
-//                                    isPinSet=pin1EditText.getText().toString();
-//                                    if (pin1EditText.getText().toString().equals(pin2EditText.getText().toString())) {
-//                                        SharedPreferences.Editor editor = sharedPreferences.edit();
-//                                        editor.putString("pin", pin1EditText.getText().toString());
-//                                        editor.apply();
-//                                        Toast.makeText(getActivity(), "Pin is set. You will be asked on every startup.", Toast.LENGTH_SHORT).show();
-//                                        pinSwitch.setChecked(true);
-//                                        dialog.dismiss();
-//                                    } else {
-//                                        Toast.makeText(getActivity(), "Pin does not matched!", Toast.LENGTH_SHORT).show();
-//                                        SharedPreferences.Editor editor = sharedPreferences.edit();
-//                                        editor.putString("pin", "noPin");
-//                                        editor.apply();
-//                                    }
-//                                }
-//                            }
-//                        }
-//                    });
-//                    if(isPinSet.equals("noPin")){
-//                        pinSwitch.setChecked(false);
-//                    }
-//                }else{
-//                    final Dialog dialog = new Dialog(getActivity());
-//                    dialog.setContentView(R.layout.layout_pin);
-//                    TextView t1=(TextView)dialog.findViewById(R.id.t1);
-//                    t1.setText("Remove PIN");
-//                    ImageView close=(ImageView)dialog.findViewById(R.id.cross);
-//                    close.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            dialog.dismiss();
-//                        }
-//                    });
-//                    final EditText pin1EditText,pin2EditText;
-//                    pin1EditText=(EditText)dialog.findViewById(R.id.pin1);
-//                    pin2EditText=(EditText)dialog.findViewById(R.id.pin2);pin2EditText.setVisibility(View.GONE);
-//
-//                    TextView setTextView=(TextView)dialog.findViewById(R.id.set);
-//                    setTextView.setText("Remove PIN");
-//                    setTextView.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            if (pin1EditText.getText().toString().equals(isPinSet)) {
-//                                SharedPreferences.Editor editor = sharedPreferences.edit();
-//                                editor.putString("pin", "noPin");
-//                                editor.apply();
-//                                Toast.makeText(getActivity(), "Pin Removed", Toast.LENGTH_SHORT).show();
-//                                dialog.dismiss();
-//                            } else {
-//                                Toast.makeText(getActivity(), "Wrong PIN", Toast.LENGTH_SHORT).show();
-//                            }
-//                        }
-//                    });
-//                }
-//            }
-//        });
 
         syncSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -409,17 +323,6 @@ public class Fragment1 extends Fragment implements GoogleApiClient.OnConnectionF
         Layout4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Toast.makeText(getActivity(),"Slam Book coming Soon!",Toast.LENGTH_SHORT).show();
-//                Calendar cal = Calendar.getInstance();
-//                Intent intent = new Intent(Intent.ACTION_EDIT);
-//                intent.setType("vnd.android.cursor.item/event");
-//                intent.putExtra("beginTime", cal.getTimeInMillis());
-//                intent.putExtra("allDay", true);
-//                intent.putExtra("rrule", "FREQ=DAILY");
-//                intent.putExtra("endTime", cal.getTimeInMillis()+60*60*1000);
-//                intent.putExtra("title", "From Buckup");
-//                intent.putExtra("description", "hello From Buckup");
-//                startActivity(intent);
 
                 Intent i=new Intent(getActivity(),reminders.class);
                 startActivity(i);
@@ -760,7 +663,7 @@ public class Fragment1 extends Fragment implements GoogleApiClient.OnConnectionF
                         }
 
                         DateFormat df = new SimpleDateFormat("dd/MM/yy hh:mm:ss a");
-                        DateFormat df_time = new SimpleDateFormat("HH:mm:ss a");
+                        DateFormat df_time = new SimpleDateFormat("HH:mm:ss");
                         Date date = new Date();
                         String noteDate=parseDate(df.format(date));
                         String time=df_time.format(date);

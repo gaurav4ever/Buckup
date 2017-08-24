@@ -23,7 +23,7 @@
                 android:text="27"
                 android:gravity="center"
                 android:textColor="#fff"
-                android:textSize="17sp"
+                android:textSize="17dp"
                 android:layout_marginTop="18dp"
                 android:layout_centerHorizontal="true"
                 />
@@ -34,7 +34,7 @@
                 android:text="th"
                 android:gravity="center"
                 android:textColor="#fff"
-                android:textSize="7sp"
+                android:textSize="7dp"
                 android:layout_marginTop="18dp"
                 android:layout_toRightOf="@+id/day">
             </TextView>
@@ -51,7 +51,7 @@
                     android:layout_height="wrap_content"
                     android:text="August, "
                     android:textColor="#fff"
-                    android:textSize="7sp" >
+                    android:textSize="7dp" >
                 </TextView>
                 <TextView
                     android:id="@+id/year"
@@ -61,7 +61,7 @@
                     android:layout_marginBottom="8dp"
                     android:text="1996"
                     android:textColor="#fff"
-                    android:textSize="7sp" >
+                    android:textSize="7dp" >
                 </TextView>
             </RelativeLayout>
         </RelativeLayout>
@@ -73,7 +73,7 @@
             android:layout_centerHorizontal="true"
             android:gravity="center"
             android:textColor="#000"
-            android:textSize="10sp"
+            android:textSize="10dp"
             android:layout_alignParentBottom="true"
             >
         </TextView>
