@@ -19,4 +19,5 @@
     <string name="title_activity_about_us">AboutUs</string>
     <string name="title_activity_osl">OSL</string>
     <string name="title_activity_reminders">reminders</string>
+    <string name="title_activity_to_do_main">ToDoMain</string>
 </resources>

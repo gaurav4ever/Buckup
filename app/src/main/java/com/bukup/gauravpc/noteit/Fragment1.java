@@ -48,6 +48,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bukup.gauravpc.noteit.About.AboutUs;
 import com.bukup.gauravpc.noteit.BucketList.BucketListMain;
+import com.bukup.gauravpc.noteit.ToDo.ToDoMain;
 import com.bukup.gauravpc.noteit.dailyDiary.ViewDiary;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.Auth;
@@ -324,7 +325,7 @@ public class Fragment1 extends Fragment implements GoogleApiClient.OnConnectionF
             @Override
             public void onClick(View v) {
 
-                Intent i=new Intent(getActivity(),reminders.class);
+                Intent i=new Intent(getActivity(),ToDoMain.class);
                 startActivity(i);
             }
         });

@@ -64,10 +64,9 @@
             android:name=".About.AboutUs"
             android:label="@string/title_activity_about_us"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
-            android:name=".reminders"
-            android:label="@string/title_activity_reminders"
+            android:name=".ToDo.ToDoMain"
+            android:label="@string/title_activity_to_do_main"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
