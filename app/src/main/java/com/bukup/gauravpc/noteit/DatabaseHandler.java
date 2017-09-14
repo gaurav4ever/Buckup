@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.bukup.gauravpc.noteit.BucketList.CategoryItemModel;
 import com.bukup.gauravpc.noteit.Models.BLModel;
 import com.bukup.gauravpc.noteit.Models.DiaryModel;
+import com.bukup.gauravpc.noteit.Models.ToDoModel;
 import com.bukup.gauravpc.noteit.Models.notesModel;
 import com.bukup.gauravpc.noteit.dailyDiary.PageDateModel;
 
@@ -347,6 +348,28 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
         db.close();
         return blModelArrayList;
+    }
+//    Select items from TO-DO list table
+    public ArrayList<ToDoModel> viewTodo(){
+        ArrayList<ToDoModel> TodoModelArrayList=new ArrayList<>();
+        String selectQuery="";
+        selectQuery = "SELECT  * FROM " + TABLE_TODO_LIST +" ORDER BY "+ KEY_ID +" DESC" ;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if(cursor.moveToFirst()){
+            do{
+                ToDoModel todoModel=new ToDoModel();
+                todoModel.setId(cursor.getString(0));
+                todoModel.setDesc(cursor.getString(1));
+                todoModel.setIsDone("" + cursor.getString(2));
+                todoModel.setCreated_on(cursor.getString(3));
+                todoModel.setUpdated_on(cursor.getString(4));
+                TodoModelArrayList.add(todoModel);
+            }while(cursor.moveToNext());
+        }
+        db.close();
+        return TodoModelArrayList;
     }
 
     //update notes table

@@ -31,6 +31,7 @@ public class ToDoMain extends AppCompatActivity {
     ListView listView;
     RelativeLayout emptyLayout;
     ArrayList<ToDoModel> ToDoModelArrayList;
+    ToDoAdapter
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +45,8 @@ public class ToDoMain extends AppCompatActivity {
             listView.setVisibility(View.GONE);
             emptyLayout.setVisibility(View.VISIBLE);
         }else{
-            blModelArrayList=db.viewBL();
-            blAdapter=new BucketListMain.BLAdapter(getApplicationContext(),R.layout.row_bucket_list,blModelArrayList);
+            ToDoModelArrayList=db.viewTodo();
+            blAdapter=new ToDoMain.BLAdapter(getApplicationContext(),R.layout.row_bucket_list,ToDoModelArrayList);
             listView.setAdapter(blAdapter);
             listView.setVisibility(View.VISIBLE);
             emptyLayout.setVisibility(View.GONE);
