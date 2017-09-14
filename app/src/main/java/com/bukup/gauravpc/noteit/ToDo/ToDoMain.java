@@ -45,7 +45,7 @@ public class ToDoMain extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_to_do_main);
-
+        listView=(ListView)findViewById(R.id.todoItemList);
         //Database operations
         db = new DatabaseHandler(this);
         int count=db.getCountOfToDoList();
