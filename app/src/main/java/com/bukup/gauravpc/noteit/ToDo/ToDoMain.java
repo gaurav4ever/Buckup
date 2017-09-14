@@ -1,5 +1,7 @@
 package com.bukup.gauravpc.noteit.ToDo;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.FloatingActionButton;
@@ -7,14 +9,20 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.bukup.gauravpc.noteit.BucketList.BucketListMain;
+import com.bukup.gauravpc.noteit.BucketList.BucketList_editItem;
 import com.bukup.gauravpc.noteit.DatabaseHandler;
+import com.bukup.gauravpc.noteit.Models.BLModel;
 import com.bukup.gauravpc.noteit.Models.ToDoModel;
 import com.bukup.gauravpc.noteit.Notes.edit_note;
 import com.bukup.gauravpc.noteit.R;
@@ -31,7 +39,7 @@ public class ToDoMain extends AppCompatActivity {
     ListView listView;
     RelativeLayout emptyLayout;
     ArrayList<ToDoModel> ToDoModelArrayList;
-    ToDoAdapter
+    ToDoAdapter toDoAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +54,8 @@ public class ToDoMain extends AppCompatActivity {
             emptyLayout.setVisibility(View.VISIBLE);
         }else{
             ToDoModelArrayList=db.viewTodo();
-            blAdapter=new ToDoMain.BLAdapter(getApplicationContext(),R.layout.row_bucket_list,ToDoModelArrayList);
-            listView.setAdapter(blAdapter);
+            toDoAdapter=new ToDoMain.ToDoAdapter(getApplicationContext(),R.layout.row_todo_list,ToDoModelArrayList);
+            listView.setAdapter(toDoAdapter);
             listView.setVisibility(View.VISIBLE);
             emptyLayout.setVisibility(View.GONE);
         }
@@ -89,5 +97,68 @@ public class ToDoMain extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+    }
+    public class ToDoAdapter extends ArrayAdapter {
+        private LayoutInflater inflater;
+        public ArrayList<ToDoModel> TodoModelArrayList;
+        private int resource;
+
+        public ToDoAdapter(Context context, int resource, ArrayList<ToDoModel> TodoModelArrayList) {
+            super(context, resource, TodoModelArrayList);
+            this.TodoModelArrayList = TodoModelArrayList;
+            this.resource = resource;
+            inflater=(LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
+        }
+        @Override
+        public int getCount() {
+            return TodoModelArrayList.size();
+        }
+        @Override
+        public Object getItem(int position) {
+            return TodoModelArrayList.get(position);
+        }
+        @Override
+        public int getViewTypeCount() {
+            if(TodoModelArrayList.size()==0){
+                return 1;
+            }
+            return TodoModelArrayList.size();
+        }
+        @Override
+        public int getItemViewType(int position) {
+            return position;
+        }
+
+        class ViewHolder{
+            TextView Todo_Text_desc;
+            TextView Todo_Text_created_on_date;
+            TextView Todo_Text_updated_on_date;
+            TextView Todo_Text_isDone;
+            CardView TodoCard;
+        }
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            ToDoMain.ToDoAdapter.ViewHolder viewHolder;
+            if (convertView == null) {
+                convertView=inflater.inflate(R.layout.row_todo_list,null);
+                viewHolder=new ToDoMain.ToDoAdapter.ViewHolder();
+                viewHolder.Todo_Text_desc=(TextView)convertView.findViewById(R.id.desc);
+                viewHolder.TodoCard=(CardView)convertView.findViewById(R.id.todoCard);
+                convertView.setTag(viewHolder);
+            }else{
+                viewHolder=(ToDoMain.ToDoAdapter.ViewHolder)convertView.getTag();
+            }
+
+            //fill the view with the values from the BLModel array object
+            viewHolder.Todo_Text_desc.setText(TodoModelArrayList.get(position).getDesc());
+
+            viewHolder.TodoCard.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                }
+            });
+
+            return convertView;
+        }
     }
 }
