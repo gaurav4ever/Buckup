@@ -216,6 +216,19 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.close();
         return id+"";
     }
+    //Insert into TO-DO List table
+    public void addItem_TODOList(String desc,String created_on){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues=new ContentValues();
+        contentValues.put(TD_DESC,desc);
+        contentValues.put(TD_CREATED_ON,created_on);
+        contentValues.put(TD_UPDATED_ON,created_on);
+        contentValues.put(TD_IS_DONE,"0");
+        contentValues.put(SYNCED, "0");
+        // Inserting Row
+        db.insert(TABLE_TODO_LIST, null, contentValues); //insert
+        db.close();
+    }
     //select from notes table
     public ArrayList<notesModel> ViewNotes(){
         ArrayList<notesModel> notesModelList=new ArrayList<notesModel>();
@@ -406,6 +419,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     //total count of row from Bucket List table
     public int getCountOfBucketList(){
         String countQuery="SELECT * FROM "+TABLE_BUCKET_LIST;
+        SQLiteDatabase db=this.getReadableDatabase();
+        Cursor cursor=db.rawQuery(countQuery,null);
+        return cursor.getCount();
+    }
+    //total count of row from TO-DO List table
+    public int getCountOfToDoList(){
+        String countQuery="SELECT * FROM "+TABLE_TODO_LIST;
         SQLiteDatabase db=this.getReadableDatabase();
         Cursor cursor=db.rawQuery(countQuery,null);
         return cursor.getCount();
