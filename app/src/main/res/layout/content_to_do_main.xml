@@ -44,6 +44,13 @@
                     android:textColor="#fff"
                     android:text="To-Do List"
                     android:textSize="18sp"/>
+                <ImageView
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:padding="15dp"
+                    android:layout_alignParentEnd="true"
+                    android:src="@drawable/add1"
+                    android:id="@+id/addItem"/>
             </RelativeLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>
