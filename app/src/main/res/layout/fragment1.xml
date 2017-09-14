@@ -206,22 +206,44 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:id="@+id/l4">
-                                <ImageView
+                                <RelativeLayout
                                     android:layout_width="40dp"
                                     android:layout_height="40dp"
                                     android:layout_centerHorizontal="true"
-                                    android:src="@drawable/slam"
-                                    android:id="@+id/icon4"
-                                    />
+                                    android:id="@+id/rl_icon4">
+                                    <ImageView
+                                        android:layout_width="40dp"
+                                        android:layout_height="40dp"
+                                        android:src="@drawable/todo"
+                                        android:layout_centerHorizontal="true"
+                                        android:padding="0.5dp"
+                                        android:id="@+id/icon4"
+                                        />
+                                    <ImageView
+                                        android:layout_width="16dp"
+                                        android:layout_height="16dp"
+                                        android:src="@drawable/summary_icon"
+                                        android:layout_alignParentEnd="true"
+                                        />
+                                    <TextView
+                                        android:layout_width="16dp"
+                                        android:layout_height="16dp"
+                                        android:layout_alignParentEnd="true"
+                                        android:gravity="center"
+                                        android:textSize="7.5dp"
+                                        android:id="@+id/count_todo"
+                                        android:textColor="#fff"
+                                        android:text="27"/>
+                                </RelativeLayout>
                                 <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_below="@+id/icon4"
+                                    android:layout_below="@+id/rl_icon4"
                                     android:gravity="center"
                                     android:textSize="10sp"
                                     android:layout_marginTop="5dp"
                                     android:textColor="#000"
-                                    android:text="Slam Book"/>
+                                    android:text="To-Do List"/>
                             </RelativeLayout>
                         </LinearLayout>
                     </RelativeLayout>
