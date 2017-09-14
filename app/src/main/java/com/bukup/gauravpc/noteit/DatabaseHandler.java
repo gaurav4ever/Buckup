@@ -56,6 +56,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String BL_CREATED_ON = "created_on";
     private static final String BL_UPDATED_ON = "updated_on";
 
+    private static final String TABLE_TODO_LIST = "bucket_list";  // To Do list Table
+    private static final String TD_KEY_ID = "id";
+    private static final String TD_DESC = "desc";
+    private static final String TD_IS_DONE = "isDone";
+    private static final String TD_CREATED_ON = "created_on";
+    private static final String TD_UPDATED_ON = "updated_on";
+
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -91,6 +98,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + BL_CAT_ID + " INTEGER,"
                 +SYNCED + " TEXT DEFAULT '1'"+")";
         db.execSQL(CREATE_BUCKET_LIST_TABLE);
+
+        String CREATE_TODO_LIST_TABLE = "CREATE TABLE " + TABLE_TODO_LIST + "("
+                +TD_KEY_ID+" INTEGER PRIMARY KEY,"
+                +TD_DESC + " TEXT,"
+                +TD_IS_DONE + " TEXT,"
+                +TD_CREATED_ON + " TEXT,"
+                +TD_UPDATED_ON + " TEXT,"
+                +SYNCED + " TEXT DEFAULT '1'"+")";
+        db.execSQL(CREATE_TODO_LIST_TABLE);
     }
     public void createTables(){
         SQLiteDatabase db = this.getWritableDatabase();
