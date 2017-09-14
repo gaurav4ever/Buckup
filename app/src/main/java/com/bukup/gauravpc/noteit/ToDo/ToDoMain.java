@@ -35,7 +35,6 @@ public class ToDoMain extends AppCompatActivity {
             public void onClick(View v) {
                 final BottomSheetDialog bottomSheetDialog=new BottomSheetDialog(ToDoMain.this);
                 View parentView=getLayoutInflater().inflate(R.layout.layout_additem_todo_bottom_sheet, null);
-
                 bottomSheetDialog.setContentView(parentView);
                 bottomSheetDialog.show();
             }
