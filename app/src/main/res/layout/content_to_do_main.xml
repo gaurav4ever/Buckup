@@ -55,4 +55,15 @@
         </LinearLayout>
     </android.support.v7.widget.CardView>
 
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/todoItemList"
+        android:divider="@null"
+        android:background="#0C4A148C"
+        android:layout_below="@+id/headerLayout"
+        android:minHeight="?android:attr/listPreferredItemHeight"
+        android:scrollbars="none">
+    </ListView>
+
 </RelativeLayout>

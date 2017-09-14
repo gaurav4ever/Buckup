@@ -5,8 +5,10 @@ import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.bukup.gauravpc.noteit.Notes.edit_note;
@@ -35,6 +37,16 @@ public class ToDoMain extends AppCompatActivity {
             public void onClick(View v) {
                 final BottomSheetDialog bottomSheetDialog=new BottomSheetDialog(ToDoMain.this);
                 View parentView=getLayoutInflater().inflate(R.layout.layout_additem_todo_bottom_sheet, null);
+                final EditText itemTextView=(EditText)parentView.findViewById(R.id.itemText);
+                CardView addItemCardView=(CardView)parentView.findViewById(R.id.addItemCard);
+                addItemCardView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String text=itemTextView.getText().toString();
+                    }
+                });
+
+
                 bottomSheetDialog.setContentView(parentView);
                 bottomSheetDialog.show();
             }
