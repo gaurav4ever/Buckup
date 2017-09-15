@@ -57,7 +57,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String BL_CREATED_ON = "created_on";
     private static final String BL_UPDATED_ON = "updated_on";
 
-    private static final String TABLE_TODO_LIST = "bucket_list";  // To Do list Table
+    private static final String TABLE_TODO_LIST = "ToDo_list";  // To Do list Table
     private static final String TD_KEY_ID = "id";
     private static final String TD_DESC = "desc";
     private static final String TD_IS_DONE = "isDone";
