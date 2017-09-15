@@ -113,7 +113,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         onCreate(db);
     }
-    public void createBLTable(){
+    public void createToDoTable(){
         SQLiteDatabase db = this.getWritableDatabase();
 
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_BUCKET_LIST);

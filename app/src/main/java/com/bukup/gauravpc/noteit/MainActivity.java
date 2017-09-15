@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity{
 //        db.extra();
 //        db.createTables();
 //        db.alterTables();
-//        db.createBLTable();
+//        db.createToDoTable();
 
         int flag=db.checkIfCatTableExist();
         if(flag==0){

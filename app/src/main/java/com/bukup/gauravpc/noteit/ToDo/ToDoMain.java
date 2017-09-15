@@ -85,6 +85,11 @@ public class ToDoMain extends AppCompatActivity {
                         Date date = new Date();
                         String itemDate=df.format(date);
                         db.addItem_TODOList(text,itemDate);
+
+                        ToDoModelArrayList=db.viewTodo();
+                        toDoAdapter=new ToDoMain.ToDoAdapter(getApplicationContext(),R.layout.row_todo_list,ToDoModelArrayList);
+                        listView.setAdapter(toDoAdapter);
+
                     }
                 });
 
