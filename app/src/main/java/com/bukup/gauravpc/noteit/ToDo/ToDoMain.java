@@ -1,5 +1,6 @@
 package com.bukup.gauravpc.noteit.ToDo;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -161,6 +162,10 @@ public class ToDoMain extends AppCompatActivity {
             viewHolder.TodoCard.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    final Dialog dialog = new Dialog(getApplicationContext());
+                    dialog.setContentView(R.layout.layout_todo_item_view);
+                    
+                    dialog.show();
                 }
             });
 
