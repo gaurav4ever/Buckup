@@ -94,9 +94,7 @@ public class ToDoMain extends AppCompatActivity {
                         String itemDate=df.format(date);
                         db.addItem_TODOList(text,itemDate);
 
-                        ToDoModelArrayList=db.viewTodo();
-                        toDoAdapter=new ToDoMain.ToDoAdapter(getApplicationContext(),R.layout.row_todo_list,ToDoModelArrayList);
-                        listView.setAdapter(toDoAdapter);
+                        RefreshList();
                         bottomSheetDialog.dismiss();
                     }
                 });
@@ -202,6 +200,7 @@ public class ToDoMain extends AppCompatActivity {
                             if(checkBox.isChecked())isDone="1";
 
                             db.updateToDoList(id,desc,newDate,isDone);
+                            RefreshList();
                         }
                     });
                     cancelTextView=(TextView)parentView.findViewById(R.id.cancel);
@@ -220,6 +219,12 @@ public class ToDoMain extends AppCompatActivity {
 
             return convertView;
         }
+    }
+
+    public void RefreshList(){
+        ToDoModelArrayList=db.viewTodo();
+        toDoAdapter=new ToDoMain.ToDoAdapter(getApplicationContext(),R.layout.row_todo_list,ToDoModelArrayList);
+        listView.setAdapter(toDoAdapter);
     }
 
     public String parseDate(String date){

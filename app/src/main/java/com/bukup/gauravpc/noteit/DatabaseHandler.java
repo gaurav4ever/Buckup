@@ -406,7 +406,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.insert(TABLE_BUCKET_LIST, null, contentValues); //insert
         db.close();
     }
-//    
+//    update To-Do list Item
+    public void updateToDoList(String id,String desc,String updated_on,String isDone){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String sql="UPDATE ToDo_list SET desc = '"+desc+"', updated_on='"+updated_on+"', isDone='"+isDone+"' ,isSynced='0' WHERE id="+id;
+        db.execSQL(sql);
+        db.close();
+    }
 
     //delete row from notes table
     public void deleteNote(int id_val){
