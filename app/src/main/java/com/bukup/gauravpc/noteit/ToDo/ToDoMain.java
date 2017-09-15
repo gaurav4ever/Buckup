@@ -144,8 +144,7 @@ public class ToDoMain extends AppCompatActivity {
 
         class ViewHolder{
             TextView Todo_Text_desc;
-            TextView Todo_Text_created_on_date;
-            TextView Todo_Text_updated_on_date;
+            TextView Todo_Text_date;
             TextView Todo_Text_isDone;
             CardView TodoCard;
         }
@@ -156,6 +155,7 @@ public class ToDoMain extends AppCompatActivity {
                 convertView=inflater.inflate(R.layout.row_todo_list,null);
                 viewHolder=new ToDoMain.ToDoAdapter.ViewHolder();
                 viewHolder.Todo_Text_desc=(TextView)convertView.findViewById(R.id.desc);
+                viewHolder.Todo_Text_date=(TextView)convertView.findViewById(R.id.date);
                 viewHolder.TodoCard=(CardView)convertView.findViewById(R.id.todoCard);
                 convertView.setTag(viewHolder);
             }else{
@@ -171,6 +171,7 @@ public class ToDoMain extends AppCompatActivity {
                 viewHolder.Todo_Text_desc.setPaintFlags(viewHolder.Todo_Text_desc.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             }
             viewHolder.Todo_Text_desc.setText(TodoModelArrayList.get(position).getDesc());
+            viewHolder.Todo_Text_date.setText(parseDate(TodoModelArrayList.get(position).getUpdated_on()));
 
             viewHolder.TodoCard.setOnClickListener(new View.OnClickListener() {
                 @Override
