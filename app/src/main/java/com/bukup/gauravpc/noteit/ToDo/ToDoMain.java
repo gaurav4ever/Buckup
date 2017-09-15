@@ -12,6 +12,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -163,8 +164,10 @@ public class ToDoMain extends AppCompatActivity {
 
             //fill the view with the values from the BLModel array object
             String isDone=TodoModelArrayList.get(position).getIsDone();
-            if(isDone=="1"){
-                viewHolder.Todo_Text_desc.setTextColor(Color.parseColor("#dcdcdc"));
+
+            if(isDone.equals("1")){
+                Log.d("isDone",isDone);
+                viewHolder.Todo_Text_desc.setTextColor(Color.parseColor("#424242"));
                 viewHolder.Todo_Text_desc.setPaintFlags(viewHolder.Todo_Text_desc.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             }
             else viewHolder.Todo_Text_desc.setText(TodoModelArrayList.get(position).getDesc());
@@ -201,6 +204,7 @@ public class ToDoMain extends AppCompatActivity {
 
                             db.updateToDoList(id,desc,newDate,isDone);
                             RefreshList();
+                            bottomSheetDialog.dismiss();
                         }
                     });
                     cancelTextView=(TextView)parentView.findViewById(R.id.cancel);
