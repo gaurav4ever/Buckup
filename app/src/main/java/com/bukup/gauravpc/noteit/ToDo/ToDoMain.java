@@ -32,8 +32,10 @@ import com.bukup.gauravpc.noteit.R;
 import org.w3c.dom.Text;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 public class ToDoMain extends AppCompatActivity {
@@ -173,8 +175,8 @@ public class ToDoMain extends AppCompatActivity {
                     CheckBox checkBox;
                     itemDesc=(EditText)parentView.findViewById(R.id.itemText);
                     itemDesc.setText(TodoModelArrayList.get(position).getDesc());
-                    createdOnDate=(TextView)parentView.findViewById(R.id.created_on);createdOnDate.setText(TodoModelArrayList.get(position).getCreated_on());
-                    updatedOnDate=(TextView)parentView.findViewById(R.id.updated_on);updatedOnDate.setText(TodoModelArrayList.get(position).getUpdated_on());
+                    createdOnDate=(TextView)parentView.findViewById(R.id.created_on);createdOnDate.setText("created on: "+parseDate(TodoModelArrayList.get(position).getCreated_on()));
+                    updatedOnDate=(TextView)parentView.findViewById(R.id.updated_on);updatedOnDate.setText("created on: "+parseDate(TodoModelArrayList.get(position).getUpdated_on()));
 //                    Mark as Done Checkbox
                     checkBox=(CheckBox)parentView.findViewById(R.id.isItemDone);
                     if(TodoModelArrayList.get(position).getIsDone().equals("1"))checkBox.setChecked(true);
@@ -202,6 +204,37 @@ public class ToDoMain extends AppCompatActivity {
             });
 
             return convertView;
+        }
+    }
+
+    public String parseDate(String date){
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat month_date = new SimpleDateFormat("MMM");
+        Date fetchedDate = null;
+        try {
+            fetchedDate = df.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(fetchedDate);
+        String day_now= ""+cal.get(Calendar.DAY_OF_MONTH);
+        String day_now_ordinal=ordinal(cal.get(Calendar.DAY_OF_MONTH));
+        String month_now = month_date.format(cal.getTime())+", ";
+        String year_now= String.valueOf(cal.get(Calendar.YEAR));
+
+        return day_now+""+day_now_ordinal+" "+month_now+" "+year_now;
+    }
+    public static String ordinal(int i) {
+        String[] suffixes = new String[] { "th", "st", "nd", "rd", "th", "th", "th", "th", "th", "th" };
+        switch (i % 100) {
+            case 11:
+            case 12:
+            case 13:
+                return "th";
+            default:
+                return suffixes[i % 10];
+
         }
     }
 }
