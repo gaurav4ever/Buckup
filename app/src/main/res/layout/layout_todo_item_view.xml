@@ -3,13 +3,12 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp"
     android:background="#f0f0f0">
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="20dp"
+        android:padding="15dp"
         android:layout_gravity="center"
         android:textColorHint="#5c000000"
         android:background="#fff"
@@ -18,12 +17,34 @@
         android:id="@+id/itemText"
         android:hint="Write your To-Do..."/>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mark as Done: "
+            android:layout_marginLeft="20dp"
+            android:layout_centerVertical="true"
+            android:textSize="14sp"
+            android:textColor="#000"
+            android:id="@id/t1"/>
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/t1"/>
+    </RelativeLayout>
+
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Created On: 27th Aug 1996"
         android:layout_marginLeft="20dp"
-        android:textSize="12sp"
+        android:textSize="10sp"
         android:id="@id/created_on"/>
     <TextView
         android:layout_width="wrap_content"
@@ -31,7 +52,7 @@
         android:text="Updated On: 27th Aug 1996"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="5dp"
-        android:textSize="12sp"
+        android:textSize="10sp"
         android:layout_marginBottom="20dp"
         android:id="@id/updated_on"/>
 
