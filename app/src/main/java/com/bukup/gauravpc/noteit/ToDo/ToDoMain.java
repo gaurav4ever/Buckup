@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -27,6 +28,8 @@ import com.bukup.gauravpc.noteit.Models.BLModel;
 import com.bukup.gauravpc.noteit.Models.ToDoModel;
 import com.bukup.gauravpc.noteit.Notes.edit_note;
 import com.bukup.gauravpc.noteit.R;
+
+import org.w3c.dom.Text;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -144,7 +147,7 @@ public class ToDoMain extends AppCompatActivity {
             CardView TodoCard;
         }
         @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, final ViewGroup parent) {
             ToDoMain.ToDoAdapter.ViewHolder viewHolder;
             if (convertView == null) {
                 convertView=inflater.inflate(R.layout.row_todo_list,null);
@@ -164,6 +167,35 @@ public class ToDoMain extends AppCompatActivity {
                 public void onClick(View v) {
                     final BottomSheetDialog bottomSheetDialog=new BottomSheetDialog(ToDoMain.this);
                     View parentView=getLayoutInflater().inflate(R.layout.layout_todo_item_view, null);
+
+                    EditText itemDesc;
+                    TextView saveTextView,cancelTextView,createdOnDate,updatedOnDate;
+                    CheckBox checkBox;
+                    itemDesc=(EditText)parentView.findViewById(R.id.itemText);
+                    itemDesc.setText(TodoModelArrayList.get(position).getDesc());
+                    createdOnDate=(TextView)parentView.findViewById(R.id.created_on);createdOnDate.setText(TodoModelArrayList.get(position).getCreated_on());
+                    updatedOnDate=(TextView)parentView.findViewById(R.id.updated_on);updatedOnDate.setText(TodoModelArrayList.get(position).getUpdated_on());
+//                    Mark as Done Checkbox
+                    checkBox=(CheckBox)parentView.findViewById(R.id.isItemDone);
+                    if(TodoModelArrayList.get(position).getIsDone().equals("1"))checkBox.setChecked(true);
+                    else checkBox.setChecked(false);
+
+                    saveTextView=(TextView)parentView.findViewById(R.id.save);
+                    saveTextView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                        }
+                    });
+                    cancelTextView=(TextView)parentView.findViewById(R.id.cancel);
+                    cancelTextView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            bottomSheetDialog.dismiss();
+                        }
+                    });
+
+
                     bottomSheetDialog.setContentView(parentView);
                     bottomSheetDialog.show();
                 }
