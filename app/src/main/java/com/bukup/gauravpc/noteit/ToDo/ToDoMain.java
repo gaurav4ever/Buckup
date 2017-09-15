@@ -89,7 +89,7 @@ public class ToDoMain extends AppCompatActivity {
                         ToDoModelArrayList=db.viewTodo();
                         toDoAdapter=new ToDoMain.ToDoAdapter(getApplicationContext(),R.layout.row_todo_list,ToDoModelArrayList);
                         listView.setAdapter(toDoAdapter);
-
+                        bottomSheetDialog.dismiss();
                     }
                 });
 
