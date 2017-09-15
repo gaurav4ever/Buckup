@@ -3,6 +3,8 @@ package com.bukup.gauravpc.noteit.ToDo;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.FloatingActionButton;
@@ -162,7 +164,12 @@ public class ToDoMain extends AppCompatActivity {
             }
 
             //fill the view with the values from the BLModel array object
-            viewHolder.Todo_Text_desc.setText(TodoModelArrayList.get(position).getDesc());
+            String isDone=TodoModelArrayList.get(position).getIsDone();
+            if(isDone=="1"){
+                viewHolder.Todo_Text_desc.setTextColor(Color.parseColor("#dcdcdc"));
+                viewHolder.Todo_Text_desc.setPaintFlags(viewHolder.Todo_Text_desc.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            }
+            else viewHolder.Todo_Text_desc.setText(TodoModelArrayList.get(position).getDesc());
 
             viewHolder.TodoCard.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -170,9 +177,9 @@ public class ToDoMain extends AppCompatActivity {
                     final BottomSheetDialog bottomSheetDialog=new BottomSheetDialog(ToDoMain.this);
                     View parentView=getLayoutInflater().inflate(R.layout.layout_todo_item_view, null);
 
-                    EditText itemDesc;
+                    final EditText itemDesc;
                     TextView saveTextView,cancelTextView,createdOnDate,updatedOnDate;
-                    CheckBox checkBox;
+                    final CheckBox checkBox;
                     itemDesc=(EditText)parentView.findViewById(R.id.itemText);
                     itemDesc.setText(TodoModelArrayList.get(position).getDesc());
                     createdOnDate=(TextView)parentView.findViewById(R.id.created_on);createdOnDate.setText("created on: "+parseDate(TodoModelArrayList.get(position).getCreated_on()));
@@ -186,7 +193,15 @@ public class ToDoMain extends AppCompatActivity {
                     saveTextView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            String id=TodoModelArrayList.get(position).getId();
+                            String desc=itemDesc.getText().toString();
+                            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                            Date date = new Date();
+                            String newDate=df.format(date);
+                            String isDone="0";
+                            if(checkBox.isChecked())isDone="1";
 
+                            db.updateToDoList(id,desc,newDate,isDone);
                         }
                     });
                     cancelTextView=(TextView)parentView.findViewById(R.id.cancel);
@@ -208,7 +223,7 @@ public class ToDoMain extends AppCompatActivity {
     }
 
     public String parseDate(String date){
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat month_date = new SimpleDateFormat("MMM");
         Date fetchedDate = null;
         try {

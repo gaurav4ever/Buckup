@@ -406,6 +406,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.insert(TABLE_BUCKET_LIST, null, contentValues); //insert
         db.close();
     }
+//    
+
     //delete row from notes table
     public void deleteNote(int id_val){
         SQLiteDatabase db = this.getWritableDatabase();
