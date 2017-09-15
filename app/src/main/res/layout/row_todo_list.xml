@@ -65,6 +65,7 @@
                                 android:layout_height="25dp"
                                 android:layout_centerVertical="true"
                                 android:src="@drawable/tick2"
+                                android:id="@+id/doneImg"
                                 android:layout_alignParentEnd="true"/>
                         </RelativeLayout>
                     </LinearLayout>

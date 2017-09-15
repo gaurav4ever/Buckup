@@ -145,7 +145,7 @@ public class ToDoMain extends AppCompatActivity {
         class ViewHolder{
             TextView Todo_Text_desc;
             TextView Todo_Text_date;
-            TextView Todo_Text_isDone;
+            ImageView doneImgView;
             CardView TodoCard;
         }
         @Override
@@ -156,6 +156,7 @@ public class ToDoMain extends AppCompatActivity {
                 viewHolder=new ToDoMain.ToDoAdapter.ViewHolder();
                 viewHolder.Todo_Text_desc=(TextView)convertView.findViewById(R.id.desc);
                 viewHolder.Todo_Text_date=(TextView)convertView.findViewById(R.id.date);
+                viewHolder.doneImgView=(ImageView)convertView.findViewById(R.id.doneImg);
                 viewHolder.TodoCard=(CardView)convertView.findViewById(R.id.todoCard);
                 convertView.setTag(viewHolder);
             }else{
@@ -169,7 +170,7 @@ public class ToDoMain extends AppCompatActivity {
                 Log.d("isDone",isDone);
                 viewHolder.Todo_Text_desc.setTextColor(Color.parseColor("#616161"));
                 viewHolder.Todo_Text_desc.setPaintFlags(viewHolder.Todo_Text_desc.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-            }
+            }else viewHolder.doneImgView.setVisibility(View.GONE);
             viewHolder.Todo_Text_desc.setText(TodoModelArrayList.get(position).getDesc());
             viewHolder.Todo_Text_date.setText(parseDate(TodoModelArrayList.get(position).getUpdated_on()));
 
