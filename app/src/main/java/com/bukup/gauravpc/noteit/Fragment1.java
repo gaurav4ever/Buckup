@@ -230,9 +230,6 @@ public class Fragment1 extends Fragment implements GoogleApiClient.OnConnectionF
                         pinSwitch.setChecked(false);
                     }
                 }else{
-                    Log.e("here","heeh");
-
-
                     final Dialog dialog = new Dialog(getActivity());
                     dialog.setContentView(R.layout.layout_pin);
                     TextView t1=(TextView)dialog.findViewById(R.id.t1);
@@ -463,18 +460,21 @@ public class Fragment1 extends Fragment implements GoogleApiClient.OnConnectionF
                 String status = data.getStringExtra("status");
                 if (status.equals("update")) {
                     runnableTask();
-                    TextView countNotes,countDiary,countBL;
+                    TextView countNotes,countDiary,countBL,countToDo;
                     DatabaseHandler db=new DatabaseHandler(getActivity());
                     FragmentActivity v=getActivity();
                     int count1=db.getCount();
                     int count2=db.getCountOfDiary();
                     int count3=db.getCountOfBucketList();
+                    int count4=db.getCountOfToDoList();
                     countNotes=(TextView)v.findViewById(R.id.count_notes);
                     countDiary=(TextView)v.findViewById(R.id.count_diary);
                     countBL=(TextView)v.findViewById(R.id.count_bucket_list);
+                    countToDo=(TextView)v.findViewById(R.id.count_todo);
                     countNotes.setText(""+count1);
                     countDiary.setText(""+count2);
                     countBL.setText("" + count3);
+                    countToDo.setText(""+count4);
                 }
             }
         }

@@ -160,14 +160,16 @@ public class MainActivity extends AppCompatActivity{
                     Runnable runnable=new Runnable() {
                         @Override
                         public void run() {
-                            TextView countNotes,countDiary,countBL;
+                            TextView countNotes,countDiary,countBL,countToDo;
                             DatabaseHandler db=new DatabaseHandler(MainActivity.this);
                             int count1=db.getCount();
                             int count2=db.getCountOfDiary();
                             int count3=db.getCountOfBucketList();
+                            int count4=db.getCountOfToDoList();
                             countNotes=(TextView)findViewById(R.id.count_notes);countNotes.setText(""+count1);
                             countDiary=(TextView)findViewById(R.id.count_diary);countDiary.setText(""+count2);
                             countBL=(TextView)findViewById(R.id.count_bucket_list);countBL.setText(""+count3);
+                            countToDo=(TextView)findViewById(R.id.count_todo);countToDo.setText(""+count4);
                         }
                     };
                     handler.post(runnable);
