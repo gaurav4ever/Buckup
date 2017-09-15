@@ -5,13 +5,14 @@
     android:background="#f0f0f0">
 
     <EditText
-        android:layout_width="match_parent"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:padding="15dp"
+        android:layout_gravity="center"
         android:textColorHint="#5c000000"
         android:background="#fff"
         android:layout_margin="20dp"
-        android:textSize="14sp"
+        android:textSize="16sp"
         android:id="@+id/itemText"
         android:hint="Write your To-Do..."/>
 
@@ -20,6 +21,7 @@
         android:layout_height="wrap_content"
         android:text="Created On: 27th Aug 1996"
         android:layout_marginLeft="20dp"
+        android:textSize="12sp"
         android:id="@id/created_on"/>
     <TextView
         android:layout_width="wrap_content"
@@ -27,6 +29,7 @@
         android:text="Created On: 27th Aug 1996"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="5dp"
+        android:textSize="12sp"
         android:layout_marginBottom="20dp"
         android:id="@id/updated_on"/>
 
@@ -39,7 +42,7 @@
             android:text="SAVE"
             android:textColor="@color/colorPrimaryDark"
             android:textStyle="bold"
-            android:textSize="20dp"
+            android:textSize="18dp"
             android:layout_margin="10dp"
             android:layout_toLeftOf="@+id/cancel"
             android:id="@id/save"/>
@@ -49,7 +52,7 @@
             android:text="CANCEL"
             android:textColor="#000"
             android:textStyle="bold"
-            android:textSize="20dp"
+            android:textSize="18dp"
             android:layout_alignParentEnd="true"
             android:layout_margin="10dp"
             android:id="@+id/cancel"/>
