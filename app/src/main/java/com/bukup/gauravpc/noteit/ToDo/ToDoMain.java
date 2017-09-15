@@ -167,10 +167,10 @@ public class ToDoMain extends AppCompatActivity {
 
             if(isDone.equals("1")){
                 Log.d("isDone",isDone);
-                viewHolder.Todo_Text_desc.setTextColor(Color.parseColor("#424242"));
+                viewHolder.Todo_Text_desc.setTextColor(Color.parseColor("#616161"));
                 viewHolder.Todo_Text_desc.setPaintFlags(viewHolder.Todo_Text_desc.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             }
-            else viewHolder.Todo_Text_desc.setText(TodoModelArrayList.get(position).getDesc());
+            viewHolder.Todo_Text_desc.setText(TodoModelArrayList.get(position).getDesc());
 
             viewHolder.TodoCard.setOnClickListener(new View.OnClickListener() {
                 @Override
