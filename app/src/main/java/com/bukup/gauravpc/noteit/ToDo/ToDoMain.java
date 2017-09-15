@@ -45,6 +45,7 @@ public class ToDoMain extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_to_do_main);
+        emptyLayout=(RelativeLayout)findViewById(R.id.emptyLayout);
         listView=(ListView)findViewById(R.id.todoItemList);
         //Database operations
         db = new DatabaseHandler(this);
