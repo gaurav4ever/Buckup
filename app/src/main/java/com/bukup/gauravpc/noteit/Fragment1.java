@@ -766,10 +766,12 @@ public class Fragment1 extends Fragment implements GoogleApiClient.OnConnectionF
                             JSONObject notesObject=jsonObject.getJSONObject("notes_data");
                             JSONObject diaryObject=jsonObject.getJSONObject("diary_data");
                             JSONObject blObject=jsonObject.getJSONObject("bl_data");
+                            JSONObject tdObject=jsonObject.getJSONObject("td_data");
 
                             JSONArray notesArray = notesObject.getJSONArray("data");
                             JSONArray diaryArray = diaryObject.getJSONArray("data");
                             JSONArray blArray = blObject.getJSONArray("data");
+                            JSONArray tdArray=tdObject.getJSONArray("data");
 
                             DatabaseHandler db=new DatabaseHandler(getActivity());
                             SQLiteDatabase sql_db = db.getWritableDatabase();
@@ -802,6 +804,23 @@ public class Fragment1 extends Fragment implements GoogleApiClient.OnConnectionF
                                 contentValues.put("isSynced", "1");
                                 // Inserting Row
                                 sql_db.insert("diary", null, contentValues);
+                            }
+
+                            //insert values into bucket_list table
+                            for(int i=0;i<blArray.length();i++){
+                                JSONObject o = blArray.getJSONObject(i);
+
+                                ContentValues contentValues=new ContentValues();
+                                contentValues.put("id",Integer.parseInt(o.getString("id")));
+                                contentValues.put("title",o.getString("title"));
+                                contentValues.put("desc",o.getString("body"));
+                                contentValues.put("start_date", o.getString("target_date"));
+                                contentValues.put("created_on", o.getString("created_on"));
+                                contentValues.put("updated_on", o.getString("updated_on"));
+                                contentValues.put("cat_id",o.getString("cat_id"));
+                                contentValues.put("isSynced", "1");
+                                // Inserting Row
+                                sql_db.insert("bucket_list", null, contentValues);
                             }
 
                             //insert values into bucket_list table
