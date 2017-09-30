@@ -652,7 +652,7 @@ public class Fragment1 extends Fragment implements GoogleApiClient.OnConnectionF
             jsonObject4=new JSONObject();
             try {
 
-                jsonObject4.put("data",jsonArray3);
+                jsonObject4.put("data",jsonArray4);
 
             } catch (JSONException e) {
                 e.printStackTrace();
