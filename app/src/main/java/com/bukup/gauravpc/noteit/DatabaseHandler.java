@@ -565,6 +565,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(selectQuery, null);
         return cursor;
     }
+    public Cursor getToDoListData(){
+        String selectQuery = "Select * from "+TABLE_TODO_LIST+" WHERE isSynced = '0'";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        return cursor;
+    }
 
     /*
 *****************************************************************************************************************

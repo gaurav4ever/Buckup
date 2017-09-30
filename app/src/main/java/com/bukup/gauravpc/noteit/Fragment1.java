@@ -631,7 +631,35 @@ public class Fragment1 extends Fragment implements GoogleApiClient.OnConnectionF
             data3=jsonObject3.toString();
 
             //data 4
+            if(cursor4.moveToFirst()){
+                do{
+                    jsonObject4=new JSONObject();
+                    try {
 
+                        jsonObject4.put("id",cursor3.getString(0));
+                        jsonObject4.put("title",cursor3.getString(1));
+                        jsonObject4.put("body",cursor3.getString(2));
+                        jsonObject4.put("target_date",cursor3.getString(3));
+                        jsonObject4.put("created_on",cursor3.getString(4));
+                        jsonObject4.put("updated_on",cursor3.getString(5));
+                        jsonObject4.put("cat_id",cursor3.getString(6));
+                        jsonArray4.put(jsonObject4);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }while(cursor3.moveToNext());
+            }
+            jsonObject3=new JSONObject();
+            try {
+
+                jsonObject3.put("data",jsonArray3);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            data3=jsonObject3.toString();
 
             return null;
         }
