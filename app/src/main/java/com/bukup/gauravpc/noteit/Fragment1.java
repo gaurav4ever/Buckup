@@ -84,7 +84,7 @@ public class Fragment1 extends Fragment implements GoogleApiClient.OnConnectionF
     private RelativeLayout Layout1,Layout2,Layout3,Layout4;
     private String data1,data2,data3;
     private android.os.Handler handler;
-    private Cursor cursor1,cursor2,cursor3;
+    private Cursor cursor1,cursor2,cursor3,cursor4;
     private ProgressBar progressBar;
     private Switch syncSwitch,pinSwitch;
     private RelativeLayout backupAndSyncRelativeLayout,shareRelativeLayout,rateRelativeLayout,feedbackRelativeLayout,aboutUsRelativeLayout;
@@ -527,14 +527,17 @@ public class Fragment1 extends Fragment implements GoogleApiClient.OnConnectionF
                     cursor1=db.getNotesData();
                     cursor2=db.getDiaryData();
                     cursor3=db.getBucketListData();
+                    cursor4=db.getToDoListData();
 
             JSONObject  jsonObject1,
                         jsonObject2,
-                        jsonObject3;
+                        jsonObject3,
+                        jsonObject4;
 
             JSONArray   jsonArray1=new JSONArray(),
                         jsonArray2=new JSONArray(),
-                        jsonArray3=new JSONArray();
+                        jsonArray3=new JSONArray(),
+                        jsonArray4=new JSONArray();
 
             //data1
             if(cursor1.moveToFirst()){
@@ -626,6 +629,9 @@ public class Fragment1 extends Fragment implements GoogleApiClient.OnConnectionF
                 e.printStackTrace();
             }
             data3=jsonObject3.toString();
+
+            //data 4
+
 
             return null;
         }
