@@ -647,7 +647,7 @@ public class Fragment1 extends Fragment implements GoogleApiClient.OnConnectionF
                         e.printStackTrace();
                     }
 
-                }while(cursor3.moveToNext());
+                }while(cursor4.moveToNext());
             }
             jsonObject4=new JSONObject();
             try {
