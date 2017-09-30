@@ -823,21 +823,19 @@ public class Fragment1 extends Fragment implements GoogleApiClient.OnConnectionF
                                 sql_db.insert("bucket_list", null, contentValues);
                             }
 
-                            //insert values into bucket_list table
-                            for(int i=0;i<blArray.length();i++){
-                                JSONObject o = blArray.getJSONObject(i);
+                            //insert values into to Do List table
+                            for(int i=0;i<tdArray.length();i++){
+                                JSONObject o = tdArray.getJSONObject(i);
 
                                 ContentValues contentValues=new ContentValues();
                                 contentValues.put("id",Integer.parseInt(o.getString("id")));
-                                contentValues.put("title",o.getString("title"));
-                                contentValues.put("desc",o.getString("body"));
-                                contentValues.put("start_date", o.getString("target_date"));
+                                contentValues.put("desc",o.getString("desc"));
+                                contentValues.put("isDone", o.getString("isDone"));
                                 contentValues.put("created_on", o.getString("created_on"));
                                 contentValues.put("updated_on", o.getString("updated_on"));
-                                contentValues.put("cat_id",o.getString("cat_id"));
                                 contentValues.put("isSynced", "1");
                                 // Inserting Row
-                                sql_db.insert("bucket_list", null, contentValues);
+                                sql_db.insert("ToDo_list", null, contentValues);
                             }
 
                             restore=0;
