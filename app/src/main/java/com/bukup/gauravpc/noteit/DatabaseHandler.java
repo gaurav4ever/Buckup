@@ -432,6 +432,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.delete(TABLE_BUCKET_LIST, KEY_ID + "=" + id_val, null);
         db.close();
     }
+    //delete Item from To Do List
+    public void deleteToDoItem(String id_val){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_TODO_LIST, KEY_ID + "=" + id_val, null);
+        db.close();
+    }
 
     //total count of row from notes table
     public int getCount(){

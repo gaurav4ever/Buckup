@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -49,6 +50,7 @@ public class ToDoMain extends AppCompatActivity {
     RelativeLayout emptyLayout;
     ArrayList<ToDoModel> ToDoModelArrayList;
     ToDoAdapter toDoAdapter;
+    private android.os.Handler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -182,6 +184,7 @@ public class ToDoMain extends AppCompatActivity {
 
                     final EditText itemDesc;
                     TextView saveTextView,cancelTextView,createdOnDate,updatedOnDate;
+                    ImageView deleteImageView;
                     final CheckBox checkBox;
                     itemDesc=(EditText)parentView.findViewById(R.id.itemText);
                     itemDesc.setText(TodoModelArrayList.get(position).getDesc());
@@ -216,7 +219,15 @@ public class ToDoMain extends AppCompatActivity {
                             bottomSheetDialog.dismiss();
                         }
                     });
-
+                    deleteImageView=(ImageView)parentView.findViewById(R.id.delete);
+                    deleteImageView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            String id=TodoModelArrayList.get(position).getId();
+                            runnable_delete(id);
+                            db.deleteToDoItem(id);
+                        }
+                    });
 
                     bottomSheetDialog.setContentView(parentView);
                     bottomSheetDialog.show();
@@ -225,6 +236,9 @@ public class ToDoMain extends AppCompatActivity {
 
             return convertView;
         }
+    }
+    public void runnable_delete(String id){
+        String url="https://buckupapp.herokuapp.com/todolist/delete";
     }
 
     public void RefreshList(){
