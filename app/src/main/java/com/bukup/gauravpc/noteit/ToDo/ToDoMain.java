@@ -3,6 +3,7 @@ package com.bukup.gauravpc.noteit.ToDo;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
@@ -25,6 +26,15 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.bukup.gauravpc.noteit.BucketList.BucketListMain;
 import com.bukup.gauravpc.noteit.BucketList.BucketList_editItem;
 import com.bukup.gauravpc.noteit.DatabaseHandler;
@@ -41,6 +51,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ToDoMain extends AppCompatActivity {
 
@@ -50,12 +62,19 @@ public class ToDoMain extends AppCompatActivity {
     RelativeLayout emptyLayout;
     ArrayList<ToDoModel> ToDoModelArrayList;
     ToDoAdapter toDoAdapter;
+    SharedPreferences sharedPreferences;
     private android.os.Handler handler;
+    String user_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_to_do_main);
+
+//        get user details from shared preferences
+        sharedPreferences=getSharedPreferences("details", Context.MODE_APPEND);
+        user_id=sharedPreferences.getString("user_id", " ");
+
         emptyLayout=(RelativeLayout)findViewById(R.id.emptyLayout);
         listView=(ListView)findViewById(R.id.todoItemList);
         //Database operations
@@ -237,8 +256,35 @@ public class ToDoMain extends AppCompatActivity {
             return convertView;
         }
     }
-    public void runnable_delete(String id){
-        String url="https://buckupapp.herokuapp.com/todolist/delete";
+    public void runnable_delete(final String id_val){
+        String url="https://buckupapp.herokuapp.com/backup/delete";
+        RequestQueue requestQueue=new Volley().newRequestQueue(getApplicationContext());
+        StringRequest stringRequest=new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("status","failed");
+                Log.d("error",""+error);
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params=new HashMap<String,String>();
+                params.put("user_id",user_id);
+                params.put("table","todo_list");
+                params.put("id",id_val);
+                return params;
+            }
+        };
+        int socketTimeout = 10000;//30 seconds
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        stringRequest.setRetryPolicy(policy);
+        requestQueue.add(stringRequest);
     }
 
     public void RefreshList(){
