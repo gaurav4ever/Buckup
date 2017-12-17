@@ -25,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -245,6 +246,7 @@ public class ToDoMain extends AppCompatActivity {
                             String id=TodoModelArrayList.get(position).getId();
                             runnable_delete(id);
                             db.deleteToDoItem(id);
+                            Toast.makeText(getApplicationContext(),"Item deleted successfully",Toast.LENGTH_SHORT).show();
                             RefreshList();
                             bottomSheetDialog.dismiss();
                         }
