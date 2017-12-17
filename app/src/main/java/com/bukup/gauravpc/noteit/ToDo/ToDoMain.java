@@ -263,7 +263,7 @@ public class ToDoMain extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-
+                        Log.d("status","todo list deleted");
                     }
                 }, new Response.ErrorListener() {
             @Override
