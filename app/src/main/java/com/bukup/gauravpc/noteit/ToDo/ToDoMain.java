@@ -207,8 +207,8 @@ public class ToDoMain extends AppCompatActivity {
                     final CheckBox checkBox;
                     itemDesc=(EditText)parentView.findViewById(R.id.itemText);
                     itemDesc.setText(TodoModelArrayList.get(position).getDesc());
-                    createdOnDate=(TextView)parentView.findViewById(R.id.created_on);createdOnDate.setText("created on: "+parseDate(TodoModelArrayList.get(position).getCreated_on()));
-                    updatedOnDate=(TextView)parentView.findViewById(R.id.updated_on);updatedOnDate.setText("created on: "+parseDate(TodoModelArrayList.get(position).getUpdated_on()));
+                    createdOnDate=(TextView)parentView.findViewById(R.id.created_on);createdOnDate.setText("Created on: "+parseDate(TodoModelArrayList.get(position).getCreated_on()));
+                    updatedOnDate=(TextView)parentView.findViewById(R.id.updated_on);updatedOnDate.setText("Updated on: "+parseDate(TodoModelArrayList.get(position).getUpdated_on()));
 //                    Mark as Done Checkbox
                     checkBox=(CheckBox)parentView.findViewById(R.id.isItemDone);
                     if(TodoModelArrayList.get(position).getIsDone().equals("1"))checkBox.setChecked(true);
@@ -245,6 +245,8 @@ public class ToDoMain extends AppCompatActivity {
                             String id=TodoModelArrayList.get(position).getId();
                             runnable_delete(id);
                             db.deleteToDoItem(id);
+                            RefreshList();
+                            bottomSheetDialog.dismiss();
                         }
                     });
 
