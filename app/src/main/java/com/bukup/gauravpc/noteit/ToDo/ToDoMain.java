@@ -192,7 +192,7 @@ public class ToDoMain extends AppCompatActivity {
                 Log.d("isDone",isDone);
                 viewHolder.Todo_Text_desc.setTextColor(Color.parseColor("#616161"));
                 viewHolder.Todo_Text_desc.setPaintFlags(viewHolder.Todo_Text_desc.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-            }else viewHolder.doneImgView.setVisibility(View.GONE);
+            }else viewHolder.doneImgView.setImageResource(R.drawable.pending);
             viewHolder.Todo_Text_desc.setText(TodoModelArrayList.get(position).getDesc());
             viewHolder.Todo_Text_date.setText(parseDate(TodoModelArrayList.get(position).getUpdated_on()));
 

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
+    android:background="#00f0f0f0"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -17,13 +18,12 @@
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                card_view:cardCornerRadius="3dp"
-                card_view:cardElevation="2dp"
+                card_view:cardElevation="0dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginBottom="5dp"
-                card_view:cardBackgroundColor="#fff"
+                card_view:cardBackgroundColor="#00f0f0f0"
                 android:layout_centerInParent="true"
                 android:id="@+id/todoCard"
                 >
@@ -31,42 +31,50 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="5dp">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColor="#000"
-                        android:text="Title"
-                        android:padding="10dp"
-                        android:id="@+id/desc"
-                        android:textSize="20sp"/>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/desc"
-                        android:weightSum="2">
+                        android:weightSum="1">
                         <RelativeLayout
                             android:layout_width="0dp"
-                            android:layout_height="25dp"
-                            android:layout_weight="1">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.15">
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="45dp"
                                 android:layout_centerVertical="true"
-                                android:text="Date"
-                                android:id="@+id/date"
-                                android:textSize="8sp"/>
+                                android:src="@drawable/tick3"
+                                android:id="@+id/doneImg"
+                                />
                         </RelativeLayout>
                         <RelativeLayout
                             android:layout_width="0dp"
-                            android:layout_height="25dp"
-                            android:layout_weight="1">
-                            <ImageView
-                                android:layout_width="25dp"
-                                android:layout_height="25dp"
-                                android:layout_centerVertical="true"
-                                android:src="@drawable/tick2"
-                                android:id="@+id/doneImg"
-                                android:layout_alignParentEnd="true"/>
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.80">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="#d2000000"
+                                android:text="Title"
+                                android:padding="5dp"
+                                android:id="@+id/desc"
+                                android:textSize="15sp"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Date"
+                                android:id="@+id/date"
+                                android:layout_below="@+id/desc"
+                                android:textSize="8sp"
+                                android:layout_marginLeft="5dp"/>
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="0.2dp"
+                                android:layout_below="@+id/date"
+                                android:id="@+id/divider1"
+                                android:layout_marginTop="15dp"
+                                android:layout_marginBottom="5dp"
+                                android:background="#a2000000"/>
                         </RelativeLayout>
                     </LinearLayout>
                 </RelativeLayout>

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0C4A148C"
+    android:background="#aef0f0f0"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.bukup.gauravpc.noteit.ToDo.ToDoMain"
     tools:showIn="@layout/activity_to_do_main">
@@ -74,7 +74,7 @@
             android:text="Its Lonely Here"
             android:gravity="center"
             android:layout_marginTop="15dp"
-            android:textColor="#e0000000"
+            android:textColor="#aef0f0f0"
             android:textSize="16dp"
             android:layout_centerVertical="true"
             android:id="@+id/emptyText"
@@ -86,7 +86,6 @@
         android:layout_height="match_parent"
         android:id="@+id/todoItemList"
         android:divider="@null"
-        android:background="#0C4A148C"
         android:layout_below="@+id/headerLayout"
         android:minHeight="?android:attr/listPreferredItemHeight"
         android:scrollbars="none">
